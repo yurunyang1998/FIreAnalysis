@@ -26,11 +26,20 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
         self.action.triggered.connect(self.OpenVideo)
         self.pushButton.clicked.connect(self.MarkSize)
         self.label_6.doubleClicked.connect(self.DoubleClick)
-
-
+        self.pushButton_6.clicked.connect(self.CalculateRate)
+        self.pushButton_7.clicked.connect(self.addThresholdValue)
 
         ## 内部用属性
+        self.rateInX = 1
+        self.rateInY = 1
 
+        self.X1inPixel = 0
+        self.X2inPixel = 0
+        self.Y1inPixel = 0
+        self.Y2inPixel = 0
+
+        self.minThresholdValue=0
+        self.maxThresholdValue=0
 
         self.paused = False
         self.moveMouse = False
@@ -75,6 +84,10 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
             #self.setMouseTracking(True)
             self.label_8.setText(str(s.x()))
             self.label_11.setText(str(s.y()))
+
+            self.X1inPixel = int(s.x())
+            self.Y1inPixel = int(s.y())
+
             self.lastPoint = (int(s.x()),int(s.y()))
 
 
@@ -85,6 +98,10 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
             # self.setMouseTracking(True)
             self.label_5.setText(str(s.x()))
             self.label_12.setText(str(s.y()))
+
+            self.X2inPixel = int(s.x())
+            self.Y1inPixel = int(s.y())
+
             self.moveMouse = False
             self.endPoint = (int(s.x()),int(s.y()))
 
@@ -99,8 +116,37 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
             print(e)
 
 
+    def CalculateRate(self):
 
+        try:
+            if(self.lineEdit.text() == "" or self.lineEdit_2.text()==""):
+                alert(self, "请输入距离")
+                return
+            Xdistance,Ydistance = self.lineEdit.text(), self.lineEdit_2.text()
 
+            XdisInPix = abs(self.X1inPixel-self.X2inPixel)
+            YdisInPix = abs(self.Y1inPixel-self.Y2inPixel)
+
+            self.rateInX = XdisInPix/int(Xdistance)
+            self.rateInY = YdisInPix/int(Ydistance)
+            self.label_7.setText("1:"+str(self.rateIn6756tX))
+            self.label_13.setText("1:"+str(self.rateInY))
+            #alert(self, "添加成功，正在计算比例")
+
+        except Exception as e:
+            print(e)
+
+    def addThresholdValue(self):
+        if(self.lineEdit_3.text()==""or self.lineEdit_4.text()==""):
+            alert(self,"请输入阈值")
+            return
+
+        self.minThresholdValue = int(self.lineEdit_3.text())
+        self.maxThresholdValue = int(self.lineEdit_4.text())
+
+        if(self.minThresholdValue > self.maxThresholdValue):
+            alert(self,"左边的阈值应小于右边的")
+            return
 
 
 class Thread(QThread):
@@ -123,8 +169,10 @@ class Thread(QThread):
                     ret, frame = self.cap.read()
                     if ret:
                         self.rgbImage = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB) #在这里可以对每帧图像进行处理，
+
+                        self.processImage(self.rgbImage)
+
                         self.width,self.height = self.rgbImage.shape[1],self.rgbImage.shape[0]
-                        #print(self.width, self.height)
                         convertToQtFormat = QtGui.QImage(self.rgbImage.data, self.rgbImage.shape[1], self.rgbImage.shape[0], QImage.Format_RGB888)
                         currentCaputre = convertToQtFormat.scaled(self.width, self.height, QtCore.Qt.KeepAspectRatio)
                         self.changePixmap.emit(currentCaputre)
@@ -163,6 +211,11 @@ class Thread(QThread):
         except Exception as e:
             print(e)
 
+    def processImage(self,img):
+        pass
+
+
+
 
     def CloseVideo(self):
 
@@ -171,3 +224,5 @@ class Thread(QThread):
         self.cap.release()
         self.closeSignal = False
         return
+
+
