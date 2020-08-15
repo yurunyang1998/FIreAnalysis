@@ -41,19 +41,6 @@
       </widget>
      </widget>
     </item>
-    <item row="0" column="2">
-     <widget class="QWidget" name="widget_3" native="true">
-      <layout class="QFormLayout" name="formLayout_3">
-       <item row="0" column="0">
-        <widget class="QPushButton" name="pushButton_4">
-         <property name="text">
-          <string>PushButton</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </widget>
-    </item>
     <item row="1" column="2">
      <widget class="QWidget" name="widget_5" native="true">
       <property name="minimumSize">
@@ -374,21 +361,27 @@
       <widget class="QLineEdit" name="lineEdit_3">
        <property name="geometry">
         <rect>
-         <x>10</x>
+         <x>0</x>
          <y>100</y>
-         <width>31</width>
+         <width>71</width>
          <height>20</height>
         </rect>
+       </property>
+       <property name="text">
+        <string>10,10,63</string>
        </property>
       </widget>
       <widget class="QLineEdit" name="lineEdit_4">
        <property name="geometry">
         <rect>
-         <x>50</x>
+         <x>100</x>
          <y>100</y>
-         <width>31</width>
+         <width>71</width>
          <height>20</height>
         </rect>
+       </property>
+       <property name="text">
+        <string>30,50,155</string>
        </property>
       </widget>
       <widget class="QLabel" name="label_14">
@@ -407,7 +400,7 @@
       <widget class="QPushButton" name="pushButton_7">
        <property name="geometry">
         <rect>
-         <x>100</x>
+         <x>200</x>
          <y>100</y>
          <width>75</width>
          <height>23</height>
@@ -417,6 +410,13 @@
         <string>添加阈值</string>
        </property>
       </widget>
+     </widget>
+    </item>
+    <item row="0" column="2">
+     <widget class="QLabel" name="label_15">
+      <property name="text">
+       <string>TextLabel</string>
+      </property>
      </widget>
     </item>
    </layout>

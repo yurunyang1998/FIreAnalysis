@@ -38,8 +38,16 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
         self.Y1inPixel = 0
         self.Y2inPixel = 0
 
-        self.minThresholdValue=0
-        self.maxThresholdValue=0
+        # self.minThresholdValueR=0
+        # self.maxThresholdValueR=0
+        # self.minThresholdValueG=0
+        # self.maxThresholdValueG=0
+        # self.minThresholdValueB=0
+        # self.maxThresholdValueB=0
+
+        self.minBar = 0
+        self.maxBar = 0
+
 
         self.paused = False
         self.moveMouse = False
@@ -58,6 +66,7 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
                 self.th.CloseVideo()
                 #self.th.closeSignal = False
             self.th.changePixmap.connect(self.setImage)
+            self.th.changeSegmentPic.connect(self.setSegmentedPic)
             self.th.start()
 
         except Exception as e :
@@ -105,7 +114,7 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
             self.moveMouse = False
             self.endPoint = (int(s.x()),int(s.y()))
 
-            self.th.DrawRect(self.lastPoint, self.endPoint)
+            # self.th.DrawRect(self.lastPoint, self.endPoint)
 
 
 
@@ -115,6 +124,11 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
         except Exception as e:
             print(e)
 
+    def setSegmentedPic(self, image):
+        try:
+            self.label_15.setPixmap(QPixmap.fromImage(image))
+        except Exception as e:
+            print(e)
 
     def CalculateRate(self):
 
@@ -129,34 +143,66 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
 
             self.rateInX = XdisInPix/int(Xdistance)
             self.rateInY = YdisInPix/int(Ydistance)
-            self.label_7.setText("1:"+str(self.rateIn6756tX))
+            self.label_7.setText("1:"+str(self.rateInX))
             self.label_13.setText("1:"+str(self.rateInY))
+
+
             #alert(self, "添加成功，正在计算比例")
 
         except Exception as e:
             print(e)
 
-    def addThresholdValue(self):
+    def addThresholdValue_Grey(self):
         if(self.lineEdit_3.text()==""or self.lineEdit_4.text()==""):
             alert(self,"请输入阈值")
             return
 
-        self.minThresholdValue = int(self.lineEdit_3.text())
-        self.maxThresholdValue = int(self.lineEdit_4.text())
 
-        if(self.minThresholdValue > self.maxThresholdValue):
-            alert(self,"左边的阈值应小于右边的")
+        self.minBar = int(self.lineEdit_3.text())
+        self.maxBar = int(self.lineEdit_4.text())
+
+
+
+        self.th.setThresholdValue(self.minBar, self.maxBar)
+
+          #print(self.minThresholdValueR,self.maxThresholdValueB)
+
+        return
+
+
+    def addThresholdValue_Color(self):
+        if(self.lineEdit_3.text()==""or self.lineEdit_4.text()==""):
+            alert(self,"请输入阈值")
             return
+
+
+        self.minBar = int(self.lineEdit_3.text())
+        self.maxBar = int(self.lineEdit_4.text())
+
+
+
+        self.th.setThresholdValue(self.minBar, self.maxBar)
+
+          #print(self.minThresholdValueR,self.maxThresholdValueB)
+
+        return
+
 
 
 class Thread(QThread):
 
     changePixmap = pyqtSignal(QtGui.QImage)
+    changeSegmentPic = pyqtSignal(QtGui.QImage)
+
+
     paused = False
     closeSignal = False
     rgbImage = True
     width = 0
     height = 0
+    minbar = []
+    maxbar = []
+    segmented = False
 
     def run(self):
         try:
@@ -170,17 +216,20 @@ class Thread(QThread):
                     if ret:
                         self.rgbImage = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB) #在这里可以对每帧图像进行处理，
 
-                        self.processImage(self.rgbImage)
-
+                        if(self.segmented):
+                            segImg = self.processImage(self.rgbImage)
+                            self.changeSegmentPic.emit(segImg)
+                            # cv2.waitKey(1)
                         self.width,self.height = self.rgbImage.shape[1],self.rgbImage.shape[0]
                         convertToQtFormat = QtGui.QImage(self.rgbImage.data, self.rgbImage.shape[1], self.rgbImage.shape[0], QImage.Format_RGB888)
-                        currentCaputre = convertToQtFormat.scaled(self.width, self.height, QtCore.Qt.KeepAspectRatio)
+                        currentCaputre = convertToQtFormat.scaled(self.width/2, self.height/2, QtCore.Qt.KeepAspectRatio)
                         self.changePixmap.emit(currentCaputre)
-                        #print("play")
-                        time.sleep(0.02) #控制视频播放的速度
+
+
+                        time.sleep(0.1) #控制视频播放的速度
 
                     else:
-                        break
+                        return
                 else:
                     continue
             #self.cap.release()
@@ -196,26 +245,20 @@ class Thread(QThread):
         except Exception as e:
             print(e)
 
-    def DrawRect(self,Qpoint1, Qpoint2):
-        try:
-
-            # self.rgbImage =  self.QImageToCvMat(self.currentCaputre)
-
-            self.rgbImage = cv2.resize(self.rgbImage,(self.width,self.height),3)
-
-            cv2.rectangle(self.rgbImage,Qpoint1,Qpoint2,(0,255,0))
-            convertToQtFormat = QtGui.QImage(self.rgbImage.data, self.rgbImage.shape[1], self.rgbImage.shape[0],
-                                             QImage.Format_RGB888)  # 在这里可以对每帧图像进行处理，
-            #self.currentCaputre = convertToQtFormat.scaled(800, 1000, QtCore.Qt.KeepAspectRatio)
-            self.changePixmap.emit(convertToQtFormat)
-        except Exception as e:
-            print(e)
 
     def processImage(self,img):
-        pass
+        try:
+            if(self.segmented):
+                # print("haha")
+                img = self.color_seperate(img, self.minbar, self.maxbar)
 
-
-
+                # img =  self.threshold_demo(img, self.minbar, self.maxbar)
+                convertToQtFormat = QtGui.QImage(img.data, img.shape[1], img.shape[0], QImage.Format_RGB888)
+                currentCaputre = convertToQtFormat.scaled(self.width/2, self.height/2, QtCore.Qt.KeepAspectRatio)
+                # self.changeSegmentPic.emit(currentCaputre)
+        except Exception as e:
+            print(e)
+        return currentCaputre
 
     def CloseVideo(self):
 
@@ -225,4 +268,49 @@ class Thread(QThread):
         self.closeSignal = False
         return
 
+    def color_seperate(self, image, minBar, maxBar):
+        try:
+            #print(type(minBar),type(maxBar))
+            lower_bgr = np.array(minBar)  # 设定bgr下限
+            upper_bgr = np.array(maxBar)  # 设定bgr上 限
+            print(lower_bgr,upper_bgr)
+            mask = cv2.inRange(image, lowerb=lower_bgr, upperb=upper_bgr)  # 依据设定的上下限对目标图像进行二值化转换
+            # cv2.imshow("0", mask)
+            kernel1 = np.uint8(np.zeros((6, 6)))
+            for x in range(5):
+                kernel1[x, 2] = 1
+                kernel1[2, x] = 1
+
+            kernel = np.uint8(np.zeros((3, 3)))
+            for x in range(3):
+                kernel[x, 1] = 1;
+                kernel[1, x] = 1;
+            # 膨胀图像
+            dilated = cv2.dilate(mask, kernel1)
+            # 腐蚀图像
+            eroded = cv2.erode(dilated, kernel);
+
+            mask = eroded
+            dst = cv2.bitwise_and(image, image, mask=mask)  # 将二值化图像与原图进行“与”操作；实际是提取前两个frame 的“与”结果，然后输出mask 为1的部分
+
+        except Exception as e:
+            print(e)
+        return dst
+
+    def threshold_demo(self,image,lowBar, highBar):
+        gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+        # ret, binary = cv2.threshold(gray,0,255,cv2.THRESH_BINARY | cv2.THRESH_OTSU)
+        # ret, binary = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_TRIANGLE)
+        # ret, binary = cv2.threshold(gray, 127, 255, cv2.THRESH_TRUNC)
+        ret, binary = cv2.threshold(gray, lowBar, highBar, cv2.THRESH_BINARY)
+
+
+        print("阈值：", ret)
+        # cv2.imshow("binary", binary)
+        return binary
+
+    def setThresholdValue(self,minBar_, maxBar_):
+        self.minbar = minBar_
+        self.maxbar = maxBar_
+        self.segmented = True
 
