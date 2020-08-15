@@ -27,7 +27,7 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
         self.pushButton.clicked.connect(self.MarkSize)
         self.label_6.doubleClicked.connect(self.DoubleClick)
         self.pushButton_6.clicked.connect(self.CalculateRate)
-        self.pushButton_7.clicked.connect(self.addThresholdValue)
+        self.pushButton_7.clicked.connect(self.addThresholdValue_Color)
 
         ## 内部用属性
         self.rateInX = 1
@@ -176,10 +176,15 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
             return
 
 
-        self.minBar = int(self.lineEdit_3.text())
-        self.maxBar = int(self.lineEdit_4.text())
+        minbar = self.lineEdit_3.text().split(",")
+        maxbar = self.lineEdit_4.text().split(",")
 
+        for i in range(3):
+            minbar[i] = int(minbar[i])
+            maxbar[i] = int(maxbar[i])
 
+        self.minBar = minbar
+        self.maxBar = maxbar
 
         self.th.setThresholdValue(self.minBar, self.maxBar)
 
