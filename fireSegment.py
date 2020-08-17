@@ -37,14 +37,14 @@ def threshold_demo(image):
     return binary
 
 
-
 if __name__ == '__main__':
-    img = cv2.imread("./cotton.png")
+    img = cv2.imread("./fire.png")
     cv2.imshow("1",img)
     # img2 = color_seperate(img)
-    img2 = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    hsv_histogram(img)
+    # img2 = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
-    cv2.imshow("2",img2)
+    # cv2.imshow("2",img2)
 
     cv2.waitKey(0)
 

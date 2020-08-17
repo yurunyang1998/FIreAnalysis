@@ -368,7 +368,7 @@
         </rect>
        </property>
        <property name="text">
-        <string>10,10,63</string>
+        <string>220,100,20</string>
        </property>
       </widget>
       <widget class="QLineEdit" name="lineEdit_4">
@@ -381,7 +381,7 @@
         </rect>
        </property>
        <property name="text">
-        <string>30,50,155</string>
+        <string>255,200,100</string>
        </property>
       </widget>
       <widget class="QLabel" name="label_14">
@@ -408,6 +408,58 @@
        </property>
        <property name="text">
         <string>添加阈值</string>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="lineEdit_5">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>130</y>
+         <width>81</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>添加火焰高度</string>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="lineEdit_6">
+       <property name="geometry">
+        <rect>
+         <x>100</x>
+         <y>130</y>
+         <width>81</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>添加火焰直径</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="pushButton_8">
+       <property name="geometry">
+        <rect>
+         <x>200</x>
+         <y>130</y>
+         <width>75</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>添加</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="pushButton_9">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>160</y>
+         <width>111</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>自动分析火焰数据</string>
        </property>
       </widget>
      </widget>

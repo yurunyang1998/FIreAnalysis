@@ -28,6 +28,7 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
         self.label_6.doubleClicked.connect(self.DoubleClick)
         self.pushButton_6.clicked.connect(self.CalculateRate)
         self.pushButton_7.clicked.connect(self.addThresholdValue_Color)
+        self.pushButton_8.clicked.connect(self.addFireSize)
 
         ## 内部用属性
         self.rateInX = 1
@@ -38,16 +39,13 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
         self.Y1inPixel = 0
         self.Y2inPixel = 0
 
-        # self.minThresholdValueR=0
-        # self.maxThresholdValueR=0
-        # self.minThresholdValueG=0
-        # self.maxThresholdValueG=0
-        # self.minThresholdValueB=0
-        # self.maxThresholdValueB=0
 
         self.minBar = 0
         self.maxBar = 0
 
+
+        self.fireHeight = 0
+        self.fireWidget = 0
 
         self.paused = False
         self.moveMouse = False
@@ -193,6 +191,30 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
         return
 
 
+    def addFireSize(self):
+
+        try:
+            if(self.lineEdit_5.text()=="" or self.lineEdit_6.text()==""):
+                alert(self,"请输入数据")
+                return
+            if ((not self.lineEdit_5.text().isnumeric()) or (not self.lineEdit_6.text().isnumeric())):
+                alert(self,"请输入数据")
+                return
+            self.fireHeight = float(self.lineEdit_5.text())
+            self.fireWidget = float(self.lineEdit_6.text())
+        except Exception as e:
+            print(e)
+
+    def autoAnalysisFireSize(self):
+        while(1):
+            if(self.th.closeSignal):
+                return
+            if(self.th.paused):
+                time.sleep(1)
+                continue
+
+
+
 
 class Thread(QThread):
 
@@ -255,12 +277,15 @@ class Thread(QThread):
         try:
             if(self.segmented):
                 # print("haha")
-                img = self.color_seperate(img, self.minbar, self.maxbar)
+                #在下面添加处理函数
+
+                imgSepert = self.color_seperate(img, self.minbar, self.maxbar)
+                imgContours = self.findContours()
 
                 # img =  self.threshold_demo(img, self.minbar, self.maxbar)
-                convertToQtFormat = QtGui.QImage(img.data, img.shape[1], img.shape[0], QImage.Format_RGB888)
+                convertToQtFormat = QtGui.QImage(imgSepert.data, imgSepert.shape[1], imgSepert.shape[0], QImage.Format_RGB888)
                 currentCaputre = convertToQtFormat.scaled(self.width/2, self.height/2, QtCore.Qt.KeepAspectRatio)
-                # self.changeSegmentPic.emit(currentCaputre)
+
         except Exception as e:
             print(e)
         return currentCaputre
@@ -301,6 +326,25 @@ class Thread(QThread):
         except Exception as e:
             print(e)
         return dst
+
+    def findContours(self,img):
+        gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+        img, contours, hierarchy = cv2.findContours(gray, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+        # cv2.drawContours(img, contours, -1, (255, 0, 0), 3)
+        maxArea = 0
+        maxContour = 0
+        for i in contours:
+            area = cv2.contourArea(i)
+            print(area)
+            if(area>maxArea):
+                maxArea = area
+                maxContour = i
+
+        rec = cv2.boundingRect(maxContour)
+        print(rec.shape)
+        # cv2.waitKey(1)
+        return  gray
+
 
     def threshold_demo(self,image,lowBar, highBar):
         gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
