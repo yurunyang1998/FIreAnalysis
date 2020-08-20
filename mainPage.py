@@ -6,8 +6,7 @@ from PyQt5.QtGui import QPainter, QPixmap, QPen, QImage
 from PyQt5.QtCore import QPoint, QThread, pyqtSignal
 import cv2
 import numpy as np
-from qtpy import QtGui, QtCore
-
+from PyQt5 import QtGui, QtCore
 from mainUI import  Ui_QtWidgetsApplication1Class
 
 def alert(Qwidget, message):
