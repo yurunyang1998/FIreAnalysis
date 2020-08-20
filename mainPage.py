@@ -28,6 +28,8 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
         self.pushButton_6.clicked.connect(self.CalculateRate)
         self.pushButton_7.clicked.connect(self.addThresholdValue_Color)
         self.pushButton_8.clicked.connect(self.addFireSize)
+        self.pushButton_9.clicked.connect(self.setAutoAnalysisFireInfo)
+
 
         ## 内部用属性
         self.rateInX = 1
@@ -64,6 +66,8 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
                 #self.th.closeSignal = False
             self.th.changePixmap.connect(self.setImage)
             self.th.changeSegmentPic.connect(self.setSegmentedPic)
+            self.th.changeFireinfo.connect(self.fireInfo)
+
             self.th.start()
 
         except Exception as e :
@@ -138,8 +142,8 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
             XdisInPix = abs(self.X1inPixel-self.X2inPixel)
             YdisInPix = abs(self.Y1inPixel-self.Y2inPixel)
 
-            self.rateInX = XdisInPix/int(Xdistance)
-            self.rateInY = YdisInPix/int(Ydistance)
+            self.rateInX = XdisInPix/float(Xdistance)
+            self.rateInY = YdisInPix/float(Ydistance)
             self.label_7.setText("1:"+str(self.rateInX))
             self.label_13.setText("1:"+str(self.rateInY))
 
@@ -213,13 +217,19 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
                 continue
 
 
+    def fireInfo(self,height,width):
+        self.lineEdit_5.setText(str("{:.2f}".format(height / self.rateInY)))
+        self.lineEdit_6.setText(str("{:.2f}".format(width / self.rateInX)))
+
+    def setAutoAnalysisFireInfo(self):
+        self.th.autoAnalysisFireInfo = (not self.th.autoAnalysisFireInfo)
 
 
 class Thread(QThread):
 
     changePixmap = pyqtSignal(QtGui.QImage)
     changeSegmentPic = pyqtSignal(QtGui.QImage)
-
+    changeFireinfo = pyqtSignal(int, int)
 
     paused = False
     closeSignal = False
@@ -229,7 +239,7 @@ class Thread(QThread):
     minbar = []
     maxbar = []
     segmented = False
-
+    autoAnalysisFireInfo = False
     def run(self):
         try:
             self.cap = cv2.VideoCapture(videoName)
@@ -280,6 +290,9 @@ class Thread(QThread):
 
                 imgSepert = self.color_seperate(img, self.minbar, self.maxbar)
                 imgContours = self.findContours(imgSepert)
+
+
+
 
 
                 # img =  self.threshold_demo(img, self.minbar, self.maxbar)
@@ -340,10 +353,11 @@ class Thread(QThread):
                 if (area > maxArea):
                     maxArea = area
                     maxContour = i
-
             # cv2.imshow('max',maxArea)
             if(maxContour is not None ):
                 x, y, w, h = cv2.boundingRect(maxContour)
+                if(self.autoAnalysisFireInfo == True):
+                    self.changeFireinfo.emit(w,h)
                 img = cv2.rectangle(img, (x, y), (x + w, y + h), (255, 255, 255), 1)
                 # cv2.imshow('grep', img)
                 # cv2.waitKey(0)
