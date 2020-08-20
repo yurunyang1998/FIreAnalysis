@@ -279,10 +279,11 @@ class Thread(QThread):
                 #在下面添加处理函数
 
                 imgSepert = self.color_seperate(img, self.minbar, self.maxbar)
-                imgContours = self.findContours()
+                imgContours = self.findContours(imgSepert)
+
 
                 # img =  self.threshold_demo(img, self.minbar, self.maxbar)
-                convertToQtFormat = QtGui.QImage(imgSepert.data, imgSepert.shape[1], imgSepert.shape[0], QImage.Format_RGB888)
+                convertToQtFormat = QtGui.QImage(imgContours.data, imgContours.shape[1], imgContours.shape[0], QImage.Format_Grayscale8)
                 currentCaputre = convertToQtFormat.scaled(self.width/2, self.height/2, QtCore.Qt.KeepAspectRatio)
 
         except Exception as e:
@@ -302,11 +303,11 @@ class Thread(QThread):
             #print(type(minBar),type(maxBar))
             lower_bgr = np.array(minBar)  # 设定bgr下限
             upper_bgr = np.array(maxBar)  # 设定bgr上 限
-            print(lower_bgr,upper_bgr)
+            # print(lower_bgr,upper_bgr)
             mask = cv2.inRange(image, lowerb=lower_bgr, upperb=upper_bgr)  # 依据设定的上下限对目标图像进行二值化转换
             # cv2.imshow("0", mask)
-            kernel1 = np.uint8(np.zeros((6, 6)))
-            for x in range(5):
+            kernel1 = np.uint8(np.zeros((8, 8)))
+            for x in range(7):
                 kernel1[x, 2] = 1
                 kernel1[2, x] = 1
 
@@ -319,31 +320,43 @@ class Thread(QThread):
             # 腐蚀图像
             eroded = cv2.erode(dilated, kernel);
 
-            mask = eroded
-            dst = cv2.bitwise_and(image, image, mask=mask)  # 将二值化图像与原图进行“与”操作；实际是提取前两个frame 的“与”结果，然后输出mask 为1的部分
+            # mask = eroded
+            # dst = cv2.bitwise_and(image, image, mask=mask)  # 将二值化图像与原图进行“与”操作；实际是提取前两个frame 的“与”结果，然后输出mask 为1的部分
 
         except Exception as e:
             print(e)
-        return dst
+        return eroded
 
-    def findContours(self,img):
-        gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-        img, contours, hierarchy = cv2.findContours(gray, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
-        # cv2.drawContours(img, contours, -1, (255, 0, 0), 3)
-        maxArea = 0
-        maxContour = 0
-        for i in contours:
-            area = cv2.contourArea(i)
-            print(area)
-            if(area>maxArea):
-                maxArea = area
-                maxContour = i
+    def findContours(self, img):
+        try:
+            # gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+            img, contours, hierarchy = cv2.findContours(img, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+            # cv2.drawContours(img, contours, -1, (255, 0, 0), 3)
+            maxArea = 0
+            maxContour = None
+            for i in contours:
+                area = cv2.contourArea(i)
+                # print(area)
+                if (area > maxArea):
+                    maxArea = area
+                    maxContour = i
 
-        rec = cv2.boundingRect(maxContour)
-        print(rec.shape)
-        # cv2.waitKey(1)
-        return  gray
+            # cv2.imshow('max',maxArea)
+            if(maxContour is not None ):
+                x, y, w, h = cv2.boundingRect(maxContour)
+                img = cv2.rectangle(img, (x, y), (x + w, y + h), (255, 255, 255), 1)
+                # cv2.imshow('grep', img)
+                # cv2.waitKey(0)
+                return  img
+            # 用红色表示有旋转角度的矩形框架
+            # rect = cv2.minAreaRect(maxContour)
+            # box = cv2.cv.BoxPoints(rect)
+            # box = np.int0(box)
+            # cv2.drawContours(img, [box], 0, (0, 0, 255), 2)
+            return img
 
+        except Exception as e:
+            print(e)
 
     def threshold_demo(self,image,lowBar, highBar):
         gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)

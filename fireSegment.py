@@ -85,7 +85,7 @@ def findContours(img):
         # cv2.imshow('max',maxArea)
         x, y, w, h = cv2.boundingRect(maxContour)
         newimg = cv2.rectangle(img, (x, y), (x + w, y + h), (255,255,255), 1)
-
+        cv2.imshow('gray', newimg)
         # 用红色表示有旋转角度的矩形框架
         # rect = cv2.minAreaRect(maxContour)
         # box = cv2.cv.BoxPoints(rect)
@@ -96,7 +96,7 @@ def findContours(img):
 
 
 if __name__ == '__main__':
-    img = cv2.imread("./fire.jpg")
+    img = cv2.imread("./fire.png")
 
     # x,y,w,h = 0,0,100,100
     # newimg = cv2.rectangle(img, (x, y), (x + w, y + h), (0, 0, 255), 2)
