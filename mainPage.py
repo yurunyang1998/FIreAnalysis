@@ -1,5 +1,5 @@
 import time
-
+import traceback
 from PyQt5.QtWidgets import QFileDialog,QMainWindow,QApplication,QMessageBox,QErrorMessage
 from PyQt5.QtMultimedia import *
 from PyQt5.QtGui import QPainter, QPixmap, QPen, QImage
@@ -217,9 +217,10 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
                 continue
 
 
-    def fireInfo(self,height,width):
+    def fireInfo(self,height,width,angle):
         self.lineEdit_5.setText(str("{:.2f}".format(height / self.rateInY)))
         self.lineEdit_6.setText(str("{:.2f}".format(width / self.rateInX)))
+        self.label_19.setText(str(angle))
 
     def setAutoAnalysisFireInfo(self):
         self.th.autoAnalysisFireInfo = (not self.th.autoAnalysisFireInfo)
@@ -229,7 +230,7 @@ class Thread(QThread):
 
     changePixmap = pyqtSignal(QtGui.QImage)
     changeSegmentPic = pyqtSignal(QtGui.QImage)
-    changeFireinfo = pyqtSignal(int, int)
+    changeFireinfo = pyqtSignal(int, int, int)
 
     paused = False
     closeSignal = False
@@ -357,10 +358,13 @@ class Thread(QThread):
             if(maxContour is not None ):
                 x, y, w, h = cv2.boundingRect(maxContour)
                 if(self.autoAnalysisFireInfo == True):
-                    self.changeFireinfo.emit(w,h)
-                img = cv2.rectangle(img, (x, y), (x + w, y + h), (255, 255, 255), 1)
-                # cv2.imshow('grep', img)
-                # cv2.waitKey(0)
+                    # print(x,x+w,y,y+h)
+                    img = cv2.rectangle(img, (x, y), (x + w, y + h), (255, 255, 255), 1)  #框选出火焰区域
+                    roiArea = img[y:y+h, x:x+w]
+                    angel = self.getFireAngel(roiArea)
+                    self.changeFireinfo.emit(w,h,angel)
+
+                    # roiArea = False
                 return  img
             # 用红色表示有旋转角度的矩形框架
             # rect = cv2.minAreaRect(maxContour)
@@ -389,3 +393,57 @@ class Thread(QThread):
         self.maxbar = maxBar_
         self.segmented = True
 
+
+    def getFireAngel(self,img):
+        # cv2.imshow('a',img)
+        # try:
+        #     for row in img:
+        #         head = False
+        #         tail = False
+        #         length = len(row)
+        #         for pix in range(length-1):
+        #             if(head == False and row[pix] == 255):
+        #                 head = pix
+        #             if(tail == False and row[length-pix-1] == 255):
+        #                 tail = length-pix
+        #             if(tail and head):
+        #                 break
+        #         row[int((tail + head) / 2)] = 128
+        #         print(head," ",tail," ",(tail+head)/2)
+        #     cv2.imshow('b', img)
+        #     cv2.waitKey(0)
+        # except Exception as e:
+        #     traceback.print_exc()
+
+        #上面是画出角度曲线的代码
+
+        rowLength = len(img)
+        colLength = len(img[0])
+        head = False
+        tail = False
+        for i in range(colLength):
+            if(img[0][i] == 255 and head == False):
+                head = i
+            if(img[0][colLength-i-1] and tail == False):
+                tail = i
+            if(head and tail):
+                break
+        firstmiddle = int((head+tail)/2)
+
+        head = False
+        tail = False
+        tailCol = rowLength -1
+        for i in range(colLength):
+            if (img[tailCol][i] == 255 and head == False):
+                head = i
+            if (img[tailCol][colLength - i - 1] and tail == False):
+                tail = i
+            if (head and tail):
+                break
+        import math
+        secondMiddle = int((head+tail)/2)
+        # print(rowLength,abs(firstmiddle-secondMiddle) )
+        # print("angle: ",  math.degrees(math.atan(rowLength/abs(firstmiddle-secondMiddle))))
+
+        angel = math.degrees(math.atan(rowLength / abs(firstmiddle - secondMiddle)))
+        return angel
