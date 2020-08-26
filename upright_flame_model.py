@@ -1996,8 +1996,9 @@ d_original=np.array([0	,
 30.73526	,
 30.70671	
 ])
-
 layer_thickness=30
+
+
 d_flame= d_flame_fitting(d_original, height_original, layer_thickness)
 # four key display functions 
 draw_rad_heat_flux_curve_Fh(d_flame, height_original, 400, layer_thickness)

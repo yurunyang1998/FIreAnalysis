@@ -47,6 +47,9 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
 
         self.fireHeight = 0
         self.fireWidget = 0
+        self.fireLayerDiameter =[]
+        self.fireLayerHeight =[]
+
 
         self.paused = False
         self.moveMouse = False
@@ -67,7 +70,7 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
             self.th.changePixmap.connect(self.setImage)
             self.th.changeSegmentPic.connect(self.setSegmentedPic)
             self.th.changeFireinfo.connect(self.fireInfo)
-
+            self.th.changeFireLayerInfo.connect(self.fireLayerInfo)
             self.th.start()
 
         except Exception as e :
@@ -226,11 +229,17 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
         self.th.autoAnalysisFireInfo = (not self.th.autoAnalysisFireInfo)
 
 
+    def fireLayerInfo(self, fireLayerDiameter_, fireLayerHeight_):
+        self.fireLayerDiameter = fireLayerDiameter_
+        self.fireLayerHeight = fireLayerHeight_
+
+
 class Thread(QThread):
 
     changePixmap = pyqtSignal(QtGui.QImage)
     changeSegmentPic = pyqtSignal(QtGui.QImage)
     changeFireinfo = pyqtSignal(int, int, int)
+    changeFireLayerInfo = pyqtSignal(list, list)
 
     paused = False
     closeSignal = False
@@ -245,16 +254,18 @@ class Thread(QThread):
         try:
             self.cap = cv2.VideoCapture(videoName)
             print(videoName)
+            flameNum = 0
             while (self.cap.isOpened()==True):
                 if(self.closeSignal == True):
                     return
                 if(not self.paused):
                     ret, frame = self.cap.read()
+                    flameNum = flameNum + 1
                     if ret:
                         self.rgbImage = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB) #在这里可以对每帧图像进行处理，
 
                         if(self.segmented):
-                            segImg = self.processImage(self.rgbImage)
+                            segImg = self.processImage(self.rgbImage, flameNum)
                             self.changeSegmentPic.emit(segImg)
                             # cv2.waitKey(1)
                         self.width,self.height = self.rgbImage.shape[1],self.rgbImage.shape[0]
@@ -283,14 +294,14 @@ class Thread(QThread):
             print(e)
 
 
-    def processImage(self,img):
+    def processImage(self, img, flameNum):
         try:
             if(self.segmented):
                 # print("haha")
                 #在下面添加处理函数
 
                 imgSepert = self.color_seperate(img, self.minbar, self.maxbar)
-                imgContours = self.findContours(imgSepert)
+                imgContours = self.findContours(imgSepert, flameNum)
 
 
 
@@ -341,7 +352,7 @@ class Thread(QThread):
             print(e)
         return eroded
 
-    def findContours(self, img):
+    def findContours(self, img, flameNum):
         try:
             # gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
             img, contours, hierarchy = cv2.findContours(img, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
@@ -361,8 +372,11 @@ class Thread(QThread):
                     # print(x,x+w,y,y+h)
                     img = cv2.rectangle(img, (x, y), (x + w, y + h), (255, 255, 255), 1)  #框选出火焰区域
                     roiArea = img[y:y+h, x:x+w]
-                    angel = self.getFireAngel(roiArea)
+                    angel = self.getFireAngel(roiArea) #获取火焰角度
+                    fireLayerData = self.getFireLayerDiameter(roiArea, flameNum)  #获取火焰每一层的宽度和高度
                     self.changeFireinfo.emit(w,h,angel)
+                    if(flameNum % 10 == 0):
+                        self.changeFireLayerInfo.emit(fireLayerData, #TODO:height)
 
                     # roiArea = False
                 return  img
@@ -394,28 +408,49 @@ class Thread(QThread):
         self.segmented = True
 
 
+    def getFireLayerDiameter(self, img, flameNum):
+        if(flameNum%10 == 0 ):   #每10帧获取一次火焰分层数据
+            preciseFireDiameter = []  # 包含每一个像素层的火焰宽度
+            layer_thickness = 10
+            try:
+                for row in img:
+                    head = False
+                    tail = False
+                    length = len(row)
+                    for pix in range(length - 1):
+                        if (head == False and row[pix] == 255):
+                            head = pix
+                        if (tail == False and row[length - pix - 1] == 255):
+                            tail = length - pix
+                        if (tail and head):
+                            break
+                    preciseFireDiameter.append(tail - head)
+                    row[int((tail + head) / 2)] = 128
+                    print(head, " ", tail, " ", (tail + head) / 2)
+                preciseFireDiameter = preciseFireDiameter.reverse()
+
+                cv2.imshow('b', img)
+                cv2.waitKey(0)
+            except Exception as e:
+                traceback.print_exc()
+
+            roughFireDiameter = []
+            layerNum = 0
+            for i in range(len(preciseFireDiameter)):
+                layerNum = layerNum + preciseFireDiameter[i]
+                if (i % 10 == 0):
+                    roughFireDiameter.append(int(layerNum / layer_thickness))
+                    layerNum = 0
+
+            return  roughFireDiameter
+        #上面是画出角度曲线，并获取每一层火焰直径的代码
+        else:
+            return
+
+
     def getFireAngel(self,img):
         # cv2.imshow('a',img)
-        # try:
-        #     for row in img:
-        #         head = False
-        #         tail = False
-        #         length = len(row)
-        #         for pix in range(length-1):
-        #             if(head == False and row[pix] == 255):
-        #                 head = pix
-        #             if(tail == False and row[length-pix-1] == 255):
-        #                 tail = length-pix
-        #             if(tail and head):
-        #                 break
-        #         row[int((tail + head) / 2)] = 128
-        #         print(head," ",tail," ",(tail+head)/2)
-        #     cv2.imshow('b', img)
-        #     cv2.waitKey(0)
-        # except Exception as e:
-        #     traceback.print_exc()
 
-        #上面是画出角度曲线的代码
 
         rowLength = len(img)
         colLength = len(img[0])
