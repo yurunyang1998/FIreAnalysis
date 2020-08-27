@@ -411,6 +411,8 @@ class Thread(QThread):
     def getFireLayerDiameter(self, img, flameNum):
         if(flameNum%10 == 0 ):   #每10帧获取一次火焰分层数据
             preciseFireDiameter = []  # 包含每一个像素层的火焰宽度
+
+            
             layer_thickness = 10
             try:
                 for row in img:

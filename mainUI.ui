@@ -42,15 +42,58 @@
         <height>150</height>
        </size>
       </property>
-      <layout class="QFormLayout" name="formLayout_2">
-       <item row="0" column="0">
-        <widget class="QPushButton" name="pushButton_5">
-         <property name="text">
-          <string>PushButton</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
+      <widget class="QPushButton" name="pushButton_5">
+       <property name="geometry">
+        <rect>
+         <x>9</x>
+         <y>9</y>
+         <width>251</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>垂直圆柱体火焰在水平方向热流密度分布</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="pushButton_14">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>100</y>
+         <width>251</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>垂直圆柱体火焰伤害半径示意图</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="pushButton_15">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>70</y>
+         <width>251</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>垂直圆柱体火焰热流密度分布俯视图</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="pushButton_16">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>40</y>
+         <width>251</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>垂直圆柱体火焰垂直方向的热流密度分布</string>
+       </property>
+      </widget>
      </widget>
     </item>
     <item row="1" column="0">
@@ -514,17 +557,82 @@
         <height>150</height>
        </size>
       </property>
-      <widget class="QPushButton" name="pushButton_2">
+      <widget class="QPushButton" name="pushButton_3">
        <property name="geometry">
         <rect>
-         <x>9</x>
-         <y>9</y>
-         <width>75</width>
+         <x>20</x>
+         <y>10</y>
+         <width>231</width>
          <height>23</height>
         </rect>
        </property>
        <property name="text">
-        <string>PushButton</string>
+        <string>沿火焰倾斜方向的热流密度沿X轴分布</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="pushButton_2">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>40</y>
+         <width>231</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>垂直火焰倾斜方向的热流密度沿Y轴分布</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="pushButton_4">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>70</y>
+         <width>231</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>以火焰中心为中心的伤害范围示意图</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="pushButton_10">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>100</y>
+         <width>231</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>假设人在a点不同辐射热流值的伤害范围</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="pushButton_11">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>130</y>
+         <width>231</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>假设人在b点不同辐射热流值的伤害范围</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="pushButton_12">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>160</y>
+         <width>231</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>假设人在c点不同辐射热流值的伤害范围</string>
        </property>
       </widget>
      </widget>
