@@ -373,10 +373,10 @@ class Thread(QThread):
                     img = cv2.rectangle(img, (x, y), (x + w, y + h), (255, 255, 255), 1)  #框选出火焰区域
                     roiArea = img[y:y+h, x:x+w]
                     angel = self.getFireAngel(roiArea) #获取火焰角度
-                    fireLayerData = self.getFireLayerDiameter(roiArea, flameNum)  #获取火焰每一层的宽度和高度
+                    fireLayerDiameter, fireLayerHeight = self.getFireLayerDiameter(roiArea, flameNum)  #获取火焰每一层的宽度和高度
                     self.changeFireinfo.emit(w,h,angel)
                     if(flameNum % 10 == 0):
-                        self.changeFireLayerInfo.emit(fireLayerData, #TODO:height)
+                        self.changeFireLayerInfo.emit(fireLayerDiameter, fireLayerHeight)
 
                     # roiArea = False
                 return  img
@@ -411,9 +411,14 @@ class Thread(QThread):
     def getFireLayerDiameter(self, img, flameNum):
         if(flameNum%10 == 0 ):   #每10帧获取一次火焰分层数据
             preciseFireDiameter = []  # 包含每一个像素层的火焰宽度
-
-            
+            preciseFireHeight = []
             layer_thickness = 10
+
+            layerNum = int(img/layer_thickness)         #获取每层的高度
+            for i in range(1,layerNum):
+                preciseFireHeight.append(layer_thickness*i)
+            preciseFireHeight.reverse()
+
             try:
                 for row in img:
                     head = False
@@ -444,7 +449,7 @@ class Thread(QThread):
                     roughFireDiameter.append(int(layerNum / layer_thickness))
                     layerNum = 0
 
-            return  roughFireDiameter
+            return  roughFireDiameter,preciseFireHeight
         #上面是画出角度曲线，并获取每一层火焰直径的代码
         else:
             return
