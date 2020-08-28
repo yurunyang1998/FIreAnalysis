@@ -2,13 +2,11 @@
 
 # Form implementation generated from reading ui file 'mainUI.ui'
 #
-# Created by: PyQt5 UI code generator 5.13.0
+# Created by: PyQt5 UI code generator 5.9
 #
 # WARNING! All changes made in this file will be lost!
 
-
 from PyQt5 import QtCore, QtGui, QtWidgets
-
 
 class Ui_QtWidgetsApplication1Class(object):
     def setupUi(self, QtWidgetsApplication1Class):
@@ -30,13 +28,18 @@ class Ui_QtWidgetsApplication1Class(object):
         self.widget_5 = QtWidgets.QWidget(self.centralWidget)
         self.widget_5.setMinimumSize(QtCore.QSize(200, 150))
         self.widget_5.setObjectName("widget_5")
-        self.formLayout_2 = QtWidgets.QFormLayout(self.widget_5)
-        self.formLayout_2.setContentsMargins(11, 11, 11, 11)
-        self.formLayout_2.setSpacing(6)
-        self.formLayout_2.setObjectName("formLayout_2")
         self.pushButton_5 = QtWidgets.QPushButton(self.widget_5)
+        self.pushButton_5.setGeometry(QtCore.QRect(9, 9, 251, 23))
         self.pushButton_5.setObjectName("pushButton_5")
-        self.formLayout_2.setWidget(0, QtWidgets.QFormLayout.LabelRole, self.pushButton_5)
+        self.pushButton_14 = QtWidgets.QPushButton(self.widget_5)
+        self.pushButton_14.setGeometry(QtCore.QRect(10, 100, 251, 23))
+        self.pushButton_14.setObjectName("pushButton_14")
+        self.pushButton_15 = QtWidgets.QPushButton(self.widget_5)
+        self.pushButton_15.setGeometry(QtCore.QRect(10, 70, 251, 23))
+        self.pushButton_15.setObjectName("pushButton_15")
+        self.pushButton_16 = QtWidgets.QPushButton(self.widget_5)
+        self.pushButton_16.setGeometry(QtCore.QRect(10, 40, 251, 23))
+        self.pushButton_16.setObjectName("pushButton_16")
         self.gridLayout.addWidget(self.widget_5, 1, 2, 1, 1)
         self.widget_2 = QtWidgets.QWidget(self.centralWidget)
         self.widget_2.setObjectName("widget_2")
@@ -185,9 +188,24 @@ class Ui_QtWidgetsApplication1Class(object):
         self.widget_4 = QtWidgets.QWidget(self.centralWidget)
         self.widget_4.setMinimumSize(QtCore.QSize(200, 150))
         self.widget_4.setObjectName("widget_4")
+        self.pushButton_3 = QtWidgets.QPushButton(self.widget_4)
+        self.pushButton_3.setGeometry(QtCore.QRect(20, 10, 231, 23))
+        self.pushButton_3.setObjectName("pushButton_3")
         self.pushButton_2 = QtWidgets.QPushButton(self.widget_4)
-        self.pushButton_2.setGeometry(QtCore.QRect(9, 9, 75, 23))
+        self.pushButton_2.setGeometry(QtCore.QRect(20, 40, 231, 23))
         self.pushButton_2.setObjectName("pushButton_2")
+        self.pushButton_4 = QtWidgets.QPushButton(self.widget_4)
+        self.pushButton_4.setGeometry(QtCore.QRect(20, 70, 231, 23))
+        self.pushButton_4.setObjectName("pushButton_4")
+        self.pushButton_10 = QtWidgets.QPushButton(self.widget_4)
+        self.pushButton_10.setGeometry(QtCore.QRect(20, 100, 231, 23))
+        self.pushButton_10.setObjectName("pushButton_10")
+        self.pushButton_11 = QtWidgets.QPushButton(self.widget_4)
+        self.pushButton_11.setGeometry(QtCore.QRect(20, 130, 231, 23))
+        self.pushButton_11.setObjectName("pushButton_11")
+        self.pushButton_12 = QtWidgets.QPushButton(self.widget_4)
+        self.pushButton_12.setGeometry(QtCore.QRect(20, 160, 231, 23))
+        self.pushButton_12.setObjectName("pushButton_12")
         self.gridLayout.addWidget(self.widget_4, 1, 1, 1, 1)
         self.label_15 = QtWidgets.QLabel(self.centralWidget)
         self.label_15.setObjectName("label_15")
@@ -216,7 +234,10 @@ class Ui_QtWidgetsApplication1Class(object):
     def retranslateUi(self, QtWidgetsApplication1Class):
         _translate = QtCore.QCoreApplication.translate
         QtWidgetsApplication1Class.setWindowTitle(_translate("QtWidgetsApplication1Class", "QtWidgetsApplication1"))
-        self.pushButton_5.setText(_translate("QtWidgetsApplication1Class", "PushButton"))
+        self.pushButton_5.setText(_translate("QtWidgetsApplication1Class", "垂直圆柱体火焰在水平方向热流密度分布"))
+        self.pushButton_14.setText(_translate("QtWidgetsApplication1Class", "垂直圆柱体火焰伤害半径示意图"))
+        self.pushButton_15.setText(_translate("QtWidgetsApplication1Class", "垂直圆柱体火焰热流密度分布俯视图"))
+        self.pushButton_16.setText(_translate("QtWidgetsApplication1Class", "垂直圆柱体火焰垂直方向的热流密度分布"))
         self.label_3.setText(_translate("QtWidgetsApplication1Class", "X2"))
         self.label_2.setText(_translate("QtWidgetsApplication1Class", "Y1"))
         self.label_4.setText(_translate("QtWidgetsApplication1Class", "Y2"))
@@ -235,9 +256,15 @@ class Ui_QtWidgetsApplication1Class(object):
         self.label_16.setText(_translate("QtWidgetsApplication1Class", "火焰高度"))
         self.label_17.setText(_translate("QtWidgetsApplication1Class", "火焰直径"))
         self.label_18.setText(_translate("QtWidgetsApplication1Class", "火焰倾斜角"))
-        self.pushButton_2.setText(_translate("QtWidgetsApplication1Class", "PushButton"))
+        self.pushButton_3.setText(_translate("QtWidgetsApplication1Class", "沿火焰倾斜方向的热流密度沿X轴分布"))
+        self.pushButton_2.setText(_translate("QtWidgetsApplication1Class", "垂直火焰倾斜方向的热流密度沿Y轴分布"))
+        self.pushButton_4.setText(_translate("QtWidgetsApplication1Class", "以火焰中心为中心的伤害范围示意图"))
+        self.pushButton_10.setText(_translate("QtWidgetsApplication1Class", "假设人在a点不同辐射热流值的伤害范围"))
+        self.pushButton_11.setText(_translate("QtWidgetsApplication1Class", "假设人在b点不同辐射热流值的伤害范围"))
+        self.pushButton_12.setText(_translate("QtWidgetsApplication1Class", "假设人在c点不同辐射热流值的伤害范围"))
         self.label_15.setText(_translate("QtWidgetsApplication1Class", "TextLabel"))
         self.toolBar.setWindowTitle(_translate("QtWidgetsApplication1Class", "toolBar"))
         self.menu.setTitle(_translate("QtWidgetsApplication1Class", "菜单"))
         self.action.setText(_translate("QtWidgetsApplication1Class", "读取视频"))
+
 from videolabel import VideoLabel

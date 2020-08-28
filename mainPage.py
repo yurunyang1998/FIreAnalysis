@@ -30,6 +30,17 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
         self.pushButton_8.clicked.connect(self.addFireSize)
         self.pushButton_9.clicked.connect(self.setAutoAnalysisFireInfo)
 
+        self.pushButton_3.clicked.connect(self.draw_rad_heat_flux_curve_FH1)
+        self.pushButton_2.clicked.connect(self.draw_rad_heat_flux_curve_FV2)
+        self.pushButton_4.clicked.connect(self.plot_abc)
+        self.pushButton_10.clicked.connect(self.tilt_flame_hazardous_radius_xa)
+        self.pushButton_11.clicked.connect(self.tilt_flame_rad_heat_pb)
+        self.pushButton_12.clicked.connect(self.tilt_flame_rad_heat_pc)
+
+        self.pushButton_5.clicked.connect(self.draw_rad_heat_flux_curve_Fh)
+        self.pushButton_14.clicked.connect(self.flame_hazardous_radius_xa)
+        self.pushButton_15.clicked.connect(self.draw_rad_heat_flux_vertical_view)
+        self.pushButton_16.clicked.connect(self.draw_rad_heat_flux_curve_Fv)
 
         ## 内部用属性
         self.rateInX = 1
