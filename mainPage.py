@@ -234,6 +234,42 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
         self.fireLayerHeight = fireLayerHeight_
 
 
+
+
+    ######### 算法函数
+    def draw_rad_heat_flux_curve_FH1(self):
+        pass
+
+    def draw_rad_heat_flux_curve_FV2(self):
+        pass
+
+    def plot_abc(self):
+        pass
+
+    def tilt_flame_hazardous_radius_xa(self):
+        pass
+
+    def tilt_flame_rad_heat_pb(self):
+        pass
+
+    def tilt_flame_rad_heat_pc(self):
+        pass
+
+    def draw_rad_heat_flux_curve_Fh(self):
+        pass
+
+    def draw_rad_heat_flux_curve_Fv(self):
+        pass
+
+    def draw_rad_heat_flux_vertical_view(self):
+        pass
+
+    def flame_hazardous_radius_xa(self):
+        pass
+
+    #####算法函数
+
+
 class Thread(QThread):
 
     changePixmap = pyqtSignal(QtGui.QImage)
