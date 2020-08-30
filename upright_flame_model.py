@@ -162,7 +162,7 @@ def heat_flux_h(d_flame, height_original, layer_thickness, R_distance):
     return Qh_total
     #print(Qh_total)
 
-def draw_rad_heat_flux_curve_Fh(d_flame, height_original, R_distance_max, layer_thickness,):
+def draw_rad_heat_flux_curve_Fh(d_flame, height_original, R_distance_max, layer_thickness):
     #d_flame:火焰直径，array
     x = np.arange(50, R_distance_max, 10) #Radius
     y = []
@@ -1119,7 +1119,7 @@ height_original=np.array([361.51166	,
 1.65E+00	,
 1.24E+00	,
 8.27E-01	,
-4.14E-01		
+4.14E-01
 ])
 d_original=np.array([0	,
 0	,
@@ -1994,15 +1994,15 @@ d_original=np.array([0	,
 30.7566	,
 30.74249	,
 30.73526	,
-30.70671	
+30.70671
 ])
 layer_thickness=30
 
 
-d_flame= d_flame_fitting(d_original, height_original, layer_thickness)
-# four key display functions 
-draw_rad_heat_flux_curve_Fh(d_flame, height_original, 400, layer_thickness)
-draw_rad_heat_flux_curve_Fv(d_flame, height_original, layer_thickness)
-draw_rad_heat_flux_vertical_view(d_flame, height_original, layer_thickness)
-#伤害半径确定
-flame_hazardous_radius_xa(d_flame, height_original)
+# d_flame= d_flame_fitting(d_original, height_original, layer_thickness)
+# # four key display functions
+# draw_rad_heat_flux_curve_Fh(d_flame, height_original, 400, layer_thickness)
+# draw_rad_heat_flux_curve_Fv(d_flame, height_original, layer_thickness)
+# draw_rad_heat_flux_vertical_view(d_flame, height_original, layer_thickness)
+# #伤害半径确定
+# flame_hazardous_radius_xa(d_flame, height_original)

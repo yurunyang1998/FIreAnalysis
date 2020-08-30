@@ -1,5 +1,7 @@
 import time
 import traceback
+
+import functools
 from PyQt5.QtWidgets import QFileDialog,QMainWindow,QApplication,QMessageBox,QErrorMessage
 from PyQt5.QtMultimedia import *
 from PyQt5.QtGui import QPainter, QPixmap, QPen, QImage
@@ -8,6 +10,8 @@ import cv2
 import numpy as np
 from PyQt5 import QtGui, QtCore
 from mainUI import  Ui_QtWidgetsApplication1Class
+import tilt_flame_model as tfm
+import upright_flame_model as ufm
 
 def alert(Qwidget, message):
     reply = QMessageBox.information(Qwidget, '提示', message, QMessageBox.Ok | QMessageBox.Close,
@@ -41,6 +45,7 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
         self.pushButton_14.clicked.connect(self.flame_hazardous_radius_xa)
         self.pushButton_15.clicked.connect(self.draw_rad_heat_flux_vertical_view)
         self.pushButton_16.clicked.connect(self.draw_rad_heat_flux_curve_Fv)
+        self.pushButton_13.clicked.connect(self.addHeatFluxParam)
 
         ## 内部用属性
         self.rateInX = 1
@@ -58,6 +63,8 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
 
         self.fireHeight = 0
         self.fireWidget = 0
+        self.fireAngel = 0
+        self.fireHeatFluxparam = 0
         self.fireLayerDiameter =[]
         self.fireLayerHeight =[]
 
@@ -234,6 +241,9 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
     def fireInfo(self,height,width,angle):
         self.lineEdit_5.setText(str("{:.2f}".format(height / self.rateInY)))
         self.lineEdit_6.setText(str("{:.2f}".format(width / self.rateInX)))
+        self.fireHeight = int(height / self.rateInY)
+        self.fireWidget = int(width / self.rateInX)
+        self.fireAngel =  angle
         self.label_19.setText(str(angle))
 
     def setAutoAnalysisFireInfo(self):
@@ -241,43 +251,97 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
 
 
     def fireLayerInfo(self, fireLayerDiameter_, fireLayerHeight_):
-        self.fireLayerDiameter = fireLayerDiameter_
-        self.fireLayerHeight = fireLayerHeight_
+        print("setfirelayinfo")
+        self.fireLayerDiameter =[(x+1)*self.rateInX for x in fireLayerDiameter_]
+        self.fireLayerHeight = [(x+1)*self.rateInY for x in fireLayerHeight_]
+        # self.fireLayerDiameter = fireLayerDiameter_
+        # self.fireLayerHeight = fireLayerHeight_
 
 
+    def addHeatFluxParam(self):
+        if(self.lineEdit_7.text()==""):
+            return
+        self.fireHeatFluxparam = self.lineEdit_7.text()
 
 
     ######### 算法函数
-    def draw_rad_heat_flux_curve_FH1(self):
-        pass
 
+    def draw_rad_heat_flux_curve_FH1(self):
+        if (self.fireHeight != 0 and self.fireWidget != 0 and self.fireAngel != 0):
+            tfm.draw_rad_heat_flux_curve_FH1(float(self.fireHeight), float(self.fireWidget), self.fireAngel)
+            self.th.PauseVideo()
+        else:
+            return
+        # tfm.draw_rad_heat_flux_curve_FH1(0, 0, 0)
     def draw_rad_heat_flux_curve_FV2(self):
-        pass
+        if (self.fireHeight != 0 and self.fireWidget != 0 and self.fireAngel != 0):
+            tfm.draw_rad_heat_flux_curve_FV2(float(self.fireHeight), float(self.fireWidget), self.fireAngel)
+            self.th.PauseVideo()
+        else:
+            return
+
 
     def plot_abc(self):
-        pass
+        if(self.fireHeatFluxparam==0):
+            alert(self,"请先添加火焰热流值参数")
+            return
+        if (self.fireHeight != 0 and self.fireWidget != 0 and self.fireAngel != 0):
+            print("plot_abc")
+            tfm.plot_abc(float(self.fireHeight), float(self.fireWidget), float(self.fireAngel), float(self.fireHeatFluxparam))
+            self.th.PauseVideo()
+        else:
+            return
 
     def tilt_flame_hazardous_radius_xa(self):
-        pass
+        if (self.fireHeight != 0 and self.fireWidget != 0 and self.fireAngel != 0):
+            tfm.tilt_flame_hazardous_radius_xa(float(self.fireHeight), float(self.fireWidget), float(self.fireAngel))
+            self.th.PauseVideo()
+        else:
+            return
+
 
     def tilt_flame_rad_heat_pb(self):
-        pass
+        if (self.fireHeight != 0 and self.fireWidget != 0 and self.fireAngel != 0):
+            tfm.tilt_flame_hazardous_radius_xb(float(self.fireHeight), float(self.fireWidget), float(self.fireAngel))
+            self.th.PauseVideo()
+        else:
+            return
+
 
     def tilt_flame_rad_heat_pc(self):
-        pass
+        if (self.fireHeight != 0 and self.fireWidget != 0 and self.fireAngel != 0):
+            tfm.tilt_flame_hazardous_radius_xc(float(self.fireHeight), float(self.fireWidget), float(self.fireAngel))
+            self.th.PauseVideo()
+        else:
+            return
+
+
+
 
     def draw_rad_heat_flux_curve_Fh(self):
-        pass
+        print("clicked")
+        if(self.fireLayerDiameter!= [] and self.fireLayerHeight!= []):
+            print("draw_rad_heat_flux_curve_Fh")
+            ufm.draw_rad_heat_flux_curve_Fh(self.fireLayerDiameter, self.fireLayerHeight, 400, 10)
+            self.th.PauseVideo()
 
     def draw_rad_heat_flux_curve_Fv(self):
-        pass
+        print(1)
+        if(len(self.fireLayerDiameter)!=0 and len(self.fireLayerHeight) != 0):
+            print("draw_rad_heat_flux_curve_Fv")
+            ufm.draw_rad_heat_flux_curve_Fv(self.fireLayerDiameter, self.fireLayerHeight, 10)
+            self.th.PauseVideo()
 
     def draw_rad_heat_flux_vertical_view(self):
-        pass
-
+        if(self.fireLayerDiameter != [] and self.fireLayerHeight != []):
+            print("draw_rad_heat_flux_vertical_view")
+            ufm.draw_rad_heat_flux_vertical_view(self.fireLayerDiameter, self.fireLayerHeight, 10)
+            self.th.PauseVideo()
     def flame_hazardous_radius_xa(self):
-        pass
-
+        if(self.fireLayerDiameter != [] and self.fireLayerHeight != []):
+            print("flame_hazardous_radius_xa")
+            ufm.flame_hazardous_radius_xa(self.fireLayerDiameter, self.fireLayerHeight)
+            self.th.PauseVideo()
     #####算法函数
 
 
@@ -349,11 +413,7 @@ class Thread(QThread):
 
                 imgSepert = self.color_seperate(img, self.minbar, self.maxbar)
                 imgContours = self.findContours(imgSepert, flameNum)
-
-
-
-
-
+                # imgContours = imgSepert
                 # img =  self.threshold_demo(img, self.minbar, self.maxbar)
                 convertToQtFormat = QtGui.QImage(imgContours.data, imgContours.shape[1], imgContours.shape[0], QImage.Format_Grayscale8)
                 currentCaputre = convertToQtFormat.scaled(self.width/2, self.height/2, QtCore.Qt.KeepAspectRatio)
@@ -417,15 +477,17 @@ class Thread(QThread):
                 x, y, w, h = cv2.boundingRect(maxContour)
                 if(self.autoAnalysisFireInfo == True):
                     # print(x,x+w,y,y+h)
-                    img = cv2.rectangle(img, (x, y), (x + w, y + h), (255, 255, 255), 1)  #框选出火焰区域
-                    roiArea = img[y:y+h, x:x+w]
-                    angel = self.getFireAngel(roiArea) #获取火焰角度
-                    fireLayerDiameter, fireLayerHeight = self.getFireLayerDiameter(roiArea, flameNum)  #获取火焰每一层的宽度和高度
-                    self.changeFireinfo.emit(w,h,angel)
-                    if(flameNum % 10 == 0):
-                        self.changeFireLayerInfo.emit(fireLayerDiameter, fireLayerHeight)
+                    try:
+                        img = cv2.rectangle(img, (x, y), (x + w, y + h), (255, 255, 255), 1)  #框选出火焰区域
+                        roiArea = img[y:y+h, x:x+w]
+                        angel = self.getFireAngel(roiArea) #获取火焰角度
+                        self.changeFireinfo.emit(w,h,angel)
+                        if(flameNum % 10 == 0):
+                            fireLayerDiameter, fireLayerHeight = self.getFireLayerDiameter(roiArea,flameNum)  # 获取火焰每一层的宽度和高度
+                            self.changeFireLayerInfo.emit(fireLayerDiameter, fireLayerHeight)
+                    except Exception as e:
+                        traceback.print_exc()
 
-                    # roiArea = False
                 return  img
             # 用红色表示有旋转角度的矩形框架
             # rect = cv2.minAreaRect(maxContour)
@@ -456,51 +518,49 @@ class Thread(QThread):
 
 
     def getFireLayerDiameter(self, img, flameNum):
-        if(flameNum%10 == 0 ):   #每10帧获取一次火焰分层数据
-            preciseFireDiameter = []  # 包含每一个像素层的火焰宽度
-            preciseFireHeight = []
-            layer_thickness = 10
+        preciseFireDiameter = []  # 包含每一个像素层的火焰宽度
+        preciseFireHeight = []
+        layer_thickness = 10
 
-            layerNum = int(img/layer_thickness)         #获取每层的高度
-            for i in range(1,layerNum):
-                preciseFireHeight.append(layer_thickness*i)
-            preciseFireHeight.reverse()
+        layerNum = int(img.shape[1] / layer_thickness)  # 获取每层的高度
+        for i in range(1, layerNum):
+            preciseFireHeight.append(layer_thickness * i)
+        preciseFireHeight.reverse()
+        # print("layerNum:", layerNum)
+        try:
+            for row in img:
+                # print(row)
+                head = False
+                tail = False
+                length = len(row)
+                for pix in range(length - 1):
+                    if (head == False and row[pix] == 255):
+                        head = pix
+                    if (tail == False and row[length - pix - 1] == 255):
+                        tail = length - pix
+                    if (tail and head):
+                        break
+                preciseFireDiameter.append(tail - head)
+                row[int((tail + head) / 2)] = 128
+                # print(head, " ", tail, " ", (tail + head) / 2)
+            # preciseFireDiameter = preciseFireDiameter.reverse()
+            preciseFireDiameter.reverse()
+            # cv2.imshow('b', img)
+            # cv2.waitKey(0)
+        except Exception as e:
+            traceback.print_exc()
 
-            try:
-                for row in img:
-                    head = False
-                    tail = False
-                    length = len(row)
-                    for pix in range(length - 1):
-                        if (head == False and row[pix] == 255):
-                            head = pix
-                        if (tail == False and row[length - pix - 1] == 255):
-                            tail = length - pix
-                        if (tail and head):
-                            break
-                    preciseFireDiameter.append(tail - head)
-                    row[int((tail + head) / 2)] = 128
-                    print(head, " ", tail, " ", (tail + head) / 2)
-                preciseFireDiameter = preciseFireDiameter.reverse()
+        roughFireDiameter = []
+        layerNum = 0
+        # if(type(preciseFireDiameter)==None):
+        #     return [],[]
+        for i in range(len(preciseFireDiameter)):
+            layerNum = layerNum + preciseFireDiameter[i]
+            if (i % 10 == 0):
+                roughFireDiameter.append(int(layerNum / layer_thickness))
+                layerNum = 0
 
-                cv2.imshow('b', img)
-                cv2.waitKey(0)
-            except Exception as e:
-                traceback.print_exc()
-
-            roughFireDiameter = []
-            layerNum = 0
-            for i in range(len(preciseFireDiameter)):
-                layerNum = layerNum + preciseFireDiameter[i]
-                if (i % 10 == 0):
-                    roughFireDiameter.append(int(layerNum / layer_thickness))
-                    layerNum = 0
-
-            return  roughFireDiameter,preciseFireHeight
-        #上面是画出角度曲线，并获取每一层火焰直径的代码
-        else:
-            return
-
+        return roughFireDiameter, preciseFireHeight
 
     def getFireAngel(self,img):
         # cv2.imshow('a',img)
@@ -534,5 +594,5 @@ class Thread(QThread):
         # print(rowLength,abs(firstmiddle-secondMiddle) )
         # print("angle: ",  math.degrees(math.atan(rowLength/abs(firstmiddle-secondMiddle))))
 
-        angel = math.degrees(math.atan(rowLength / abs(firstmiddle - secondMiddle)))
+        angel = math.degrees(math.atan(rowLength / (abs(firstmiddle - secondMiddle)+1)))
         return angel
