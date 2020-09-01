@@ -241,19 +241,18 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
     def fireInfo(self,height,width,angle):
         self.lineEdit_5.setText(str("{:.2f}".format(height / self.rateInY)))
         self.lineEdit_6.setText(str("{:.2f}".format(width / self.rateInX)))
-        self.fireHeight = int(height / self.rateInY)
-        self.fireWidget = int(width / self.rateInX)
+        self.fireHeight = float("{:.2f}".format(height / self.rateInY))
+        self.fireWidget = float("{:.2f}".format(width / self.rateInX))
         self.fireAngel =  angle
         self.label_19.setText(str(angle))
 
     def setAutoAnalysisFireInfo(self):
         self.th.autoAnalysisFireInfo = (not self.th.autoAnalysisFireInfo)
 
-
     def fireLayerInfo(self, fireLayerDiameter_, fireLayerHeight_):
-        print("setfirelayinfo")
-        self.fireLayerDiameter =[(x+1)*self.rateInX for x in fireLayerDiameter_]
-        self.fireLayerHeight = [(x+1)*self.rateInY for x in fireLayerHeight_]
+        # print("setfirelayinfo")
+        self.fireLayerDiameter =[float("{:.2f}".format(x/self.rateInX)) for x in fireLayerDiameter_]
+        self.fireLayerHeight = [float("{:.2f}".format(x/self.rateInY)) for x in fireLayerHeight_]
         # self.fireLayerDiameter = fireLayerDiameter_
         # self.fireLayerHeight = fireLayerHeight_
 
@@ -261,40 +260,44 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
     def addHeatFluxParam(self):
         if(self.lineEdit_7.text()==""):
             return
-        self.fireHeatFluxparam = self.lineEdit_7.text()
+        self.fireHeatFluxparam = int(self.lineEdit_7.text())
 
 
     ######### 算法函数
 
     def draw_rad_heat_flux_curve_FH1(self):
         if (self.fireHeight != 0 and self.fireWidget != 0 and self.fireAngel != 0):
-            tfm.draw_rad_heat_flux_curve_FH1(float(self.fireHeight), float(self.fireWidget), self.fireAngel)
+            tfm.draw_rad_heat_flux_curve_FH1(self.fireHeight, self.fireWidget, self.fireAngel)
             self.th.PauseVideo()
         else:
             return
         # tfm.draw_rad_heat_flux_curve_FH1(0, 0, 0)
     def draw_rad_heat_flux_curve_FV2(self):
         if (self.fireHeight != 0 and self.fireWidget != 0 and self.fireAngel != 0):
-            tfm.draw_rad_heat_flux_curve_FV2(float(self.fireHeight), float(self.fireWidget), self.fireAngel)
+            tfm.draw_rad_heat_flux_curve_FV2(self.fireHeight, self.fireWidget, self.fireAngel)
             self.th.PauseVideo()
         else:
             return
 
 
     def plot_abc(self):
-        if(self.fireHeatFluxparam==0):
-            alert(self,"请先添加火焰热流值参数")
-            return
-        if (self.fireHeight != 0 and self.fireWidget != 0 and self.fireAngel != 0):
-            print("plot_abc")
-            tfm.plot_abc(float(self.fireHeight), float(self.fireWidget), float(self.fireAngel), float(self.fireHeatFluxparam))
-            self.th.PauseVideo()
-        else:
-            return
+        try:
+            if(self.fireHeatFluxparam==0):
+                alert(self,"请先添加火焰热流值参数")
+                return
+            else:#(self.fireHeight != 0 and self.fireWidget != 0 and self.fireAngel != 0):
+                print("plot_abc")
+                print(self.fireHeight,self.fireWidget, self.fireAngel, self.fireHeatFluxparam)
+                tfm.plot_abc(self.fireHeight, self.fireWidget, self.fireAngel, self.fireHeatFluxparam)
+                self.th.PauseVideo()
+            # else:
+            #     return
+        except Exception as e:
+            print(e)
 
     def tilt_flame_hazardous_radius_xa(self):
         if (self.fireHeight != 0 and self.fireWidget != 0 and self.fireAngel != 0):
-            tfm.tilt_flame_hazardous_radius_xa(float(self.fireHeight), float(self.fireWidget), float(self.fireAngel))
+            tfm.tilt_flame_hazardous_radius_xa(self.fireHeight, self.fireWidget, self.fireAngel)
             self.th.PauseVideo()
         else:
             return
@@ -302,7 +305,7 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
 
     def tilt_flame_rad_heat_pb(self):
         if (self.fireHeight != 0 and self.fireWidget != 0 and self.fireAngel != 0):
-            tfm.tilt_flame_hazardous_radius_xb(float(self.fireHeight), float(self.fireWidget), float(self.fireAngel))
+            tfm.tilt_flame_hazardous_radius_xb(self.fireHeight, self.fireWidget, self.fireAngel)
             self.th.PauseVideo()
         else:
             return
@@ -310,7 +313,7 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
 
     def tilt_flame_rad_heat_pc(self):
         if (self.fireHeight != 0 and self.fireWidget != 0 and self.fireAngel != 0):
-            tfm.tilt_flame_hazardous_radius_xc(float(self.fireHeight), float(self.fireWidget), float(self.fireAngel))
+            tfm.tilt_flame_hazardous_radius_xc(self.fireHeight, self.fireWidget, self.fireAngel)
             self.th.PauseVideo()
         else:
             return
@@ -319,14 +322,14 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
 
 
     def draw_rad_heat_flux_curve_Fh(self):
-        print("clicked")
         if(self.fireLayerDiameter!= [] and self.fireLayerHeight!= []):
             print("draw_rad_heat_flux_curve_Fh")
+            print(self.fireLayerDiameter)
+            print(self.fireLayerHeight)
             ufm.draw_rad_heat_flux_curve_Fh(self.fireLayerDiameter, self.fireLayerHeight, 400, 10)
             self.th.PauseVideo()
 
     def draw_rad_heat_flux_curve_Fv(self):
-        print(1)
         if(len(self.fireLayerDiameter)!=0 and len(self.fireLayerHeight) != 0):
             print("draw_rad_heat_flux_curve_Fv")
             ufm.draw_rad_heat_flux_curve_Fv(self.fireLayerDiameter, self.fireLayerHeight, 10)

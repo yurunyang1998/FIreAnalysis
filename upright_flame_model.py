@@ -7,7 +7,9 @@ from matplotlib.patches import Circle, Rectangle
 import matplotlib.pyplot as plt
 import numpy as np
 import math
-import scipy.interpolate as spi
+import traceback
+
+# import scipy.interpolate as spi
 
 #L表示圆柱体火焰的高度
 #d表示圆柱体火焰直径
@@ -49,15 +51,16 @@ def heat_flux_v(d_flame, height_original, z_height, layer_thickness):
     #Height:火焰高度
     #L:火焰高度
     Height=np.max(height_original)
-    layerNum=math.ceil(Height/layer_thickness)
-    H_array=np.linspace(0,Height,layerNum)
+    layerNum=len(height_original)
+    H_array=height_original
     Qv_total=0    
     k=-3.674
     z=z_height
-    i=0
     L=Height
     #r表示圆柱中心线到目标微元的水平距离
-    for i in range (0,layerNum):
+    for i in range (1,layerNum):
+        # if(math.ceil(d_flame[i]) ==0):
+        #     continue
         H=H_array[i]
         S=2*L/d_flame[i]
         h1=2*(H+10-z)/d_flame[i]
@@ -74,52 +77,56 @@ def heat_flux_v(d_flame, height_original, z_height, layer_thickness):
         epsilon=1-math.e**(k*d_flame[i]/100) #发射率
         E=sigma*epsilon*(T**4)
 
-        qv=Fv*E 
+        qv=Fv*E
         Qv_total=Qv_total+qv #EQ(6)
     return Qv_total
     #print(Qv_total)
 
 def draw_rad_heat_flux_curve_Fv(d_flame, height_original, layer_thickness):
-    #d_flame:火焰直径，array
-    z_height=int(np.max(height_original))
-    x = np.arange(1, z_height, 10) #Radius
-    y = []
-    for x_dis in x:
-        y_1 = heat_flux_v(d_flame, height_original, x_dis, layer_thickness)
-        #print(y_1)
-        y.append(y_1)
-    plt.plot(x, y, label="Radiative heat flux")
-    plt.xlabel("Height of observation (m)")
-    plt.ylabel("Radiative heat flux (kW/m^2)")
-    plt.legend()
-    plt.show()
-
+    try:
+        #d_flame:火焰直径，array
+        z_height=np.max(height_original)
+        x = height_original #Radius
+        y = []
+        for x_dis in x:
+            y_1 = heat_flux_v(d_flame, height_original, x_dis, layer_thickness)
+            #print(y_1)
+            y.append(y_1)
+        plt.plot(x, y, label="Radiative heat flux")
+        plt.xlabel("Height of observation (m)")
+        plt.ylabel("Radiative heat flux (kW/m^2)")
+        plt.legend()
+        plt.show()
+    except Exception as e:
+        traceback.print_exc()
 #相同半径的圆上热流密度分布\
 
 def draw_rad_heat_flux_vertical_view(d_original, height_original, layer_thickness):
-    z_height=int(np.max(height_original))
-    x = np.arange(1, z_height, 70) #Radius
-    y = []
-    fig = plt.figure()
-    ax = fig.add_subplot(111)
-    #bx = fig.add_subplot(122)
-    for x_dis in x:
-        y_1 = heat_flux_v(d_original, height_original, x_dis, layer_thickness)
-        #print(y_1)
-        y.append(y_1)
-        cir = Circle(xy = (0.0, 0.0), radius=x_dis, alpha=0.5, facecolor= (0.1,0.7,0.5,x_dis*0.001))
-        ax.add_patch(cir)
-        plt.axis('scaled')
-        plt.axis('equal')
-    ax.plot(0, 0, 'ro') #flame 
-    plt.text(10, 0, str(int(y[0]))+" kW/m^2", wrap=True)
-    plt.text(x_dis, 0, str(int(y[-1]))+" kW/m^2", wrap=True)
-    plt.title('Heat Flux distribution (Vertical View)')
-    plt.xlabel("Distance to flame (m)")
-    plt.ylabel("Distance to flame (m)")
-    plt.show()
-    #print(y)
-
+    try:
+        z_height=int(np.max(height_original))
+        x = np.arange(1, z_height, 70) #Radius
+        y = []
+        fig = plt.figure()
+        ax = fig.add_subplot(111)
+        #bx = fig.add_subplot(122)
+        for x_dis in x:
+            y_1 = heat_flux_v(d_original, height_original, x_dis, layer_thickness)
+            #print(y_1)
+            y.append(y_1)
+            cir = Circle(xy = (0.0, 0.0), radius=x_dis, alpha=0.5, facecolor= (0.1,0.7,0.5,x_dis*0.001))
+            ax.add_patch(cir)
+            plt.axis('scaled')
+            plt.axis('equal')
+        ax.plot(0, 0, 'ro') #flame
+        plt.text(10, 0, str(int(y[0]))+" kW/m^2", wrap=True)
+        plt.text(x_dis, 0, str(int(y[-1]))+" kW/m^2", wrap=True)
+        plt.title('Heat Flux distribution (Vertical View)')
+        plt.xlabel("Distance to flame (m)")
+        plt.ylabel("Distance to flame (m)")
+        plt.show()
+        #print(y)
+    except Exception as e:
+        traceback.print_exc()
 
 #水平表面jH接收的来自整个火焰的辐射热流
 #每个r处的heat_flux_h
@@ -128,9 +135,9 @@ def heat_flux_h(d_flame, height_original, layer_thickness, R_distance):
     #d_flame:火焰直径，array
     #Height:火焰高度
     #L:火焰高度
-    Height=np.max(height_original)
-    layerNum=math.ceil(Height/layer_thickness)
-    H_array=np.linspace(0,Height,layerNum)
+    # Height=np.max(height_original)
+    layerNum=len(height_original)
+    H_array=height_original
 
     Qh_total=0    
     k=-3.674
@@ -163,17 +170,23 @@ def heat_flux_h(d_flame, height_original, layer_thickness, R_distance):
     #print(Qh_total)
 
 def draw_rad_heat_flux_curve_Fh(d_flame, height_original, R_distance_max, layer_thickness):
-    #d_flame:火焰直径，array
-    x = np.arange(50, R_distance_max, 10) #Radius
-    y = []
-    for x_dis in x:
-        y_1 = heat_flux_h(d_flame, height_original, layer_thickness, x_dis)
-        y.append(y_1)
-    plt.plot(x, y, label="Radiative heat flux")
-    plt.xlabel("Distance to flame (m)")
-    plt.ylabel("Radiative heat flux (kW/m^2)")
-    plt.legend()
-    plt.show()
+    try:
+        #d_flame:火焰直径，array
+        x = np.arange(50, R_distance_max, 10) #Radius
+        y = []
+        print(len(x))
+        for x_dis in x:
+            # print(x_dis)
+            y_1 = heat_flux_h(d_flame, height_original, layer_thickness, x_dis)
+            # print(y_1)
+            y.append(y_1)
+        plt.plot(x, y, label="Radiative heat flux")
+        plt.xlabel("Distance to flame (m)")
+        plt.ylabel("Radiative heat flux (kW/m^2)")
+        plt.legend()
+        plt.show()
+    except Exception as e:
+        traceback.print_exc()
 
 def flame_rad_heat_pa(d_flame, height_original, rad_heat, layer_thickness):
     X_a = Symbol('X_a')
@@ -218,28 +231,30 @@ def flame_rad_heat_pa(d_flame, height_original, rad_heat, layer_thickness):
     return(X_a)
 
 def flame_hazardous_radius_xa(d_flame, height_original):
-    rad_heat=[1.6,4.0,12.5,25.0,37.5]
-    R_5=[0,0,0,0,0]
-    
-    for i in range(5):
-        R_5[i]=flame_rad_heat_pa(d_flame, height_original, rad_heat[i], layer_thickness)
-    #this is the Hazardous Radius (5 values)
-    #plot the hazardous radius
-    fig = plt.figure()
-    ax = fig.add_subplot(111)
-    colors = ["orange","cyan","pink","lime","yellow"]
-    for i in range(5):
-        cir = Circle(xy = (0.0, 0.0), radius=R_5[i], facecolor= colors[i]) #alpha=0.5,
-        ax.add_patch(cir)
-        x, y = 0, 0
-        ax.plot(x, y, 'ro')
-        #ax.arrow(0,0,int(R_5[i]),i*10,length_includes_head = True, head_width = 2, head_length = 2,fc = 'k',ec = 'k')
-        plt.text(int(R_5[i]), i*10, str(int(R_5[i])), ha='right', wrap=True, rotation='vertical')
-        plt.title('Hazardous Radius (5 levels)')
-        plt.axis('scaled')
-        plt.axis('equal')   #changes limits of x or y axis so that equal increments of x and y have the same length
-    plt.show()
+    try:
+        rad_heat=[1.6,4.0,12.5,25.0,37.5]
+        R_5=[0,0,0,0,0]
 
+        for i in range(5):
+            R_5[i]=flame_rad_heat_pa(d_flame, height_original, rad_heat[i], layer_thickness)
+        #this is the Hazardous Radius (5 values)
+        #plot the hazardous radius
+        fig = plt.figure()
+        ax = fig.add_subplot(111)
+        colors = ["orange","cyan","pink","lime","yellow"]
+        for i in range(5):
+            cir = Circle(xy = (0.0, 0.0), radius=R_5[i], facecolor= colors[i]) #alpha=0.5,
+            ax.add_patch(cir)
+            x, y = 0, 0
+            ax.plot(x, y, 'ro')
+            #ax.arrow(0,0,int(R_5[i]),i*10,length_includes_head = True, head_width = 2, head_length = 2,fc = 'k',ec = 'k')
+            plt.text(int(R_5[i]), i*10, str(int(R_5[i])), ha='right', wrap=True, rotation='vertical')
+            plt.title('Hazardous Radius (5 levels)')
+            plt.axis('scaled')
+            plt.axis('equal')   #changes limits of x or y axis so that equal increments of x and y have the same length
+        plt.show()
+    except Exception as e:
+        traceback.print_exc()
 #because there are too many loops, it will take a while to run this func.
 
 
