@@ -324,8 +324,8 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
     def draw_rad_heat_flux_curve_Fh(self):
         if(self.fireLayerDiameter!= [] and self.fireLayerHeight!= []):
             print("draw_rad_heat_flux_curve_Fh")
-            print(self.fireLayerDiameter)
-            print(self.fireLayerHeight)
+            # print(self.fireLayerDiameter)
+            # print(self.fireLayerHeight)
             ufm.draw_rad_heat_flux_curve_Fh(self.fireLayerDiameter, self.fireLayerHeight, 400, 10)
             self.th.PauseVideo()
 

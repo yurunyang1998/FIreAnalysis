@@ -15,7 +15,7 @@ import traceback
 #d表示圆柱体火焰直径
 #r表示圆柱中心线到目标微元的水平距离
 #l=2*L/d
-pi= np.pi
+pi= 3.1415926
 #epsilon=0.5
 sigma=5.6697*(10**(-8))
 
@@ -68,17 +68,26 @@ def heat_flux_v(d_flame, height_original, z_height, layer_thickness):
         A1=(h1**2+S**2+1)/(2*S)
         A2=(h2**2+S**2+1)/(2*S)
         #EQ(13)
-        Fv1=1/(pi*S)*atan(h1/sqrt(S**2-1))-h1/(pi*S)*atan(sqrt((S-1)/(S+1)))+A1*h1/(pi*S*sqrt(A1**2-1))*atan(sqrt((A1+1)/(A1-1)*(S-1)/(S+1)))
-        Fv2=1/(pi*S)*atan(h2/sqrt(S**2-1))-h2/(pi*S)*atan(sqrt((S-1)/(S+1)))+A2*h2/(pi*S*sqrt(A2**2-1))*atan(sqrt((A2+1)/(A2-1)*(S-1)/(S+1)))
+
+        # A1 = round(A1,2)
+        # A2 = round(A2,2)
+        # h1 = round(h1,2)
+        # h2 = round(h2,2)
+        # S = round(S,2)
+
+        Fv1=1/(pi*S)*atan(h1/sqrt(S**2-1))-h1/(pi*S)*atan(sqrt((S-1)/(S+1)))+A1*h1/(pi*S*sqrt(A1**2-1))*atan(sqrt((A1+1)/(A1-1)*(S-1)/(S+1))).normal()
+        Fv2=1/(pi*S)*atan(h2/sqrt(S**2-1))-h2/(pi*S)*atan(sqrt((S-1)/(S+1)))+A2*h2/(pi*S*sqrt(A2**2-1))*atan(sqrt((A2+1)/(A2-1)*(S-1)/(S+1))).no
         Fv=Fv1-Fv2
         #print(Fv)
         T=600 #tempreture
         #T=tempCal(H)
+        Fv = float(Fv)
         epsilon=1-math.e**(k*d_flame[i]/100) #发射率
         E=sigma*epsilon*(T**4)
 
         qv=Fv*E
-        Qv_total=Qv_total+qv #EQ(6)
+        Qv_total = Qv_total+qv #EQ(6)
+
     return Qv_total
     #print(Qv_total)
 
@@ -86,11 +95,12 @@ def draw_rad_heat_flux_curve_Fv(d_flame, height_original, layer_thickness):
     try:
         #d_flame:火焰直径，array
         z_height=np.max(height_original)
-        x = height_original #Radius
+        x = np.arange(0, z_height, 0.01)  #Radius
         y = []
         for x_dis in x:
             y_1 = heat_flux_v(d_flame, height_original, x_dis, layer_thickness)
-            #print(y_1)
+            print(type(y_1))
+            # print(t(y_1))
             y.append(y_1)
         plt.plot(x, y, label="Radiative heat flux")
         plt.xlabel("Height of observation (m)")
