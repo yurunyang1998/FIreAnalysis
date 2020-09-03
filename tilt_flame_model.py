@@ -132,7 +132,7 @@ def tilt_flame_rad_heat_pa(H, R, theta, rad_heat):
         *atan(pow(((a*a+(b+1)*(b+1)-2*a*(b+1)*sin(theta))/(a*a+(b-1)*(b-1)-2*a*(b-1)*sin(theta))),0.5)*pow(((b-1)/(b+1)),0.5))
     #This is for test:f_qv_r0=FV1-0.118
     func_qh_xa=FH1*E-rad_heat
-    result=nsolve(func_qh_xa, X_a, 1) # 20 is the initial guess, this is required for nsolve function
+    result=nsolve(func_qh_xa, X_a, 0.8) # 20 is the initial guess, this is required for nsolve function
     X_a=result
     #this is the Hazardous Radius (5 values)
     print(X_a)
@@ -263,7 +263,7 @@ def tilt_flame_rad_heat_pc(H, R, theta, rad_heat):
     #This is for test:f_qv_r0=FV1-0.118
     #for i in range(5):
     func_qh_yc=FV2*E-rad_heat
-    result=nsolve(func_qh_yc, Y_c, 1) # 20 is the initial guess, this is required for nsolve function
+    result=nsolve(func_qh_yc, Y_c, 0.8) # 20 is the initial guess, this is required for nsolve function
     Y_c=result
     #this is the Hazardous Radius (5 values)
     print(Y_c)

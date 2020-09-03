@@ -11,7 +11,7 @@ import numpy as np
 from PyQt5 import QtGui, QtCore
 from mainUI import  Ui_QtWidgetsApplication1Class
 import tilt_flame_model as tfm
-import upright_flame_model as ufm
+import upright_flame_model_v2 as ufm
 
 def alert(Qwidget, message):
     reply = QMessageBox.information(Qwidget, '提示', message, QMessageBox.Ok | QMessageBox.Close,
@@ -326,24 +326,27 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
             print("draw_rad_heat_flux_curve_Fh")
             print(self.fireLayerDiameter)
             print(self.fireLayerHeight)
-            ufm.draw_rad_heat_flux_curve_Fh(self.fireLayerDiameter, self.fireLayerHeight, 400, 10)
+            layer_thickness = 10
+            ufm.draw_rad_heat_flux_curve_Fh(self.fireLayerDiameter, self.fireLayerHeight, 400, layer_thickness/self.rateInY)
             self.th.PauseVideo()
 
     def draw_rad_heat_flux_curve_Fv(self):
         if(len(self.fireLayerDiameter)!=0 and len(self.fireLayerHeight) != 0):
             print("draw_rad_heat_flux_curve_Fv")
-            ufm.draw_rad_heat_flux_curve_Fv(self.fireLayerDiameter, self.fireLayerHeight, 10)
+            layer_thickness = 10
+            ufm.draw_rad_heat_flux_curve_Fv(self.fireLayerDiameter, self.fireLayerHeight, layer_thickness/self.rateInY, 1)
             self.th.PauseVideo()
 
     def draw_rad_heat_flux_vertical_view(self):
         if(self.fireLayerDiameter != [] and self.fireLayerHeight != []):
             print("draw_rad_heat_flux_vertical_view")
-            ufm.draw_rad_heat_flux_vertical_view(self.fireLayerDiameter, self.fireLayerHeight, 10)
+            ufm.draw_rad_heat_flux_vertical_view(self.fireLayerDiameter, self.fireLayerHeight, 10, 1)
             self.th.PauseVideo()
     def flame_hazardous_radius_xa(self):
         if(self.fireLayerDiameter != [] and self.fireLayerHeight != []):
             print("flame_hazardous_radius_xa")
-            ufm.flame_hazardous_radius_xa(self.fireLayerDiameter, self.fireLayerHeight)
+            layer_thickness = 10
+            ufm.flame_hazardous_radius_xa(self.fireLayerDiameter, self.fireLayerHeight, layer_thickness/self.rateInY)
             self.th.PauseVideo()
     #####算法函数
 
