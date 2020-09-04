@@ -10,8 +10,8 @@ import cv2
 import numpy as np
 from PyQt5 import QtGui, QtCore
 from mainUI import  Ui_QtWidgetsApplication1Class
-import tilt_flame_model as tfm
-import upright_flame_model as ufm
+import tilt_flame_model_v2 as tfm
+import upright_flame_model_v3 as ufm
 
 def alert(Qwidget, message):
     reply = QMessageBox.information(Qwidget, '提示', message, QMessageBox.Ok | QMessageBox.Close,
@@ -38,8 +38,8 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
         self.pushButton_2.clicked.connect(self.draw_rad_heat_flux_curve_FV2)
         self.pushButton_4.clicked.connect(self.plot_abc)
         self.pushButton_10.clicked.connect(self.tilt_flame_hazardous_radius_xa)
-        self.pushButton_11.clicked.connect(self.tilt_flame_rad_heat_pb)
-        self.pushButton_12.clicked.connect(self.tilt_flame_rad_heat_pc)
+        self.pushButton_11.clicked.connect(self.tilt_flame_hazardous_radius_xb)
+        self.pushButton_12.clicked.connect(self.tilt_flame_hazardous_radius_xc)
 
         self.pushButton_5.clicked.connect(self.draw_rad_heat_flux_curve_Fh)
         self.pushButton_14.clicked.connect(self.flame_hazardous_radius_xa)
@@ -297,13 +297,15 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
 
     def tilt_flame_hazardous_radius_xa(self):
         if (self.fireHeight != 0 and self.fireWidget != 0 and self.fireAngel != 0):
+            print(self.fireHeight,self.fireWidget)
             tfm.tilt_flame_hazardous_radius_xa(self.fireHeight, self.fireWidget, self.fireAngel)
             self.th.PauseVideo()
         else:
             return
 
 
-    def tilt_flame_rad_heat_pb(self):
+    def tilt_flame_hazardous_radius_xb(self):
+        print(self.fireHeight, self.fireWidget)
         if (self.fireHeight != 0 and self.fireWidget != 0 and self.fireAngel != 0):
             tfm.tilt_flame_hazardous_radius_xb(self.fireHeight, self.fireWidget, self.fireAngel)
             self.th.PauseVideo()
@@ -311,40 +313,48 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
             return
 
 
-    def tilt_flame_rad_heat_pc(self):
+    def tilt_flame_hazardous_radius_xc(self):
+        print(self.fireHeight, self.fireWidget)
         if (self.fireHeight != 0 and self.fireWidget != 0 and self.fireAngel != 0):
             tfm.tilt_flame_hazardous_radius_xc(self.fireHeight, self.fireWidget, self.fireAngel)
             self.th.PauseVideo()
         else:
             return
 
-
+    ########################## ufm
 
 
     def draw_rad_heat_flux_curve_Fh(self):
         if(self.fireLayerDiameter!= [] and self.fireLayerHeight!= []):
             print("draw_rad_heat_flux_curve_Fh")
-            # print(self.fireLayerDiameter)
-            # print(self.fireLayerHeight)
-            ufm.draw_rad_heat_flux_curve_Fh(self.fireLayerDiameter, self.fireLayerHeight, 400, 10)
+
+            print(self.fireLayerDiameter)
+            print(self.fireLayerHeight)
+            layer_thickness = 10
+            ufm.draw_rad_heat_flux_curve_Fh(self.fireLayerDiameter, self.fireLayerHeight, 400, layer_thickness/self.rateInY)
             self.th.PauseVideo()
 
     def draw_rad_heat_flux_curve_Fv(self):
         if(len(self.fireLayerDiameter)!=0 and len(self.fireLayerHeight) != 0):
             print("draw_rad_heat_flux_curve_Fv")
-            ufm.draw_rad_heat_flux_curve_Fv(self.fireLayerDiameter, self.fireLayerHeight, 10)
+            layer_thickness = 10
+            ufm.draw_rad_heat_flux_curve_Fv(self.fireLayerDiameter, self.fireLayerHeight, layer_thickness/self.rateInY, 1)
             self.th.PauseVideo()
 
     def draw_rad_heat_flux_vertical_view(self):
         if(self.fireLayerDiameter != [] and self.fireLayerHeight != []):
             print("draw_rad_heat_flux_vertical_view")
-            ufm.draw_rad_heat_flux_vertical_view(self.fireLayerDiameter, self.fireLayerHeight, 10)
+            ufm.draw_rad_heat_flux_vertical_view(self.fireLayerDiameter, self.fireLayerHeight, 10, 1)
             self.th.PauseVideo()
     def flame_hazardous_radius_xa(self):
         if(self.fireLayerDiameter != [] and self.fireLayerHeight != []):
-            print("flame_hazardous_radius_xa")
-            ufm.flame_hazardous_radius_xa(self.fireLayerDiameter, self.fireLayerHeight)
-            self.th.PauseVideo()
+            try:
+                print("flame_hazardous_radius_xa")
+                layer_thickness = 10
+                ufm.flame_hazardous_radius_xa(self.fireLayerDiameter, self.fireLayerHeight, layer_thickness/self.rateInY)
+                self.th.PauseVideo()
+            except Exception as e:
+                traceback.print_exc()
     #####算法函数
 
 
@@ -484,7 +494,7 @@ class Thread(QThread):
                         img = cv2.rectangle(img, (x, y), (x + w, y + h), (255, 255, 255), 1)  #框选出火焰区域
                         roiArea = img[y:y+h, x:x+w]
                         angel = self.getFireAngel(roiArea) #获取火焰角度
-                        self.changeFireinfo.emit(w,h,angel)
+                        self.changeFireinfo.emit(w,h,angel+10)
                         if(flameNum % 10 == 0):
                             fireLayerDiameter, fireLayerHeight = self.getFireLayerDiameter(roiArea,flameNum)  # 获取火焰每一层的宽度和高度
                             self.changeFireLayerInfo.emit(fireLayerDiameter, fireLayerHeight)

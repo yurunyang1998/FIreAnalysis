@@ -1,12 +1,12 @@
 #倾斜圆柱火焰模型
+import traceback
+
 from sympy import Symbol, sqrt, cos, sin, atan, log, nsolve, solveset,solve
 from matplotlib.patches import Circle
 import matplotlib.pyplot as plt
 import numpy as np
 import math
-import traceback
-
-# from scipy.interpolate import make_interp_spline
+from scipy.interpolate import make_interp_spline
 
 pi=np.pi
 #R=15
@@ -97,12 +97,15 @@ def FH1_func(H, X, theta, R):
     theta=theta/180*pi
     x1=a*a+(b+1)*(b+1)-2*a*(b+1)*sin(theta)
     x2=a*a+(b-1)*(b-1)-2*a*(b-1)*sin(theta)
-    fh_val=atan(pow(((b+1)/(b-1)),0.5))/pi+sin(theta)/(pi*pow(1+(b*b-1)*cos(theta)*cos(theta),0.5))*((atan((a*b-(b*b-1)*sin(theta))/(pow((b*b-1),0.5)*pow((1+(b*b-1)*cos(theta)*cos(theta)),0.5))))+(atan(((b*b-1)*sin(theta))/(pow((b*b-1),0.5)*pow((1+(b*b-1)*cos(theta)*cos(theta)),0.5)))))-(a*a+(b+1)*(b+1)-2*(b+1+a*b*sin(theta)))/(pi*(pow(x1,0.5)*pow(x2,0.5)))*atan(pow(((a*a+(b+1)*(b+1)-2*a*(b+1)*sin(theta))/(a*a+(b-1)*(b-1)-2*a*(b-1)*sin(theta))),0.5)*pow(((b-1)/(b+1)),0.5))
+    fh_val=atan(pow(((b+1)/(b-1)),0.5))/pi+sin(theta)/(pi*pow(1+(b*b-1)*cos(theta)*cos(theta),0.5))\
+           *((atan((a*b-(b*b-1)*sin(theta))/(pow((b*b-1),0.5)*pow((1+(b*b-1)*cos(theta)*cos(theta)),0.5))))+(atan(((b*b-1)*sin(theta))/(pow((b*b-1),0.5)*pow((1+(b*b-1)*cos(theta)*cos(theta)),0.5)))))\
+           -(a*a+(b+1)*(b+1)-2*(b+1+a*b*sin(theta)))/(pi*(pow(x1,0.5)*pow(x2,0.5)))\
+           *atan(pow(((a*a+(b+1)*(b+1)-2*a*(b+1)*sin(theta))/(a*a+(b-1)*(b-1)-2*a*(b-1)*sin(theta))),0.5)*pow(((b-1)/(b+1)),0.5))
     return fh_val
 
 #Radiative heat flux curve
 def draw_rad_heat_flux_curve_FH1(H, R, theta):
-    x = np.arange(1, 10, 1) #Radius
+    x = np.arange(1, 50, 1) #Radius
     y = []
     for x_dis in x:
         y_1 = FH1_func(H, x_dis, theta, R)*E
@@ -132,7 +135,7 @@ def tilt_flame_rad_heat_pa(H, R, theta, rad_heat):
         *atan(pow(((a*a+(b+1)*(b+1)-2*a*(b+1)*sin(theta))/(a*a+(b-1)*(b-1)-2*a*(b-1)*sin(theta))),0.5)*pow(((b-1)/(b+1)),0.5))
     #This is for test:f_qv_r0=FV1-0.118
     func_qh_xa=FH1*E-rad_heat
-    result=nsolve(func_qh_xa, X_a, 2) # 20 is the initial guess, this is required for nsolve function
+    result=nsolve(func_qh_xa, X_a, R+0.3) # 20 is the initial guess, this is required for nsolve function
     X_a=result
     #this is the Hazardous Radius (5 values)
     print(X_a)
@@ -140,59 +143,73 @@ def tilt_flame_rad_heat_pa(H, R, theta, rad_heat):
 
 def tilt_flame_hazardous_radius_xa(H, R, theta):
     try:
-        rad_heat=[1.6,4.0,12.5,25.0,37.5]
+        rad_heat=[1.6,4.0,12.5,25.0,30.0]
         R_5=[0,0,0,0,0]
 
         for i in range(5):
-            R_5[i]=tilt_flame_rad_heat_pa(H, R, theta, rad_heat[i])
+            try:
+                R_5[i]=tilt_flame_rad_heat_pa(H, R, theta, rad_heat[i])
+            except:
+                continue
         #this is the Hazardous Radius (5 values)
         #plot the hazardous radius
         fig = plt.figure()
         ax = fig.add_subplot(111)
         colors = ["orange","cyan","pink","lime","yellow"]
         for i in range(5):
-            cir = Circle(xy = (0.0, 0.0), radius=R_5[i], facecolor= colors[i]) #alpha=0.5,
-            ax.add_patch(cir)
-            x, y = 0, 0
-            ax.plot(x, y, 'ro')
-            #ax.arrow(0,0,int(R_5[i]),i*10,length_includes_head = True, head_width = 2, head_length = 2,fc = 'k',ec = 'k')
-            plt.text(int(R_5[i]), i*10, str(int(R_5[i])), ha='right', wrap=True, rotation='vertical')
-            plt.title('Hazardous Radius (5 levels)')
-            plt.axis('scaled')
-            plt.axis('equal')   #changes limits of x or y axis so that equal increments of x and y have the same length
+            try:
+                cir = Circle(xy = (0.0, 0.0), radius=R_5[i], facecolor= colors[i]) #alpha=0.5,
+                ax.add_patch(cir)
+                x, y = 0, 0
+                ax.plot(x, y, 'ro')
+                #step=max(R_5)/15.0
+                plt.text(0.0, 0.1*i, 'R'+str(5-i)+'='+str(round(R_5[i],3)), ha='right', wrap=True, rotation='horizontal')
+                plt.title('Hazardous Radius (5 levels)')
+                plt.axis('scaled')
+                plt.axis('equal')   #changes limits of x or y axis so that equal increments of x and y have the same length
+            except:
+                continue
         plt.show()
     except Exception as e:
         traceback.print_exc()
 
 def tilt_flame_hazardous_radius_xb(H, R, theta):
     try:
-        rad_heat=[1.6,4.0,12.5,25.0,37.5]
+        rad_heat=[1.6,4.0,12.5,25.0,30]
         R_5=[0,0,0,0,0]
 
         for i in range(5):
-            R_5[i]=tilt_flame_rad_heat_pb(H, R, theta, rad_heat[i])
+            try:
+                R_5[i]=tilt_flame_rad_heat_pb(H, R, theta, rad_heat[i])
+            except :
+                continue
         #this is the Hazardous Radius (5 values)
         #plot the hazardous radius
         fig = plt.figure()
         ax = fig.add_subplot(111)
         colors = ["orange","cyan","pink","lime","yellow"]
         for i in range(5):
-            cir = Circle(xy = (0.0, 0.0), radius=R_5[i], facecolor= colors[i]) #alpha=0.5,
-            ax.add_patch(cir)
-            x, y = 0, 0
-            ax.plot(x, y, 'ro')
-            #ax.arrow(0,0,int(R_5[i]),i*10,length_includes_head = True, head_width = 2, head_length = 2,fc = 'k',ec = 'k')
-            plt.text(int(R_5[i]), i*10, str(int(R_5[i])), ha='right', wrap=True, rotation='vertical')
-            plt.title('Hazardous Radius (5 levels)')
-            plt.axis('scaled')
-            plt.axis('equal')   #changes limits of x or y axis so that equal increments of x and y have the same length
+            try:
+                cir = Circle(xy = (0.0, 0.0), radius=R_5[i], facecolor= colors[i]) #alpha=0.5,
+                ax.add_patch(cir)
+                x, y = 0, 0
+                ax.plot(x, y, 'ro')
+                #ax.arrow(0,0,int(R_5[i]),i*10,length_includes_head = True, head_width = 2, head_length = 2,fc = 'k',ec = 'k')
+                #plt.text(int(R_5[i]), i*10, str(round(R_5[i],3)), ha='right', wrap=True, rotation='vertical')
+                plt.text(0.0,0.1*i, 'R'+str(5-i)+'='+str(round(R_5[i],3)), ha='right', wrap=True, rotation='horizontal')
+                plt.title('Hazardous Radius (5 levels)')
+                plt.axis('scaled')
+                plt.axis('equal')   #changes limits of x or y axis so that equal increments of x and y have the same length
+            except :
+                continue
         plt.show()
     except Exception as e:
         traceback.print_exc()
 
+
 def tilt_flame_hazardous_radius_xc(H, R, theta):
     try:
-        rad_heat=[1.6,4.0,12.5,25.0,37.5]
+        rad_heat=[1.6,4.0,12.5,25.0,30.0]
         R_5=[0,0,0,0,0]
 
         for i in range(5):
@@ -208,7 +225,9 @@ def tilt_flame_hazardous_radius_xc(H, R, theta):
             x, y = 0, 0
             ax.plot(x, y, 'ro')
             #ax.arrow(0,0,int(R_5[i]),i*10,length_includes_head = True, head_width = 2, head_length = 2,fc = 'k',ec = 'k')
-            plt.text(int(R_5[i]), i*10, str(int(R_5[i])), ha='right', wrap=True, rotation='vertical')
+            #plt.text(R_5[i], 0, str(round(R_5[i],3)), ha='right', wrap=True, rotation='vertical')
+            #step=max(R_5)/5
+            plt.text(0.0, 1*i, 'R'+str(5-i)+'='+str(round(R_5[i],3)), ha='right', wrap=True, rotation='horizontal')
             plt.title('Hazardous Radius (5 levels)')
             plt.axis('scaled')
             plt.axis('equal')   #changes limits of x or y axis so that equal increments of x and y have the same length
@@ -218,7 +237,7 @@ def tilt_flame_hazardous_radius_xc(H, R, theta):
 
 # 给定辐射热流rad_heat时，b点位置的计算函数（x轴负半轴位置）
 def tilt_flame_rad_heat_pb(H, R, theta, rad_heat):
-    return tilt_flame_rad_heat_pa(H, R, 180-theta, rad_heat)
+    return (tilt_flame_rad_heat_pa(H, R, 180-theta, rad_heat))
 
 #6.2当观察者位于垂直于火焰倾斜方向的位置时，其视角系数
 #6.2.2垂直视角系数：
@@ -263,7 +282,7 @@ def tilt_flame_rad_heat_pc(H, R, theta, rad_heat):
     #This is for test:f_qv_r0=FV1-0.118
     #for i in range(5):
     func_qh_yc=FV2*E-rad_heat
-    result=nsolve(func_qh_yc, Y_c, 2) # 20 is the initial guess, this is required for nsolve function
+    result=nsolve(func_qh_yc, Y_c, R+0.3) # 20 is the initial guess, this is required for nsolve function
     Y_c=result
     #this is the Hazardous Radius (5 values)
     print(Y_c)
@@ -271,39 +290,34 @@ def tilt_flame_rad_heat_pc(H, R, theta, rad_heat):
 
 #plot abc circle
 def plot_abc(H, R, theta, rad):
-    try:
-        X_a=tilt_flame_rad_heat_pa(H, R, theta, rad)
-        X_b=tilt_flame_rad_heat_pb(H, R, theta, rad)
-        Y_c=tilt_flame_rad_heat_pc(H, R, theta, rad)
-        fig = plt.figure()
-        ax = fig.add_subplot(111)
-        R_3=[X_a, X_b, Y_c]
-        colors = ["blue","yellow","green"]
-        for i in range(3):
-            cir = Circle(xy = (0.0, 0.0), radius=R_3[i], alpha=0.5, linewidth=2, fill=False, color= colors[i])
-            ax.add_patch(cir)
-            x, y = 0, 0
-            ax.plot(x, y, 'ro')
+    X_a=tilt_flame_rad_heat_pa(H, R, theta, rad)
+    X_b=tilt_flame_rad_heat_pb(H, R, theta, rad)
+    Y_c=tilt_flame_rad_heat_pc(H, R, theta, rad)
+    fig = plt.figure()
+    ax = fig.add_subplot(111)
+    R_3=[X_a, X_b, Y_c]
+    colors = ["blue","yellow","green"]
+    for i in range(3):
+        cir = Circle(xy = (0.0, 0.0), radius=R_3[i], alpha=0.5, linewidth=2, fill=False, color= colors[i])
+        ax.add_patch(cir)
+        x, y = 0, 0
+        ax.plot(x, y, 'ro')
+    
+        plt.title('Radiation heat flux (3 points)')
+        plt.axis('scaled')
+        plt.axis('equal')   #changes limits of x or y axis so that equal increments of x and y have the same length
 
-            plt.title('Radiation heat flux (3 points)')
-            plt.axis('scaled')
-            plt.axis('equal')   #changes limits of x or y axis so that equal increments of x and y have the same length
+    ax.plot(X_a, 0, 'ro')
+    ax.plot((-1)*X_b, 0, 'ro')
+    ax.plot(0, (-1)*Y_c, 'ro')
 
-        ax.plot(X_a, 0, 'ro')
-        ax.plot((-1)*X_b, 0, 'ro')
-        ax.plot(0, (-1)*Y_c, 'ro')
+    plt.text(0, 0, 'flame', ha='right', wrap=True)
+    plt.text(int(X_a), 0, 'a', ha='right', wrap=True)
+    plt.text(int(X_b)*(-1), 0, 'b', ha='left', wrap=True)
+    plt.text(0, int(Y_c)*(-1), 'c', ha='left', wrap=True)
+    plt.show()
 
-        plt.text(0, 0, 'flame', ha='right', wrap=True)
-        plt.text(int(X_a), 0, 'a', ha='right', wrap=True)
-        plt.text(int(X_b)*(-1), 0, 'b', ha='left', wrap=True)
-        plt.text(0, int(Y_c)*(-1), 'c', ha='left', wrap=True)
-        plt.show()
-    except Exception as e:
-        # import  traceback
-        # traceback.print_exc()
-        print(e)
-
-        #6.2.1水平视角系数：
+#6.2.1水平视角系数：
 #FH2=atan(pow(((b-1)/(b+1)),0.5))/pi+pow((b*b-1),0.5)*sin(theta)/(2*pi*pow(b*b-sin(theta)*sin(theta),0.5))\
 #*(atan((a*b/pow(b*b-1,0.5)+sin(theta))/(pow(b*b-sin(theta)*sin(theta),0.5)))-atan((a*b/pow(b*b-1,0.5)-sin(theta))/(pow(b*b-sin(theta)*sin(theta),0.5)))-2*atan(sin(theta)/pow((b*b-sin(theta)*sin(theta)),0.5)))\
 #-(a*a+b*b-1)/(2*pi*pow(((pow((a*a+b*b+1),2))-(4*(b*b+a*a*sin(theta)*sin(theta)))),0.5))\
@@ -312,16 +326,21 @@ def plot_abc(H, R, theta, rad):
 
 #传入参数为高度H,火焰半径R,倾角theta
 #假设人在沿火焰倾斜方向的热流密度与X的关系
-# draw_rad_heat_flux_curve_FH1(0.50, 0.154, 45)
-# #假设人在垂直火焰倾斜方向的热流密度与X的关系
-# draw_rad_heat_flux_curve_FV2(0.50, 0.15, 45)
-# #当热流密度为4kW/m2时，找出对应4 kW/m2时a点、b点、c点的位置，以这些位置为半径，分别化同心圆
-# plot_abc(0.16, 0.47, 57, 4)
-# 0.17 0.47 57 4
+#名称：沿火焰倾斜方向的热流密度沿X轴分布
+#draw_rad_heat_flux_curve_FH1(50, 15, 45)
 
-# #假设人在a点的伤害半径
-# tilt_flame_hazardous_radius_xa(0.50, 0.15, 45)
-# #假设人在b点的伤害半径
-# tilt_flame_rad_heat_pb(0.50, 0.15, 45)
-# #假设人在c点的伤害半径
-# tilt_flame_rad_heat_pc(0.50, 0.15, 45)
+#假设人在垂直火焰倾斜方向的热流密度与X的关系
+#名称：垂直火焰倾斜方向的热流密度沿Y轴分布
+#draw_rad_heat_flux_curve_FV2(50, 15, 45)
+
+#当热流密度为4kW/m2时，找出对应4 kW/m2时a点、b点、c点的位置，以这些位置为半径，分别化同心圆
+#名称：以火焰中心为中心的伤害范围示意图
+#plot_abc(50, 15, 45, 4)
+
+#假设人在a点的伤害半径
+#名称：假设人在a点不同辐射热流值的伤害范围
+# tilt_flame_hazardous_radius_xa(0.17, 0.85, 70)
+# #名称：假设人在b点不同辐射热流值的伤害范围
+# tilt_flame_hazardous_radius_xb(0.17, 0.85, 70)
+# #名称：假设人在c点不同辐射热流值的伤害范围
+# tilt_flame_hazardous_radius_xc(0.17, 0.85, 70)
