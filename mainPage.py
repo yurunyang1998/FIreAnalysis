@@ -20,6 +20,15 @@ def alert(Qwidget, message):
 
 videoName = ""
 
+closed = False
+def close_handle(evt):
+    global  closed
+    time.sleep(2)
+    closed = True
+    print("close")
+import matplotlib.pyplot as plt
+
+
 class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
     def __init__(self):
         super(MainPage,self).__init__()
@@ -131,7 +140,7 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
             self.label_12.setText(str(s.y()))
 
             self.X2inPixel = int(s.x())
-            self.Y1inPixel = int(s.y())
+            self.Y2inPixel = int(s.y())
 
             self.moveMouse = False
             self.endPoint = (int(s.x()),int(s.y()))
@@ -264,98 +273,202 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
 
 
     ######### 算法函数
-
     def draw_rad_heat_flux_curve_FH1(self):
-        if (self.fireHeight != 0 and self.fireWidget != 0 and self.fireAngel != 0):
-            tfm.draw_rad_heat_flux_curve_FH1(self.fireHeight, self.fireWidget, self.fireAngel)
-            self.th.PauseVideo()
-        else:
-            return
-        # tfm.draw_rad_heat_flux_curve_FH1(0, 0, 0)
-    def draw_rad_heat_flux_curve_FV2(self):
-        if (self.fireHeight != 0 and self.fireWidget != 0 and self.fireAngel != 0):
-            tfm.draw_rad_heat_flux_curve_FV2(self.fireHeight, self.fireWidget, self.fireAngel)
-            self.th.PauseVideo()
-        else:
-            return
-
-
-    def plot_abc(self):
         try:
-            if(self.fireHeatFluxparam==0):
-                alert(self,"请先添加火焰热流值参数")
-                return
-            else:#(self.fireHeight != 0 and self.fireWidget != 0 and self.fireAngel != 0):
-                print("plot_abc")
-                print(self.fireHeight,self.fireWidget, self.fireAngel, self.fireHeatFluxparam)
-                tfm.plot_abc(self.fireHeight, self.fireWidget, self.fireAngel, self.fireHeatFluxparam)
-                self.th.PauseVideo()
-            # else:
-            #     return
+            global closed
+            fig = plt.figure()
+            fig.canvas.mpl_connect('close_event', close_handle)
+
+            while(1):
+                if(closed):
+                    plt.close()
+                    closed = False
+                    break
+                if(self.fireHeight != 0 and self.fireWidget != 0 and self.fireAngel != 0 ):
+                    tfm.draw_rad_heat_flux_curve_FH1(self.fireHeight, self.fireWidget, self.fireAngel)
+                    # self.th.PauseVideo()
+                else:
+                    break
         except Exception as e:
             print(e)
 
+    def draw_rad_heat_flux_curve_FV2(self):
+        global  closed
+        fig = plt.figure()
+        fig.canvas.mpl_connect('close_event', close_handle)
+
+        while(1):
+            if (closed):
+                plt.close()
+                closed = False
+                break
+            if (self.fireHeight != 0 and self.fireWidget != 0 and self.fireAngel != 0):
+                tfm.draw_rad_heat_flux_curve_FV2(self.fireHeight, self.fireWidget, self.fireAngel)
+                # self.th.PauseVideo()
+            else:
+                break
+
+
+
+    def plot_abc(self):
+
+        global closed
+        fig = plt.figure()
+        fig.canvas.mpl_connect('close_event', close_handle)
+
+        while (1):
+
+                if (closed):
+                    plt.close()
+                    closed = False
+                    return
+                if (self.fireHeatFluxparam == 0):
+                    alert(self, "请先添加火焰热流值参数")
+                    return
+                if(self.fireHeight != 0 and self.fireWidget != 0 and self.fireAngel != 0):
+                    # time.sleep(0.5)
+                    # print("plot_abc")
+                    # print(self.fireHeight, self.fireWidget, self.fireAngel, self.fireHeatFluxparam)
+                    tfm.plot_abc(self.fireHeight, self.fireWidget, self.fireAngel, self.fireHeatFluxparam, fig)
+
+                    # self.th.PauseVideo()
+                    # else:
+                    #     return
+
+
     def tilt_flame_hazardous_radius_xa(self):
-        if (self.fireHeight != 0 and self.fireWidget != 0 and self.fireAngel != 0):
-            print(self.fireHeight,self.fireWidget)
-            tfm.tilt_flame_hazardous_radius_xa(self.fireHeight, self.fireWidget, self.fireAngel)
-            self.th.PauseVideo()
-        else:
-            return
+        global closed
+        fig = plt.figure()
+        fig.canvas.mpl_connect('close_event', close_handle)
+        while (1):
+            if (closed):
+                plt.close()
+                closed = False
+                break
+            if (self.fireHeight != 0 and self.fireWidget != 0 and self.fireAngel != 0):
+                # print(self.fireHeight,self.fireWidget)
+                tfm.tilt_flame_hazardous_radius_xa(self.fireHeight, self.fireWidget, self.fireAngel, fig)
+
+            else:
+                return
 
 
     def tilt_flame_hazardous_radius_xb(self):
-        print(self.fireHeight, self.fireWidget)
-        if (self.fireHeight != 0 and self.fireWidget != 0 and self.fireAngel != 0):
-            tfm.tilt_flame_hazardous_radius_xb(self.fireHeight, self.fireWidget, self.fireAngel)
-            self.th.PauseVideo()
-        else:
-            return
+        global closed
+        fig = plt.figure()
+        fig.canvas.mpl_connect('close_event', close_handle)
+        while (1):
+            if (closed):
+                plt.close()
+                closed = False
+                return
+            # print(self.fireHeight, self.fireWidget)
+            if (self.fireHeight != 0 and self.fireWidget != 0 and self.fireAngel != 0):
+                fig.canvas.set_window_title("热流辐射")
+                tfm.tilt_flame_hazardous_radius_xb(self.fireHeight, self.fireWidget, self.fireAngel, fig)
+                # self.th.PauseVideo()
+            else:
+                return
 
 
     def tilt_flame_hazardous_radius_xc(self):
-        print(self.fireHeight, self.fireWidget)
-        if (self.fireHeight != 0 and self.fireWidget != 0 and self.fireAngel != 0):
-            tfm.tilt_flame_hazardous_radius_xc(self.fireHeight, self.fireWidget, self.fireAngel)
-            self.th.PauseVideo()
-        else:
-            return
+        global closed
+        fig = plt.figure()
+        fig.canvas.mpl_connect('close_event', close_handle)
+
+        while (1):
+            if (closed):
+                plt.close()
+                closed = False
+                break
+            # print(self.fireHeight, self.fireWidget)
+            if (self.fireHeight != 0 and self.fireWidget != 0 and self.fireAngel != 0):
+                tfm.tilt_flame_hazardous_radius_xc(self.fireHeight, self.fireWidget, self.fireAngel, fig)
+                # self.th.PauseVideo()
+            else:
+                break
 
     ########################## ufm
 
 
     def draw_rad_heat_flux_curve_Fh(self):
-        if(self.fireLayerDiameter!= [] and self.fireLayerHeight!= []):
-            print("draw_rad_heat_flux_curve_Fh")
+        global closed
+        fig = plt.figure()
+        fig.canvas.mpl_connect('close_event', close_handle)
 
-            print(self.fireLayerDiameter)
-            print(self.fireLayerHeight)
-            layer_thickness = 10
-            ufm.draw_rad_heat_flux_curve_Fh(self.fireLayerDiameter, self.fireLayerHeight, 400, layer_thickness/self.rateInY)
-            self.th.PauseVideo()
+        while (1):
+            if (closed):
+                plt.close()
+                closed = False
+                break
+            if(self.fireLayerDiameter!= [] and self.fireLayerHeight!= []):
+                print("draw_rad_heat_flux_curve_Fh")
+                print(self.fireLayerDiameter)
+                print(self.fireLayerHeight)
+                layer_thickness = 10
+                ufm.draw_rad_heat_flux_curve_Fh(self.fireLayerDiameter, self.fireLayerHeight, 400, layer_thickness/self.rateInY)
+                # self.th.PauseVideo()
+            else:
+                break
 
     def draw_rad_heat_flux_curve_Fv(self):
-        if(len(self.fireLayerDiameter)!=0 and len(self.fireLayerHeight) != 0):
+        # global closed
+        # fig = plt.figure()
+        # fig.canvas.mpl_connect('close_event', close_handle)
+        # while (1):
+        # if (closed):
+        #     plt.close()
+        #     closed = False
+        #     # break
+        if (len(self.fireLayerDiameter) != 0 and len(self.fireLayerHeight) != 0):
             print("draw_rad_heat_flux_curve_Fv")
             layer_thickness = 10
-            ufm.draw_rad_heat_flux_curve_Fv(self.fireLayerDiameter, self.fireLayerHeight, layer_thickness/self.rateInY, 1)
+            ufm.draw_rad_heat_flux_curve_Fv(self.fireLayerDiameter, self.fireLayerHeight,
+                                            layer_thickness / self.rateInY, 1)
             self.th.PauseVideo()
+        else:
+            return
+
 
     def draw_rad_heat_flux_vertical_view(self):
-        if(self.fireLayerDiameter != [] and self.fireLayerHeight != []):
-            print("draw_rad_heat_flux_vertical_view")
-            ufm.draw_rad_heat_flux_vertical_view(self.fireLayerDiameter, self.fireLayerHeight, 10, 1)
-            self.th.PauseVideo()
+        global closed
+        fig = plt.figure()
+        fig.canvas.mpl_connect('close_event', close_handle)
+
+        while(1):
+            if (closed):
+                plt.close()
+                closed = False
+                break
+            if(self.fireLayerDiameter != [] and self.fireLayerHeight != []):
+                print("draw_rad_heat_flux_vertical_view")
+                ufm.draw_rad_heat_flux_vertical_view(self.fireLayerDiameter, self.fireLayerHeight, 10, 1, fig)
+                # self.th.PauseVideo()
+                # break
+            else:
+                break
+
+
     def flame_hazardous_radius_xa(self):
-        if(self.fireLayerDiameter != [] and self.fireLayerHeight != []):
-            try:
-                print("flame_hazardous_radius_xa")
-                layer_thickness = 10
-                ufm.flame_hazardous_radius_xa(self.fireLayerDiameter, self.fireLayerHeight, layer_thickness/self.rateInY)
-                self.th.PauseVideo()
-            except Exception as e:
-                traceback.print_exc()
-    #####算法函数
+        global closed
+        fig = plt.figure()
+        fig.canvas.mpl_connect('close_event', close_handle)
+
+        while(1):
+            if (closed):
+                plt.close()
+                closed = False
+                break
+            if(self.fireLayerDiameter != [] and self.fireLayerHeight != []):
+                    print("flame_hazardous_radius_xa")
+                    layer_thickness = 10
+                    ufm.flame_hazardous_radius_xa(self.fireLayerDiameter, self.fireLayerHeight, layer_thickness/self.rateInY, fig)
+                    # self.th.PauseVideo()
+            else:
+                break
+
+
+#####算法函数
 
 
 class Thread(QThread):
@@ -416,6 +529,10 @@ class Thread(QThread):
                 self.paused = True
         except Exception as e:
             print(e)
+
+
+
+
 
 
     def processImage(self, img, flameNum):

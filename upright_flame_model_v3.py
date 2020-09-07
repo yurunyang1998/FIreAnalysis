@@ -87,49 +87,63 @@ def draw_rad_heat_flux_curve_Fv(d_flame, height_original, layer_thickness, x_dis
     #d_flame:火焰直径，array
     #x_distance是水平方向上观测点与火焰的距离
     try:
+        plt.ion()
         z_height=np.max(height_original)
         h = np.arange(z_height/100, z_height, z_height/100) #Radius
         y = []
         for h_dis in h:
-            y_1 = heat_flux_v(d_flame, height_original, h_dis, layer_thickness, x_distance)
-            #print(y_1)
-            y.append(y_1)
+            try:
+                y_1 = heat_flux_v(d_flame, height_original, h_dis, layer_thickness, x_distance)
+                y.append(y_1)
+            except Exception as e:
+                print(e)
+        plt.clf()
         plt.plot(h, y, label="Radiative heat flux")
         plt.xlabel("Height of observation (m)")
         plt.ylabel("Radiative heat flux (kW/m^2)")
         plt.text(0.01, 0.01, 'r='+str(int(x_distance))+" m", wrap=True)
         plt.legend()
+        plt.pause(3)
         plt.show()
     except Exception as e:
         traceback.print_exc()
+        plt.pause(2)
 #相同半径的圆上热流密度分布\
 
-def draw_rad_heat_flux_vertical_view(d_original, height_original, layer_thickness,x_distance):
+def draw_rad_heat_flux_vertical_view(d_original, height_original, layer_thickness,x_distance, fig):
     try:
+        plt.ion()
         z_height=np.max(height_original)
         x = np.arange(z_height/5, z_height, z_height/5) #Radius
         y = []
-        fig = plt.figure()
+        # fig = plt.figure()
+        plt.clf()
         ax = fig.add_subplot(111)
         #bx = fig.add_subplot(122)
+
         for x_dis in x:
-            y_1 = heat_flux_v(d_original, height_original, x_dis, layer_thickness, x_distance)
-            #print(y_1)
-            y.append(y_1)
-            cir = Circle(xy = (0.0, 0.0), radius=x_dis, alpha=0.5, facecolor= (0.1,0.7,0.5,x_dis*0.01))
-            ax.add_patch(cir)
-            plt.axis('scaled')
-            plt.axis('equal')
+            try:
+                y_1 = heat_flux_v(d_original, height_original, x_dis, layer_thickness, x_distance)
+                print(y_1)
+                y.append(y_1)
+                cir = Circle(xy = (0.0, 0.0), radius=x_dis, alpha=0.5, facecolor= (0.1,0.7,0.5,x_dis*0.01))
+                ax.add_patch(cir)
+                plt.axis('scaled')
+                plt.axis('equal')
+            except Exception as e:
+                print(e)
         ax.plot(0, 0, 'ro') #flame
         plt.text(layer_thickness, 0, str(round(y[0],3))+" kW/m^2", wrap=True)
         plt.text(x_dis, 0, str(round(y[-1], 3))+" kW/m^2", wrap=True)
         plt.title('Heat Flux distribution (Vertical View)')
         plt.xlabel("Distance to flame (m)")
         plt.ylabel("Distance to flame (m)")
+        plt.pause(3)
         plt.show()
-        #print(y)
+
     except Exception as e:
         traceback.print_exc()
+        plt.pause(3)
 
 #水平表面jH接收的来自整个火焰的辐射热流
 #每个r处的heat_flux_h
@@ -173,19 +187,23 @@ def heat_flux_h(d_flame, height_original, layer_thickness, R_distance):
 
 def draw_rad_heat_flux_curve_Fh(d_flame, height_original, R_distance_max, layer_thickness):
     try:
+        plt.ion()
         #d_flame:火焰直径，array
         x = np.arange(max(d_flame), R_distance_max, (R_distance_max-(max(d_flame)))/10) #Radius
         y = []
         for x_dis in x:
             y_1 = heat_flux_h(d_flame, height_original, layer_thickness, x_dis)
             y.append(y_1)
+        plt.clf()
         plt.plot(x, y, label="Radiative heat flux")
         plt.xlabel("Distance to flame (m)")
         plt.ylabel("Radiative heat flux (kW/m^2)")
         plt.legend()
+        plt.pause(3)
         plt.show()
     except Exception as e:
         traceback.print_exc()
+        plt.pause(3)
 
 def flame_rad_heat_pa(d_flame, height_original, rad_heat, layer_thickness):
     X_a = Symbol('X_a')
@@ -232,8 +250,10 @@ def flame_rad_heat_pa(d_flame, height_original, rad_heat, layer_thickness):
     print(X_a)
     return(X_a)
 
-def flame_hazardous_radius_xa(d_flame, height_original,layer_thickness):
+def flame_hazardous_radius_xa(d_flame, height_original,layer_thickness, fig):
     try:
+        plt.clf()
+        plt.ion()
         rad_heat=[1.6,4.0,12.5,25.0,30]
         #rad_heat=[1.6,4.0,6,8,10]
         R_5=[0,0,0,0,0]
@@ -245,7 +265,7 @@ def flame_hazardous_radius_xa(d_flame, height_original,layer_thickness):
                 continue
         #this is the Hazardous Radius (5 values)
         #plot the hazardous radius
-        fig = plt.figure()
+        # fig = plt.figure()
         ax = fig.add_subplot(111)
         colors = ["orange","cyan","pink","lime","yellow"]
         for i in range(5):
@@ -261,9 +281,11 @@ def flame_hazardous_radius_xa(d_flame, height_original,layer_thickness):
                 plt.axis('equal')   #changes limits of x or y axis so that equal increments of x and y have the same length
             except :
                 continue
+        plt.pause(5)
         plt.show()
     except Exception as e:
         traceback.print_exc()
+        plt.pause(3)
 #because there are too many loops, it will take a while to run this func.
 
 
@@ -2018,7 +2040,7 @@ d_original=np.array([0	,
 30.7566	,
 30.74249	,
 30.73526	,
-30.70671	
+30.70671
 ])
 
 # layer_thickness=0.01

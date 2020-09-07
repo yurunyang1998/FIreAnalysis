@@ -23,6 +23,7 @@ T=400 #tempreture
 E=epsilon*sigma*(T**4)
 
 
+
 #6.1 当观察者位于火焰倾斜方向的位置时，其视角系数
 #6.1.1垂直视角系数
 #def FV1_func(H, X, theta, R):
@@ -102,6 +103,8 @@ def FH1_func(H, X, theta, R):
 
 #Radiative heat flux curve
 def draw_rad_heat_flux_curve_FH1(H, R, theta):
+
+    plt.ion()
     x = np.arange(1, 10, 1) #Radius
     y = []
     for x_dis in x:
@@ -111,6 +114,8 @@ def draw_rad_heat_flux_curve_FH1(H, R, theta):
     plt.xlabel("Distance to flame (m)")
     plt.ylabel("Radiative heat flux (kW/m^2)")
     plt.legend()
+    plt.pause(0.1)
+    plt.clf()
     plt.show()
 
 # 给定辐射热流rad_heat时，a点位置的计算函数
@@ -304,6 +309,8 @@ def plot_abc(H, R, theta, rad):
         print(e)
 
         #6.2.1水平视角系数：
+
+
 #FH2=atan(pow(((b-1)/(b+1)),0.5))/pi+pow((b*b-1),0.5)*sin(theta)/(2*pi*pow(b*b-sin(theta)*sin(theta),0.5))\
 #*(atan((a*b/pow(b*b-1,0.5)+sin(theta))/(pow(b*b-sin(theta)*sin(theta),0.5)))-atan((a*b/pow(b*b-1,0.5)-sin(theta))/(pow(b*b-sin(theta)*sin(theta),0.5)))-2*atan(sin(theta)/pow((b*b-sin(theta)*sin(theta)),0.5)))\
 #-(a*a+b*b-1)/(2*pi*pow(((pow((a*a+b*b+1),2))-(4*(b*b+a*a*sin(theta)*sin(theta)))),0.5))\
@@ -312,7 +319,23 @@ def plot_abc(H, R, theta, rad):
 
 #传入参数为高度H,火焰半径R,倾角theta
 #假设人在沿火焰倾斜方向的热流密度与X的关系
-# draw_rad_heat_flux_curve_FH1(0.50, 0.154, 45)
+# close = False
+# def close_handle(evt):
+#     global  close
+#     close ^= True
+#     print("close")
+# import matplotlib.pyplot as plt
+# fig = plt.figure()
+# fig.canvas.mpl_connect('close_event', close_handle)
+#
+# while(1):
+#     for i in range(1,10):
+#         if(close):
+#             plt.close()
+#             break
+#
+#         draw_rad_heat_flux_curve_FH1(0.50, i, 45)
+
 # #假设人在垂直火焰倾斜方向的热流密度与X的关系
 # draw_rad_heat_flux_curve_FV2(0.50, 0.15, 45)
 # #当热流密度为4kW/m2时，找出对应4 kW/m2时a点、b点、c点的位置，以这些位置为半径，分别化同心圆
