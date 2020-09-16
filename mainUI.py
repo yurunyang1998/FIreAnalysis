@@ -1,14 +1,12 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'mainUI.ui'
+# Form implementation generated from reading ui file './mainUI.ui'
 #
-# Created by: PyQt5 UI code generator 5.13.0
+# Created by: PyQt5 UI code generator 5.9
 #
 # WARNING! All changes made in this file will be lost!
 
-
 from PyQt5 import QtCore, QtGui, QtWidgets
-
 
 class Ui_QtWidgetsApplication1Class(object):
     def setupUi(self, QtWidgetsApplication1Class):
@@ -21,6 +19,13 @@ class Ui_QtWidgetsApplication1Class(object):
         self.gridLayout.setContentsMargins(11, 11, 11, 11)
         self.gridLayout.setSpacing(6)
         self.gridLayout.setObjectName("gridLayout")
+        self.label_6 = VideoLabel(self.centralWidget)
+        self.label_6.setMinimumSize(QtCore.QSize(700, 550))
+        self.label_6.setMaximumSize(QtCore.QSize(800, 16777215))
+        self.label_6.setAutoFillBackground(True)
+        self.label_6.setText("")
+        self.label_6.setObjectName("label_6")
+        self.gridLayout.addWidget(self.label_6, 0, 1, 1, 1)
         self.label_15 = QtWidgets.QLabel(self.centralWidget)
         self.label_15.setMinimumSize(QtCore.QSize(0, 0))
         self.label_15.setMaximumSize(QtCore.QSize(800, 16999))
@@ -184,6 +189,40 @@ class Ui_QtWidgetsApplication1Class(object):
         self.label_19.setStyleSheet("background:rgb(255, 255, 255)")
         self.label_19.setText("")
         self.label_19.setObjectName("label_19")
+        self.tableWidget = QtWidgets.QTableWidget(self.widget_2)
+        self.tableWidget.setGeometry(QtCore.QRect(770, 0, 311, 241))
+        self.tableWidget.setStyleSheet("background-color: rgb(255, 255, 255);")
+        self.tableWidget.setObjectName("tableWidget")
+        self.tableWidget.setColumnCount(3)
+        self.tableWidget.setRowCount(7)
+        item = QtWidgets.QTableWidgetItem()
+        self.tableWidget.setVerticalHeaderItem(0, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.tableWidget.setVerticalHeaderItem(1, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.tableWidget.setVerticalHeaderItem(2, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.tableWidget.setVerticalHeaderItem(3, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.tableWidget.setVerticalHeaderItem(4, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.tableWidget.setVerticalHeaderItem(5, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.tableWidget.setVerticalHeaderItem(6, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.tableWidget.setHorizontalHeaderItem(0, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.tableWidget.setHorizontalHeaderItem(1, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.tableWidget.setHorizontalHeaderItem(2, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.tableWidget.setItem(0, 0, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.tableWidget.setItem(0, 1, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.tableWidget.setItem(0, 2, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.tableWidget.setItem(1, 0, item)
         self.tabWidget.addTab(self.tab_3, "")
         self.tab_4 = QtWidgets.QWidget()
         self.tab_4.setObjectName("tab_4")
@@ -247,13 +286,6 @@ class Ui_QtWidgetsApplication1Class(object):
         self.horizontalLayout_2.addWidget(self.widget_5)
         self.tabWidget.addTab(self.tab_5, "")
         self.gridLayout.addWidget(self.tabWidget, 1, 1, 1, 1)
-        self.label_6 = VideoLabel(self.centralWidget)
-        self.label_6.setMinimumSize(QtCore.QSize(700, 550))
-        self.label_6.setMaximumSize(QtCore.QSize(800, 16777215))
-        self.label_6.setAutoFillBackground(True)
-        self.label_6.setText("")
-        self.label_6.setObjectName("label_6")
-        self.gridLayout.addWidget(self.label_6, 0, 1, 1, 1)
         QtWidgetsApplication1Class.setCentralWidget(self.centralWidget)
         self.statusBar = QtWidgets.QStatusBar(QtWidgetsApplication1Class)
         self.statusBar.setObjectName("statusBar")
@@ -297,6 +329,15 @@ class Ui_QtWidgetsApplication1Class(object):
         self.label_16.setText(_translate("QtWidgetsApplication1Class", "火焰高度(m)"))
         self.label_17.setText(_translate("QtWidgetsApplication1Class", "火焰直径(m)"))
         self.label_18.setText(_translate("QtWidgetsApplication1Class", "火焰倾斜角"))
+        item = self.tableWidget.horizontalHeaderItem(0)
+        item.setText(_translate("QtWidgetsApplication1Class", "序号"))
+        item = self.tableWidget.horizontalHeaderItem(1)
+        item.setText(_translate("QtWidgetsApplication1Class", "高度"))
+        item = self.tableWidget.horizontalHeaderItem(2)
+        item.setText(_translate("QtWidgetsApplication1Class", "直径"))
+        __sortingEnabled = self.tableWidget.isSortingEnabled()
+        self.tableWidget.setSortingEnabled(False)
+        self.tableWidget.setSortingEnabled(__sortingEnabled)
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_3), _translate("QtWidgetsApplication1Class", "火焰形态处理"))
         self.pushButton_3.setText(_translate("QtWidgetsApplication1Class", "沿火焰倾斜方向的热流密度沿X轴分布"))
         self.pushButton_2.setText(_translate("QtWidgetsApplication1Class", "垂直火焰倾斜方向的热流密度沿Y轴分布"))
@@ -314,4 +355,5 @@ class Ui_QtWidgetsApplication1Class(object):
         self.toolBar.setWindowTitle(_translate("QtWidgetsApplication1Class", "toolBar"))
         self.menu.setTitle(_translate("QtWidgetsApplication1Class", "菜单"))
         self.action.setText(_translate("QtWidgetsApplication1Class", "读取视频"))
+
 from videolabel import VideoLabel

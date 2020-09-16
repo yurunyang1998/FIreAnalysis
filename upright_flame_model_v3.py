@@ -7,7 +7,7 @@ from matplotlib.patches import Circle, Rectangle
 import matplotlib.pyplot as plt
 import numpy as np
 import math,traceback
-import scipy.interpolate as spi
+# import scipy.interpolate as spi
 
 #L表示圆柱体火焰的高度
 #d表示圆柱体火焰直径

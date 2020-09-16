@@ -12,6 +12,7 @@ from PyQt5 import QtGui, QtCore
 from mainUI import  Ui_QtWidgetsApplication1Class
 import tilt_flame_model_v2 as tfm
 import upright_flame_model_v3 as ufm
+import matplotlib.pyplot as plt
 
 def alert(Qwidget, message):
     reply = QMessageBox.information(Qwidget, '提示', message, QMessageBox.Ok | QMessageBox.Close,
@@ -26,7 +27,6 @@ def close_handle(evt):
     time.sleep(2)
     closed = True
     print("close")
-import matplotlib.pyplot as plt
 
 
 class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
