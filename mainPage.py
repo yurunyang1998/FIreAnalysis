@@ -102,7 +102,7 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
 
         except Exception as e :
             alert(self,"请选择视频文件")
-            print(e)
+            traceback.print_exc()
 
 
 
@@ -290,7 +290,7 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
                 else:
                     break
         except Exception as e:
-            print(e)
+            traceback.print_exc()
 
     def draw_rad_heat_flux_curve_FV2(self):
         global  closed
@@ -425,7 +425,7 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
             layer_thickness = 10
             ufm.draw_rad_heat_flux_curve_Fv(self.fireLayerDiameter, self.fireLayerHeight,
                                             layer_thickness / self.rateInY, 1)
-            self.th.PauseVideo()
+            # self.th.PauseVideo()
         else:
             return
 
@@ -519,7 +519,7 @@ class Thread(QThread):
                     continue
             #self.cap.release()
         except Exception as e:
-            print(e)
+            traceback.print_exc()
 
     def PauseVideo(self):
         try:
@@ -543,13 +543,11 @@ class Thread(QThread):
 
                 imgSepert = self.color_seperate(img, self.minbar, self.maxbar)
                 imgContours = self.findContours(imgSepert, flameNum)
-                # imgContours = imgSepert
-                # img =  self.threshold_demo(img, self.minbar, self.maxbar)
                 convertToQtFormat = QtGui.QImage(imgContours.data, imgContours.shape[1], imgContours.shape[0], QImage.Format_Grayscale8)
                 currentCaputre = convertToQtFormat.scaled(self.width/2, self.height/2, QtCore.Qt.KeepAspectRatio)
 
         except Exception as e:
-            print(e)
+            traceback.print_exc()
         return currentCaputre
 
     def CloseVideo(self):
@@ -586,13 +584,13 @@ class Thread(QThread):
             # dst = cv2.bitwise_and(image, image, mask=mask)  # 将二值化图像与原图进行“与”操作；实际是提取前两个frame 的“与”结果，然后输出mask 为1的部分
 
         except Exception as e:
-            print(e)
+            traceback.print_exc()
         return eroded
 
     def findContours(self, img, flameNum):
         try:
             # gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-            img, contours, hierarchy = cv2.findContours(img, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+            contours, hierarchy = cv2.findContours(img, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
             # cv2.drawContours(img, contours, -1, (255, 0, 0), 3)
             maxArea = 0
             maxContour = None
@@ -627,8 +625,7 @@ class Thread(QThread):
             return img
 
         except Exception as e:
-            print(e)
-
+            traceback.print_exc()
     def threshold_demo(self,image,lowBar, highBar):
         gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
         # ret, binary = cv2.threshold(gray,0,255,cv2.THRESH_BINARY | cv2.THRESH_OTSU)

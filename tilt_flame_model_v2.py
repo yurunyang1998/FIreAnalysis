@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import math
 # from scipy.interpolate import make_interp_spline
-
+import   matplotlib.backends.backend_tkagg
 
 
 
@@ -136,28 +136,31 @@ def draw_rad_heat_flux_curve_FH1(H, R, theta):
 
 # 给定辐射热流rad_heat时，a点位置的计算函数
 def tilt_flame_rad_heat_pa(H, R, theta, rad_heat):
-    X_a = Symbol('X_a')
-    #rad_heat=rad_heat
-    #Example:
-    #H=20
-    #X=50
-    theta=theta/180*pi
-    a=H/R
-    #b=X/R
-    b=X_a/R
-    x1=a*a+(b+1)*(b+1)-2*a*(b+1)*sin(theta)
-    x2=a*a+(b-1)*(b-1)-2*a*(b-1)*sin(theta)
-    FH1=atan(pow(((b+1)/(b-1)),0.5))/pi+sin(theta)/(pi*pow(1+(b*b-1)*cos(theta)*cos(theta),0.5))\
-        *((atan((a*b-(b*b-1)*sin(theta))/(pow((b*b-1),0.5)*pow((1+(b*b-1)*cos(theta)*cos(theta)),0.5))))+(atan(((b*b-1)*sin(theta))/(pow((b*b-1),0.5)*pow((1+(b*b-1)*cos(theta)*cos(theta)),0.5)))))\
-        -(a*a+(b+1)*(b+1)-2*(b+1+a*b*sin(theta)))/(pi*(pow(x1,0.5)*pow(x2,0.5)))\
-        *atan(pow(((a*a+(b+1)*(b+1)-2*a*(b+1)*sin(theta))/(a*a+(b-1)*(b-1)-2*a*(b-1)*sin(theta))),0.5)*pow(((b-1)/(b+1)),0.5))
-    #This is for test:f_qv_r0=FV1-0.118
-    func_qh_xa=FH1*E-rad_heat
-    result=nsolve(func_qh_xa, X_a, R+0.3) # 20 is the initial guess, this is required for nsolve function
-    X_a=result
-    #this is the Hazardous Radius (5 values)
-    # print(X_a)
-    return(X_a)
+    try:
+        X_a = Symbol('X_a')
+        #rad_heat=rad_heat
+        #Example:
+        #H=20
+        #X=50
+        theta=theta/180*pi
+        a=H/R
+        #b=X/R
+        b=X_a/R
+        x1=a*a+(b+1)*(b+1)-2*a*(b+1)*sin(theta)
+        x2=a*a+(b-1)*(b-1)-2*a*(b-1)*sin(theta)
+        FH1=atan(pow(((b+1)/(b-1)),0.5))/pi+sin(theta)/(pi*pow(1+(b*b-1)*cos(theta)*cos(theta),0.5))\
+            *((atan((a*b-(b*b-1)*sin(theta))/(pow((b*b-1),0.5)*pow((1+(b*b-1)*cos(theta)*cos(theta)),0.5))))+(atan(((b*b-1)*sin(theta))/(pow((b*b-1),0.5)*pow((1+(b*b-1)*cos(theta)*cos(theta)),0.5)))))\
+            -(a*a+(b+1)*(b+1)-2*(b+1+a*b*sin(theta)))/(pi*(pow(x1,0.5)*pow(x2,0.5)))\
+            *atan(pow(((a*a+(b+1)*(b+1)-2*a*(b+1)*sin(theta))/(a*a+(b-1)*(b-1)-2*a*(b-1)*sin(theta))),0.5)*pow(((b-1)/(b+1)),0.5))
+        #This is for test:f_qv_r0=FV1-0.118
+        func_qh_xa=FH1*E-rad_heat
+        result=nsolve(func_qh_xa, X_a, R+0.3) # 20 is the initial guess, this is required for nsolve function
+        X_a=result
+        #this is the Hazardous Radius (5 values)
+        # print(X_a)
+        return(X_a)
+    except Exception as e:
+        return 0
 
 def tilt_flame_hazardous_radius_xa(H, R, theta, fig):
     try:
@@ -308,27 +311,32 @@ def draw_rad_heat_flux_curve_FV2(H, R, theta):
 
 # 给定辐射热流rad_heat时，c点位置的计算函数（y轴负半轴位置）
 def tilt_flame_rad_heat_pc(H, R, theta, rad_heat):
-    Y_c = Symbol('Y_c')
-    #rad_heat=rad_heat
-    #R_c=0
-    #Example:
-    #H=20
-    #X=50
-    theta=theta/180*pi
-    a=H/R
-    b=Y_c/R
-    FV2=-(a*a*sin(theta)*cos(theta)/(4*pi*(b*b+a*a*sin(theta)*sin(theta))))*log((a*a+b*b-1-2*a*pow((b*b-1),0.5)*sin(theta)/b)/(a*a+b*b-1+2*a*pow((b*b-1),0.5)*sin(theta)/b))+cos(theta)/(2*pi*pow((b*b-sin(theta)*sin(theta)),0.5))\
-        *(atan((a*b/pow(b*b-1,0.5)+sin(theta))/(pow(b*b-sin(theta)*sin(theta),0.5)))+atan((a*b/pow(b*b-1,0.5)-sin(theta))/(pow(b*b-sin(theta)*sin(theta),0.5))))-a*b*cos(theta)/(pi*(b*b+a*a*sin(theta)*sin(theta)))\
-        *atan(pow(((b-1)/(b+1)),0.5))+(a*b*cos(theta)*(a*a+b*b+1))/(2*pi*(b*b+a*a*sin(theta)*sin(theta))*pow((pow(a*a+b*b+1,2)-4*(b*b+a*a*sin(theta)*sin(theta))),0.5))\
-        *(atan(((a*a+(b+1)*(b+1))*pow((b-1)/(b+1),0.5)-2*a*sin(theta))/(pow(((pow((a*a+b*b+1),2))-(4*(b*b+a*a*sin(theta)*sin(theta)))),0.5)))+atan(((a*a+(b+1)*(b+1))*pow((b-1)/(b+1),0.5)+2*a*sin(theta))/(pow(((pow((a*a+b*b+1),2))-(4*(b*b+a*a*sin(theta)*sin(theta)))),0.5))))
-    #This is for test:f_qv_r0=FV1-0.118
-    #for i in range(5):
-    func_qh_yc=FV2*E-rad_heat
-    result=nsolve(func_qh_yc, Y_c, R+0.3) # 20 is the initial guess, this is required for nsolve function
-    Y_c=result
-    #this is the Hazardous Radius (5 values)
-    print(Y_c)
-    return(Y_c)
+    try:
+        Y_c = Symbol('Y_c')
+        #rad_heat=rad_heat
+        #R_c=0
+        #Example:
+        #H=20
+        #X=50
+        theta=theta/180*pi
+        a=H/R
+        b=Y_c/R
+        FV2=-(a*a*sin(theta)*cos(theta)/(4*pi*(b*b+a*a*sin(theta)*sin(theta))))*log((a*a+b*b-1-2*a*pow((b*b-1),0.5)*sin(theta)/b)/(a*a+b*b-1+2*a*pow((b*b-1),0.5)*sin(theta)/b))+cos(theta)/(2*pi*pow((b*b-sin(theta)*sin(theta)),0.5))\
+            *(atan((a*b/pow(b*b-1,0.5)+sin(theta))/(pow(b*b-sin(theta)*sin(theta),0.5)))+atan((a*b/pow(b*b-1,0.5)-sin(theta))/(pow(b*b-sin(theta)*sin(theta),0.5))))-a*b*cos(theta)/(pi*(b*b+a*a*sin(theta)*sin(theta)))\
+            *atan(pow(((b-1)/(b+1)),0.5))+(a*b*cos(theta)*(a*a+b*b+1))/(2*pi*(b*b+a*a*sin(theta)*sin(theta))*pow((pow(a*a+b*b+1,2)-4*(b*b+a*a*sin(theta)*sin(theta))),0.5))\
+            *(atan(((a*a+(b+1)*(b+1))*pow((b-1)/(b+1),0.5)-2*a*sin(theta))/(pow(((pow((a*a+b*b+1),2))-(4*(b*b+a*a*sin(theta)*sin(theta)))),0.5)))+atan(((a*a+(b+1)*(b+1))*pow((b-1)/(b+1),0.5)+2*a*sin(theta))/(pow(((pow((a*a+b*b+1),2))-(4*(b*b+a*a*sin(theta)*sin(theta)))),0.5))))
+        #This is for test:f_qv_r0=FV1-0.118
+        #for i in range(5):
+        func_qh_yc=FV2*E-rad_heat
+        result=nsolve(func_qh_yc, Y_c, R+0.3) # 20 is the initial guess, this is required for nsolve function
+        Y_c=result
+        #this is the Hazardous Radius (5 values)
+        print(Y_c)
+        return(Y_c)
+    except Exception as e:
+        return 0
+        traceback.print_exc()
+
 
 #plot abc circle
 def plot_abc(H, R, theta, rad, fig):
