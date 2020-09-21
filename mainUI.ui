@@ -9,7 +9,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1133</width>
+    <width>1396</width>
     <height>949</height>
    </rect>
   </property>
@@ -44,8 +44,8 @@
      <widget class="QLabel" name="label_15">
       <property name="minimumSize">
        <size>
-        <width>0</width>
-        <height>0</height>
+        <width>400</width>
+        <height>400</height>
        </size>
       </property>
       <property name="maximumSize">
@@ -59,7 +59,7 @@
       </property>
      </widget>
     </item>
-    <item row="1" column="1">
+    <item row="1" column="1" colspan="3">
      <widget class="QTabWidget" name="tabWidget">
       <property name="minimumSize">
        <size>
@@ -68,7 +68,7 @@
        </size>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="tab_3">
        <attribute name="title">
@@ -79,7 +79,7 @@
          <rect>
           <x>9</x>
           <y>9</y>
-          <width>1091</width>
+          <width>1471</width>
           <height>257</height>
          </rect>
         </property>
@@ -559,8 +559,8 @@
         <widget class="QTableWidget" name="tableWidget">
          <property name="geometry">
           <rect>
-           <x>770</x>
-           <y>0</y>
+           <x>750</x>
+           <y>10</y>
            <width>311</width>
            <height>241</height>
           </rect>
@@ -722,6 +722,282 @@
             <string>垂直圆柱体火焰在水平方向热流密度分布</string>
            </property>
           </widget>
+          <widget class="QWidget" name="widget" native="true">
+           <property name="geometry">
+            <rect>
+             <x>550</x>
+             <y>10</y>
+             <width>321</width>
+             <height>221</height>
+            </rect>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">background-color: rgb(203, 203, 203);</string>
+           </property>
+           <widget class="QLabel" name="label_20">
+            <property name="geometry">
+             <rect>
+              <x>10</x>
+              <y>0</y>
+              <width>181</width>
+              <height>41</height>
+             </rect>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">font: 16pt &quot;Agency FB&quot;;</string>
+            </property>
+            <property name="text">
+             <string>火焰发射率</string>
+            </property>
+           </widget>
+           <widget class="QLabel" name="label_21">
+            <property name="geometry">
+             <rect>
+              <x>20</x>
+              <y>50</y>
+              <width>81</width>
+              <height>31</height>
+             </rect>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">font: 14pt &quot;Arial&quot;;</string>
+            </property>
+            <property name="text">
+             <string>○  赋值</string>
+            </property>
+           </widget>
+           <widget class="QLineEdit" name="lineEdit_8">
+            <property name="geometry">
+             <rect>
+              <x>-850</x>
+              <y>-310</y>
+              <width>113</width>
+              <height>20</height>
+             </rect>
+            </property>
+           </widget>
+           <widget class="QLineEdit" name="lineEdit_9">
+            <property name="geometry">
+             <rect>
+              <x>120</x>
+              <y>50</y>
+              <width>51</width>
+              <height>31</height>
+             </rect>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(255, 255, 255);</string>
+            </property>
+           </widget>
+           <widget class="QLabel" name="label_22">
+            <property name="geometry">
+             <rect>
+              <x>20</x>
+              <y>90</y>
+              <width>271</width>
+              <height>31</height>
+             </rect>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">font: 14pt &quot;Arial&quot;;</string>
+            </property>
+            <property name="text">
+             <string>○  经验公式  Epsilon=1-e^(-k·d)</string>
+            </property>
+           </widget>
+           <widget class="QLabel" name="label_23">
+            <property name="geometry">
+             <rect>
+              <x>40</x>
+              <y>130</y>
+              <width>16</width>
+              <height>31</height>
+             </rect>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">font: 14pt &quot;Arial&quot;;</string>
+            </property>
+            <property name="text">
+             <string>k</string>
+            </property>
+           </widget>
+           <widget class="QLineEdit" name="lineEdit_10">
+            <property name="geometry">
+             <rect>
+              <x>60</x>
+              <y>130</y>
+              <width>51</width>
+              <height>31</height>
+             </rect>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(255, 255, 255);</string>
+            </property>
+           </widget>
+           <widget class="QLabel" name="label_24">
+            <property name="geometry">
+             <rect>
+              <x>140</x>
+              <y>130</y>
+              <width>16</width>
+              <height>31</height>
+             </rect>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">font: 14pt &quot;Arial&quot;;</string>
+            </property>
+            <property name="text">
+             <string>d</string>
+            </property>
+           </widget>
+           <widget class="QLabel" name="label_25">
+            <property name="geometry">
+             <rect>
+              <x>170</x>
+              <y>120</y>
+              <width>91</width>
+              <height>61</height>
+             </rect>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">font: 14pt &quot;Arial&quot;;</string>
+            </property>
+            <property name="text">
+             <string>火焰视频
+提取数据</string>
+            </property>
+           </widget>
+          </widget>
+          <widget class="QWidget" name="widget_3" native="true">
+           <property name="geometry">
+            <rect>
+             <x>890</x>
+             <y>10</y>
+             <width>321</width>
+             <height>221</height>
+            </rect>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">background-color: rgb(203, 203, 203);</string>
+           </property>
+           <widget class="QLabel" name="label_26">
+            <property name="geometry">
+             <rect>
+              <x>10</x>
+              <y>0</y>
+              <width>181</width>
+              <height>41</height>
+             </rect>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">font: 16pt &quot;Agency FB&quot;;</string>
+            </property>
+            <property name="text">
+             <string>火焰温度</string>
+            </property>
+           </widget>
+           <widget class="QLabel" name="label_27">
+            <property name="geometry">
+             <rect>
+              <x>20</x>
+              <y>50</y>
+              <width>81</width>
+              <height>31</height>
+             </rect>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">font: 14pt &quot;Arial&quot;;</string>
+            </property>
+            <property name="text">
+             <string>○  赋值</string>
+            </property>
+           </widget>
+           <widget class="QLineEdit" name="lineEdit_11">
+            <property name="geometry">
+             <rect>
+              <x>-850</x>
+              <y>-310</y>
+              <width>113</width>
+              <height>20</height>
+             </rect>
+            </property>
+           </widget>
+           <widget class="QLineEdit" name="lineEdit_12">
+            <property name="geometry">
+             <rect>
+              <x>120</x>
+              <y>50</y>
+              <width>51</width>
+              <height>31</height>
+             </rect>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(255, 255, 255);</string>
+            </property>
+           </widget>
+           <widget class="QLabel" name="label_28">
+            <property name="geometry">
+             <rect>
+              <x>20</x>
+              <y>90</y>
+              <width>271</width>
+              <height>31</height>
+             </rect>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">font: 14pt &quot;Arial&quot;;</string>
+            </property>
+            <property name="text">
+             <string>○ 监测火焰温度</string>
+            </property>
+           </widget>
+           <widget class="QLabel" name="label_29">
+            <property name="geometry">
+             <rect>
+              <x>40</x>
+              <y>130</y>
+              <width>16</width>
+              <height>31</height>
+             </rect>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">font: 14pt &quot;Arial&quot;;</string>
+            </property>
+            <property name="text">
+             <string>T</string>
+            </property>
+           </widget>
+           <widget class="QLineEdit" name="lineEdit_13">
+            <property name="geometry">
+             <rect>
+              <x>60</x>
+              <y>130</y>
+              <width>51</width>
+              <height>31</height>
+             </rect>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(255, 255, 255);</string>
+            </property>
+           </widget>
+           <widget class="QLabel" name="label_31">
+            <property name="geometry">
+             <rect>
+              <x>160</x>
+              <y>120</y>
+              <width>101</width>
+              <height>61</height>
+             </rect>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">font: 14pt &quot;Arial&quot;;</string>
+            </property>
+            <property name="text">
+             <string>火焰温度与
+高度的关系</string>
+            </property>
+           </widget>
+          </widget>
          </widget>
         </item>
        </layout>
@@ -833,6 +1109,209 @@
             <string>添加热流值参数</string>
            </property>
           </widget>
+          <widget class="QWidget" name="widget_6" native="true">
+           <property name="geometry">
+            <rect>
+             <x>620</x>
+             <y>10</y>
+             <width>141</width>
+             <height>191</height>
+            </rect>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">background-color: rgb(203, 203, 203);</string>
+           </property>
+           <widget class="QLabel" name="label_33">
+            <property name="geometry">
+             <rect>
+              <x>15</x>
+              <y>30</y>
+              <width>59</width>
+              <height>16</height>
+             </rect>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">font: 10pt &quot;Arial&quot;;</string>
+            </property>
+            <property name="text">
+             <string>辐射阈值1</string>
+            </property>
+           </widget>
+           <widget class="QLabel" name="label_34">
+            <property name="geometry">
+             <rect>
+              <x>15</x>
+              <y>56</y>
+              <width>59</width>
+              <height>16</height>
+             </rect>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">font: 10pt &quot;Arial&quot;;</string>
+            </property>
+            <property name="text">
+             <string>辐射阈值2</string>
+            </property>
+           </widget>
+           <widget class="QLabel" name="label_35">
+            <property name="geometry">
+             <rect>
+              <x>15</x>
+              <y>108</y>
+              <width>59</width>
+              <height>16</height>
+             </rect>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">font: 10pt &quot;Arial&quot;;</string>
+            </property>
+            <property name="text">
+             <string>辐射阈值4</string>
+            </property>
+           </widget>
+           <widget class="QLabel" name="label_36">
+            <property name="geometry">
+             <rect>
+              <x>15</x>
+              <y>82</y>
+              <width>59</width>
+              <height>16</height>
+             </rect>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">font: 10pt &quot;Arial&quot;;</string>
+            </property>
+            <property name="text">
+             <string>辐射阈值3</string>
+            </property>
+           </widget>
+           <widget class="QLabel" name="label_37">
+            <property name="geometry">
+             <rect>
+              <x>15</x>
+              <y>134</y>
+              <width>59</width>
+              <height>16</height>
+             </rect>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">font: 10pt &quot;Arial&quot;;</string>
+            </property>
+            <property name="text">
+             <string>辐射阈值5</string>
+            </property>
+           </widget>
+           <widget class="QLineEdit" name="lineEdit_15">
+            <property name="geometry">
+             <rect>
+              <x>80</x>
+              <y>30</y>
+              <width>48</width>
+              <height>20</height>
+             </rect>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(255, 255, 255);</string>
+            </property>
+           </widget>
+           <widget class="QLineEdit" name="lineEdit_16">
+            <property name="geometry">
+             <rect>
+              <x>80</x>
+              <y>56</y>
+              <width>48</width>
+              <height>20</height>
+             </rect>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(255, 255, 255);</string>
+            </property>
+           </widget>
+           <widget class="QLineEdit" name="lineEdit_20">
+            <property name="geometry">
+             <rect>
+              <x>80</x>
+              <y>82</y>
+              <width>48</width>
+              <height>20</height>
+             </rect>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(255, 255, 255);</string>
+            </property>
+           </widget>
+           <widget class="QLineEdit" name="lineEdit_21">
+            <property name="geometry">
+             <rect>
+              <x>80</x>
+              <y>108</y>
+              <width>48</width>
+              <height>20</height>
+             </rect>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(255, 255, 255);</string>
+            </property>
+           </widget>
+           <widget class="QLineEdit" name="lineEdit_22">
+            <property name="geometry">
+             <rect>
+              <x>80</x>
+              <y>134</y>
+              <width>48</width>
+              <height>20</height>
+             </rect>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(255, 255, 255);</string>
+            </property>
+           </widget>
+           <widget class="QLineEdit" name="lineEdit_23">
+            <property name="geometry">
+             <rect>
+              <x>80</x>
+              <y>160</y>
+              <width>48</width>
+              <height>20</height>
+             </rect>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(255, 255, 255);</string>
+            </property>
+           </widget>
+           <widget class="QLabel" name="label_43">
+            <property name="geometry">
+             <rect>
+              <x>15</x>
+              <y>160</y>
+              <width>59</width>
+              <height>16</height>
+             </rect>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">font: 10pt &quot;Arial&quot;;</string>
+            </property>
+            <property name="text">
+             <string>辐射阈值6</string>
+            </property>
+           </widget>
+           <widget class="QLabel" name="label_44">
+            <property name="geometry">
+             <rect>
+              <x>70</x>
+              <y>10</y>
+              <width>59</width>
+              <height>16</height>
+             </rect>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">font: 10pt &quot;Arial&quot;;</string>
+            </property>
+            <property name="text">
+             <string>kW/m^2</string>
+            </property>
+           </widget>
+          </widget>
          </widget>
         </item>
        </layout>
@@ -858,7 +1337,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1133</width>
+     <width>1396</width>
      <height>23</height>
     </rect>
    </property>
