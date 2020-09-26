@@ -216,6 +216,9 @@ def draw_rad_heat_flux_curve_Fh(d_flame, height_original, R_distance_max, layer_
         print(X_a_array)
         X_a_array[X_a_array<0]=0
 
+    except Exception as e:
+        traceback.print_exc()
+
     return X_a_array
 
 def flame_hazardous_radius_xa(X_a_array, fig):
@@ -252,7 +255,7 @@ R_distance_max=5#这个参数是绘制曲线时x轴的范围，应大于火焰�
 
 #垂直圆柱体火焰在水平方向热流密度分布
 #垂直圆柱体火焰伤害半径示意图
-draw_rad_heat_flux_curve_Fh(d_flame, height_original, R_distance_max, layer_thickness)
+# draw_rad_heat_flux_curve_Fh(d_flame, height_original, R_distance_max, layer_thickness)
 
 #垂直圆柱体火焰垂直方向的热流密度分布
 #x_distance=1#这个参数是圆柱外边缘到目标微元的水平距离，是一个给定的参数
@@ -262,7 +265,7 @@ draw_rad_heat_flux_curve_Fh(d_flame, height_original, R_distance_max, layer_thic
 #draw_rad_heat_flux_vertical_view(d_flame, height_original, layer_thickness)
 
 #绘制5个不同热流对应的距离火焰的半径（5个同心圆）
-flame_hazardous_radius_xa(X_a_array, fig)
+# flame_hazardous_radius_xa(X_a_array, fig)
 #Notes: layer_thickness need to be set based on the specific circumstance. Here it is 0.01
 
 

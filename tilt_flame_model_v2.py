@@ -165,7 +165,7 @@ def tilt_flame_rad_heat_pa(H, R, theta, rad_heat):
 def tilt_flame_hazardous_radius_xa(H, R, theta, fig):
     try:
         plt.ion()
-        rad_heat=[1.6,4.0,12.5,25.0,30.0]
+        rad_heat=[1.6,4.0,12.5,25.0,30.0]  #TODO：辐射阈值
         R_5=[0,0,0,0,0]
 
         for i in range(5):

@@ -13,6 +13,8 @@ from mainUI import  Ui_QtWidgetsApplication1Class
 import tilt_flame_model_v2 as tfm
 import upright_flame_model_v3 as ufm
 import matplotlib.pyplot as plt
+import plotdrawProcess
+import multiprocessing
 
 def alert(Qwidget, message):
     reply = QMessageBox.information(Qwidget, '提示', message, QMessageBox.Ok | QMessageBox.Close,
@@ -82,6 +84,22 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
         self.moveMouse = False
 
         self.th = Thread(self)
+        self.queue = multiprocessing.Queue()
+        self.plotProcess = plotdrawProcess.PlotProcess(self.queue)
+        self.plotProcess.run()
+
+        self.algorithmMap = {"draw_rad_heat_flux_curve_FH1":False,
+                            "draw_rad_heat_flux_curve_FV2" :False,
+                            "plot_abc" :False,
+                            "tilt_flame_hazardous_radius_xa":False,
+                            "tilt_flame_hazardous_radius_xb":False,
+                             "tilt_flame_hazardous_radius_xc":False,
+                             "draw_rad_heat_flux_curve_Fh":False,
+                             "draw_rad_heat_flux_curve_Fv":False,
+                             "draw_rad_heat_flux_vertical_view":False,
+                             "flame_hazardous_radius_xa":False
+                             }
+
     def OpenVideo(self):
 
         try:
@@ -98,6 +116,7 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
             self.th.changeSegmentPic.connect(self.setSegmentedPic)
             self.th.changeFireinfo.connect(self.fireInfo)
             self.th.changeFireLayerInfo.connect(self.fireLayerInfo)
+            self.th.writeRequestandMsgToQueueSignal.connect(self.writeRequestandMsgToQueue)
             self.th.start()
 
         except Exception as e :
@@ -254,6 +273,9 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
         self.fireWidget = float("{:.2f}".format(width / self.rateInX))
         self.fireAngel =  angle
         self.label_19.setText(str(angle))
+        self.algorithmMap["fireHeight"] = self.fireHeight
+        self.algorithmMap["fireWidget"] = self.fireWidget
+        self.algorithmMap["angle"] = self.fireAngel
 
     def setAutoAnalysisFireInfo(self):
         self.th.autoAnalysisFireInfo = (not self.th.autoAnalysisFireInfo)
@@ -264,12 +286,19 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
         self.fireLayerHeight = [float("{:.2f}".format(x/self.rateInY)) for x in fireLayerHeight_]
         # self.fireLayerDiameter = fireLayerDiameter_
         # self.fireLayerHeight = fireLayerHeight_
-
+        self.algorithmMap["fireLayerDiameter"] = self.fireLayerDiameter
+        self.algorithmMap["fireLayerHeight"] = self.fireLayerHeight
 
     def addHeatFluxParam(self):
         if(self.lineEdit_7.text()==""):
             return
         self.fireHeatFluxparam = int(self.lineEdit_7.text())
+
+    def writeRequestandMsgToQueue(self):
+        print("writeRequestandMsgToQueue")
+        self.queue.put(self.algorithmMap)
+
+
 
 
     ######### 算法函数
@@ -392,24 +421,27 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
 
 
     def draw_rad_heat_flux_curve_Fh(self):
-        global closed
-        fig = plt.figure()
-        fig.canvas.mpl_connect('close_event', close_handle)
-
-        while (1):
-            if (closed):
-                plt.close()
-                closed = False
-                break
-            if(self.fireLayerDiameter!= [] and self.fireLayerHeight!= []):
-                print("draw_rad_heat_flux_curve_Fh")
-                print(self.fireLayerDiameter)
-                print(self.fireLayerHeight)
-                layer_thickness = 10
-                ufm.draw_rad_heat_flux_curve_Fh(self.fireLayerDiameter, self.fireLayerHeight, 400, layer_thickness/self.rateInY)
-                # self.th.PauseVideo()
-            else:
-                break
+        # global closed
+        # fig = plt.figure()
+        # fig.canvas.mpl_connect('close_event', close_handle)
+        #
+        # while (1):
+        #     if (closed):
+        #         plt.close()
+        #         closed = False
+        #         break
+        #     if(self.fireLayerDiameter!= [] and self.fireLayerHeight!= []):
+        #         print("draw_rad_heat_flux_curve_Fh")
+        #         print(self.fireLayerDiameter)
+        #         print(self.fireLayerHeight)
+        #         layer_thickness = 10
+        #         # ufm.draw_rad_heat_flux_curve_Fh(self.fireLayerDiameter, self.fireLayerHeight, 400, layer_thickness/self.rateInY)
+        #         self.queue.put([self.fireLayerDiameter,self.fireLayerHeight, 400, layer_thickness/self.rateInY])
+        #         # self.th.PauseVideo()
+        #     else:
+        #         break
+        pass
+        # self.algorithmMap["draw_rad_heat_flux_curve_Fh"] = True
 
     def draw_rad_heat_flux_curve_Fv(self):
         # global closed
@@ -477,6 +509,8 @@ class Thread(QThread):
     changeSegmentPic = pyqtSignal(QtGui.QImage)
     changeFireinfo = pyqtSignal(int, int, int)
     changeFireLayerInfo = pyqtSignal(list, list)
+    writeRequestandMsgToQueueSignal = pyqtSignal()
+
 
     paused = False
     closeSignal = False
@@ -613,6 +647,8 @@ class Thread(QThread):
                         if(flameNum % 10 == 0):
                             fireLayerDiameter, fireLayerHeight = self.getFireLayerDiameter(roiArea,flameNum)  # 获取火焰每一层的宽度和高度
                             self.changeFireLayerInfo.emit(fireLayerDiameter, fireLayerHeight)
+                            self.writeRequestandMsgToQueueSignal.emit()
+
                     except Exception as e:
                         traceback.print_exc()
 
@@ -626,6 +662,10 @@ class Thread(QThread):
 
         except Exception as e:
             traceback.print_exc()
+
+
+
+
     def threshold_demo(self,image,lowBar, highBar):
         gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
         # ret, binary = cv2.threshold(gray,0,255,cv2.THRESH_BINARY | cv2.THRESH_OTSU)
