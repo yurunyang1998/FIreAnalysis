@@ -24,8 +24,6 @@ if __name__ == '__main__':
         sys.exit(app.exec_())
 
 
-
-
 # from PyQt5.QtWidgets import QApplication
 # from PyQt5 import QtWidgets
 # from PyQt5.QtCore import pyqtSignal

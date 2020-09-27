@@ -90,7 +90,7 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
 
         self.algorithmMap = {"draw_rad_heat_flux_curve_FH1":False,
                             "draw_rad_heat_flux_curve_FV2" :False,
-                            "plot_abc" :False,
+                            "plot_abc" : False,
                             "tilt_flame_hazardous_radius_xa":False,
                             "tilt_flame_hazardous_radius_xb":False,
                              "tilt_flame_hazardous_radius_xc":False,
@@ -297,6 +297,8 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
     def writeRequestandMsgToQueue(self):
         print("writeRequestandMsgToQueue")
         self.queue.put(self.algorithmMap)
+        for key in self.algorithmMap.keys():
+            self.algorithmMap[key] = False
 
 
 
@@ -440,8 +442,8 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
         #         # self.th.PauseVideo()
         #     else:
         #         break
-        pass
-        # self.algorithmMap["draw_rad_heat_flux_curve_Fh"] = True
+
+        self.algorithmMap["draw_rad_heat_flux_curve_Fh"] = True
 
     def draw_rad_heat_flux_curve_Fv(self):
         # global closed
@@ -452,14 +454,15 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
         #     plt.close()
         #     closed = False
         #     # break
-        if (len(self.fireLayerDiameter) != 0 and len(self.fireLayerHeight) != 0):
-            print("draw_rad_heat_flux_curve_Fv")
-            layer_thickness = 10
-            ufm.draw_rad_heat_flux_curve_Fv(self.fireLayerDiameter, self.fireLayerHeight,
-                                            layer_thickness / self.rateInY, 1)
-            # self.th.PauseVideo()
-        else:
-            return
+        # if (len(self.fireLayerDiameter) != 0 and len(self.fireLayerHeight) != 0):
+        #     print("draw_rad_heat_flux_curve_Fv")
+        #     layer_thickness = 10
+        #     ufm.draw_rad_heat_flux_curve_Fv(self.fireLayerDiameter, self.fireLayerHeight,
+        #                                     layer_thickness / self.rateInY, 1)
+        #     # self.th.PauseVideo()
+        # else:
+        #     return
+        self.algorithmMap["draw_rad_heat_flux_curve_Fv"] = True
 
 
     def draw_rad_heat_flux_vertical_view(self):

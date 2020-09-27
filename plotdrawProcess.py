@@ -28,12 +28,15 @@ class PlotProcess:
                 print("False")
             else:
                 msg = queue.get(True)
-
                 for key in msg.keys():
                     if(msg[key] == True):
-                        print(key)
+                        # print(key)
                         self.algorithmMap[key] = True
-                print(self.algorithmMap)
+                for item in self.algorithmMap.items():
+                        if(item[1] == True):
+                            eval(item[0])
+
+
 
     def set(self):
         print("set")
