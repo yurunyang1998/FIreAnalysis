@@ -295,8 +295,10 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
         self.fireHeatFluxparam = int(self.lineEdit_7.text())
 
     def writeRequestandMsgToQueue(self):
-        print("writeRequestandMsgToQueue")
-        self.queue.put(self.algorithmMap)
+        # print("writeRequestandMsgToQueue")
+        algorithmMapCopy = self.algorithmMap.copy()
+        self.queue.put(algorithmMapCopy)
+        # print(self.algorithmMap)
         for key in self.algorithmMap.keys():
             self.algorithmMap[key] = False
 
@@ -305,41 +307,43 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
 
     ######### 算法函数
     def draw_rad_heat_flux_curve_FH1(self):
-        try:
-            global closed
-            fig = plt.figure()
-            fig.canvas.mpl_connect('close_event', close_handle)
-
-            while(1):
-                if(closed):
-                    plt.close()
-                    closed = False
-                    break
-                if(self.fireHeight != 0 and self.fireWidget != 0 and self.fireAngel != 0 ):
-                    tfm.draw_rad_heat_flux_curve_FH1(self.fireHeight, self.fireWidget, self.fireAngel)
-                    # self.th.PauseVideo()
-                else:
-                    break
-        except Exception as e:
-            traceback.print_exc()
+        # try:
+        #     global closed
+        #     fig = plt.figure()
+        #     fig.canvas.mpl_connect('close_event', close_handle)
+        #
+        #     while(1):
+        #         if(closed):
+        #             plt.close()
+        #             closed = False
+        #             break
+        #         if(self.fireHeight != 0 and self.fireWidget != 0 and self.fireAngel != 0 ):
+        #             tfm.draw_rad_heat_flux_curve_FH1(self.fireHeight, self.fireWidget, self.fireAngel)
+        #             # self.th.PauseVideo()
+        #         else:
+        #             break
+        # except Exception as e:
+        #     traceback.print_exc()
+        self.algorithmMap["draw_rad_heat_flux_curve_FH1"] = True
+        # print(self.algorithmMap)
 
     def draw_rad_heat_flux_curve_FV2(self):
-        global  closed
-        fig = plt.figure()
-        fig.canvas.mpl_connect('close_event', close_handle)
-
-        while(1):
-            if (closed):
-                plt.close()
-                closed = False
-                break
-            if (self.fireHeight != 0 and self.fireWidget != 0 and self.fireAngel != 0):
-                tfm.draw_rad_heat_flux_curve_FV2(self.fireHeight, self.fireWidget, self.fireAngel)
-                # self.th.PauseVideo()
-            else:
-                break
-
-
+        # global  closed
+        # fig = plt.figure()
+        # fig.canvas.mpl_connect('close_event', close_handle)
+        #
+        # while(1):
+        #     if (closed):
+        #         plt.close()
+        #         closed = False
+        #         break
+        #     if (self.fireHeight != 0 and self.fireWidget != 0 and self.fireAngel != 0):
+        #         tfm.draw_rad_heat_flux_curve_FV2(self.fireHeight, self.fireWidget, self.fireAngel)
+        #         # self.th.PauseVideo()
+        #     else:
+        #         break
+        #
+        self.algorithmMap['draw_rad_heat_flux_curve_FV2'] = True
 
     def plot_abc(self):
 

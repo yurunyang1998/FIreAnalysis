@@ -1,6 +1,7 @@
 import upright_flame_model_v3 as ufm
 import tilt_flame_model_v2 as tfm
 import  multiprocessing as mp
+import time
 class PlotProcess:
     def __init__(self,queue_):
         self.queue = queue_
@@ -24,17 +25,40 @@ class PlotProcess:
     def dealHandle(self,queue):
         print("Process is reading ....")
         while True:
-            if(self.flag == False):
-                print("False")
-            else:
                 msg = queue.get(True)
                 for key in msg.keys():
                     if(msg[key] == True):
-                        # print(key)
+                        print(key)
                         self.algorithmMap[key] = True
-                for item in self.algorithmMap.items():
-                        if(item[1] == True):
-                            eval(item[0])
+                fireHeight = msg['fireHeight']
+                fireWidget = msg['fireWidget']
+                angle = msg['angle']
+                fireLayerDiameter = msg['fireLayerDiameter']
+                fireLayerHeight = msg['fireLayerHeight']
+
+                if(self.algorithmMap['draw_rad_heat_flux_curve_FH1'] == True):
+                    print("draw_rad_heat_flux_curve_FH1")
+                    tfm.draw_rad_heat_flux_curve_FH1(fireHeight, fireWidget, angle)
+                    # time.sleep(1)
+                if(self.algorithmMap['draw_rad_heat_flux_curve_FV2'] == True):
+                    tfm.draw_rad_heat_flux_curve_FV2(fireHeight, fireWidget, angle)
+
+                if(self.algorithmMap['plot_abc'] == True):
+                    pass
+                if(self.algorithmMap['tilt_flame_hazardous_radius_xa'] == True):
+                    pass
+                if(self.algorithmMap['tilt_flame_hazardous_radius_xb'] == True):
+                    pass
+                if(self.algorithmMap['tilt_flame_hazardous_radius_xc'] == True):
+                    pass
+                if(self.algorithmMap['draw_rad_heat_flux_curve_Fh'] == True):
+                    pass
+                if(self.algorithmMap['draw_rad_heat_flux_curve_Fv'] == True):
+                    pass
+                if(self.algorithmMap['draw_rad_heat_flux_vertical_view'] == True):
+                    pass
+                if(self.algorithmMap['flame_hazardous_radius_xa'] == True):
+                    pass
 
 
 
