@@ -24,29 +24,23 @@ if __name__ == '__main__':
         sys.exit(app.exec_())
 
 
-# from PyQt5.QtWidgets import QApplication
-# from PyQt5 import QtWidgets
-# from PyQt5.QtCore import pyqtSignal
+
+# import matplotlib.pyplot as plt
 #
 #
-# class Emit(QtWidgets.QWidget):
-#     closeEmitApp = pyqtSignal()
+# # f2 = plt.figure()
+# # plt.title("figure2")
+# #
+# # f3 = plt.figure(5)
+# # plt.title("figure5")
+# #
+# f6 = plt.figure(6, (4, 4), 100)
+# # plt.title("figure6")
 #
-#     def __init__(self, parent=None):
-#         QtWidgets.QWidget.__init__(self)
-#
-#         self.setWindowTitle('escape')
-#         self.resize(350, 300)
-#         self.closeEmitApp.connect(self.close)
-#
-#     def mousePressEvent(self, event):
-#         self.closeEmitApp.emit()
+# f7 = plt.figure(7, None, None, '#FFD700', '#FF0000')
+# plt.title("figure7")
+# # f1 = plt.figure()
 #
 #
-# if __name__ == "__main__":
-#     import sys
 #
-#     app = QApplication(sys.argv)
-#     qb = Emit()
-#     qb.show()
-#     app.exec()
+# plt.show()

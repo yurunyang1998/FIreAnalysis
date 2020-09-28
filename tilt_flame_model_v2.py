@@ -117,6 +117,8 @@ def FH1_func(H, X, theta, R):
 #Radiative heat flux curve
 def draw_rad_heat_flux_curve_FH1(H, R, theta):
     try:
+        fig = plt.figure("draw_rad_heat_flux_curve_FH1")
+        plt.title("draw_rad_heat_flux_curve_FH1")
 
         plt.ion()
         x = np.arange(1, 50, 1) #Radius

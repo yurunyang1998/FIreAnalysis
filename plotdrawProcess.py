@@ -2,6 +2,8 @@ import upright_flame_model_v3 as ufm
 import tilt_flame_model_v2 as tfm
 import  multiprocessing as mp
 import time
+import matplotlib.pyplot as plt
+
 class PlotProcess:
     def __init__(self,queue_):
         self.queue = queue_
@@ -18,6 +20,56 @@ class PlotProcess:
                              "draw_rad_heat_flux_vertical_view":False,
                              "flame_hazardous_radius_xa":False
                              }
+
+    def handle_close_draw_rad_heat_flux_curve_FH1(self):
+        print("close")
+        self.algorithmMap['draw_rad_heat_flux_curve_FH1'] = False
+
+    def handle_close_plot_abc(self):
+        pass
+
+    def handle_close_tilt_flame_hazardous_radius_xa(self):
+        pass
+    def handle_close_tilt_flame_hazardous_radius_xb(self):
+        pass
+    def handle_close_tilt_flame_hazardous_radius_xc(self):
+        pass
+    def handle_close_draw_rad_heat_flux_curve_Fh(self):
+        pass
+    def handle_close_draw_rad_heat_flux_curve_Fv(self):
+        pass
+    def handle_close_draw_rad_heat_flux_vertical_view(self):
+        pass
+    def handle_close_flame_hazardous_radius_xa(self):
+        pass
+
+
+    def figureInit(self):
+        self.fig_draw_rad_heat_flux_curve_FH1 =  plt.figure("draw_rad_heat_flux_curve_FH1")
+        self.fig_plot_abc = plt.figure("plot_abc")
+        self.fig_tilt_flame_hazardous_radius_xa = plt.figure("tilt_flame_hazardous_radius_xa")
+        self.fig_tilt_flame_hazardous_radius_xb = plt.figure("tilt_flame_hazardous_radius_xb")
+        self.fig_tilt_flame_hazardous_radius_xc = plt.figure("tilt_flame_hazardous_radius_xc")
+        self.fig_draw_rad_heat_flux_curve_Fh = plt.figure("draw_rad_heat_flux_curve_Fh")
+        self.fig_draw_rad_heat_flux_curve_Fv = plt.figure("draw_rad_heat_flux_curve_Fv")
+        self.fig_draw_rad_heat_flux_vertical_view = plt.figure("draw_rad_heat_flux_vertical_view")
+        self.fig_flame_hazardous_radius_xa = plt.figure("flame_hazardous_radius_xa")
+
+
+
+        self.fig_draw_rad_heat_flux_curve_FH1.canvas.mpl_connect('close_event', self.handle_close_draw_rad_heat_flux_curve_FH1)
+        self.fig_plot_abc.canvas.mpl_connect("close_event", self.handle_close_plot_abc )
+        self.fig_tilt_flame_hazardous_radius_xa.canvas.mpl_connect("close_event", self.handle_close_flame_hazardous_radius_xa)
+        self.fig_tilt_flame_hazardous_radius_xb.canvas.mpl_connect("close_event", self.handle_close_tilt_flame_hazardous_radius_xb)
+        self.fig_tilt_flame_hazardous_radius_xc.canvas.mpl_connect("close_event", self.handle_close_tilt_flame_hazardous_radius_xc)
+        self.fig_draw_rad_heat_flux_curve_Fh.canvas.mpl_connect("close_event", self.handle_close_draw_rad_heat_flux_curve_Fh)
+        self.fig_draw_rad_heat_flux_curve_Fv.canvas.mpl_connect("close_event", self.handle_close_draw_rad_heat_flux_curve_Fv)
+        self.fig_draw_rad_heat_flux_vertical_view.canvas.mpl_connect("close_event", self.handle_close_draw_rad_heat_flux_vertical_view)
+        self.fig_flame_hazardous_radius_xa.canvas.mpl_connect("close_event", self.handle_close_tilt_flame_hazardous_radius_xa)
+
+
+
+
 
     def run(self):
         self.readProcess.start()
