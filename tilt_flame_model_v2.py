@@ -115,11 +115,12 @@ def FH1_func(H, X, theta, R):
     return fh_val
 
 #Radiative heat flux curve
-def draw_rad_heat_flux_curve_FH1(H, R, theta):
+def draw_rad_heat_flux_curve_FH1(H, R, theta, fig):
     try:
-        fig = plt.figure("draw_rad_heat_flux_curve_FH1")
+        fig.add_subplot()
+        plt.figure("draw_rad_heat_flux_curve_FH1")
         plt.title("draw_rad_heat_flux_curve_FH1")
-
+        # fig = fig_
         plt.ion()
         x = np.arange(1, 50, 1) #Radius
         y = []
@@ -296,9 +297,9 @@ def FV2_func(H, X, theta, R):
     return fv2_val
 
 #Radiative heat flux curve
-def draw_rad_heat_flux_curve_FV2(H, R, theta):
+def draw_rad_heat_flux_curve_FV2(H, R, theta, fig):
+    fig.add_subplot()
     plt.ion()
-    plt.clf()
     x = np.arange(1, 50, 1) #Radius
     y = []
     for x_dis in x:
@@ -308,7 +309,8 @@ def draw_rad_heat_flux_curve_FV2(H, R, theta):
     plt.xlabel("Distance to flame (m)")
     plt.ylabel("Radiative heat flux (kW/m^2)")
     plt.legend()
-    plt.pause(0.1)
+    plt.pause(0.5)
+    plt.clf()
     plt.show()
 
 # 给定辐射热流rad_heat时，c点位置的计算函数（y轴负半轴位置）

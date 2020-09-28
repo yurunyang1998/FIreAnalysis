@@ -11,7 +11,7 @@ from  loginPage import LoginPage
 ################################################
 #######对话框
 ################################################
-
+import matplotlib.pyplot as plt
 
 if __name__ == '__main__':
 
@@ -22,7 +22,6 @@ if __name__ == '__main__':
         ex = mainPage.MainPage()
         ex.show()
         sys.exit(app.exec_())
-
 
 
 # import matplotlib.pyplot as plt
