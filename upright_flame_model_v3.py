@@ -219,7 +219,7 @@ def draw_rad_heat_flux_curve_Fh(d_flame, height_original, R_distance_max, layer_
     except Exception as e:
         traceback.print_exc()
 
-    return X_a_array
+    # return X_a_array
 
 def flame_hazardous_radius_xa(X_a_array, fig):
     ax = fig.add_subplot(111)
@@ -239,6 +239,39 @@ def flame_hazardous_radius_xa(X_a_array, fig):
             continue
     plt.pause(5)
     plt.show()
+
+
+def flame_hazardous_radius_xa(d_flame, height_original, R_distance_max, layer_thickness, rad_heat, fig):
+    ax = fig.add_subplot(132)
+
+    x, y = calculate_rad_heat_flux_curve_Fh(d_flame, height_original, R_distance_max, layer_thickness)
+    # 拟合曲线，计算5个Radiation对应的X_a
+    x_xa = np.array(y)
+    x_xa = x_xa.astype(np.float64)
+    y_xa = x
+    exponential_number = 8
+    f2 = np.polyfit(x_xa, y_xa, exponential_number)
+    X_a_array = np.polyval(f2, rad_heat)
+    # print(X_a_array)
+    X_a_array[X_a_array < 0] = 0
+
+    colors = ["orange", "cyan", "pink", "lime", "yellow"]
+    for i in range(5):
+        try:
+            cir = Circle(xy=(0.0, 0.0), radius=X_a_array[i], facecolor=colors[i])  # alpha=0.5,
+            ax.add_patch(cir)
+            x, y = 0, 0
+            ax.plot(x, y, 'ro')
+            # ax.arrow(0,0,int(R_5[i]),i*10,length_includes_head = True, head_width = 2, head_length = 2,fc = 'k',ec = 'k')
+            plt.text(int(X_a_array[i]), i * 10, str(int(X_a_array[i])), ha='right', wrap=True, rotation='vertical')
+            plt.title('Hazardous Radius for the upright flame(5 levels)')
+            plt.axis('scaled')
+            plt.axis('equal')  # changes limits of x or y axis so that equal increments of x and y have the same length
+        except:
+            continue
+    plt.pause(0.04)
+    plt.show()
+
 
 #height_original是在一帧图像上提取的每一层火焰高度，数组
 #d_original是在一帧图像上提取的每一层火焰直径，数组

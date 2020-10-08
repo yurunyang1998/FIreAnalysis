@@ -867,6 +867,19 @@
 提取数据</string>
             </property>
            </widget>
+           <widget class="QPushButton" name="pushButton_18">
+            <property name="geometry">
+             <rect>
+              <x>230</x>
+              <y>190</y>
+              <width>75</width>
+              <height>23</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>提交</string>
+            </property>
+           </widget>
           </widget>
           <widget class="QWidget" name="widget_3" native="true">
            <property name="geometry">
@@ -997,6 +1010,81 @@
 高度的关系</string>
             </property>
            </widget>
+           <widget class="QPushButton" name="pushButton_19">
+            <property name="geometry">
+             <rect>
+              <x>230</x>
+              <y>190</y>
+              <width>75</width>
+              <height>23</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>提交</string>
+            </property>
+           </widget>
+          </widget>
+          <widget class="QWidget" name="widget_7" native="true">
+           <property name="geometry">
+            <rect>
+             <x>280</x>
+             <y>140</y>
+             <width>251</width>
+             <height>91</height>
+            </rect>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">background-color: rgb(203, 203, 203);</string>
+           </property>
+           <widget class="QLabel" name="label_38">
+            <property name="geometry">
+             <rect>
+              <x>15</x>
+              <y>10</y>
+              <width>161</width>
+              <height>20</height>
+             </rect>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>15</pointsize>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">color:rgb(0, 0, 0)</string>
+            </property>
+            <property name="text">
+             <string>R_distance_max</string>
+            </property>
+           </widget>
+           <widget class="QPushButton" name="pushButton_17">
+            <property name="geometry">
+             <rect>
+              <x>160</x>
+              <y>60</y>
+              <width>75</width>
+              <height>23</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>提交</string>
+            </property>
+           </widget>
+           <widget class="QLineEdit" name="lineEdit_14">
+            <property name="geometry">
+             <rect>
+              <x>180</x>
+              <y>10</y>
+              <width>51</width>
+              <height>31</height>
+             </rect>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(255, 255, 255);</string>
+            </property>
+           </widget>
           </widget>
          </widget>
         </item>
@@ -1115,7 +1203,7 @@
              <x>620</x>
              <y>10</y>
              <width>141</width>
-             <height>191</height>
+             <height>201</height>
             </rect>
            </property>
            <property name="styleSheet">
@@ -1266,35 +1354,6 @@
              <string notr="true">background-color: rgb(255, 255, 255);</string>
             </property>
            </widget>
-           <widget class="QLineEdit" name="lineEdit_23">
-            <property name="geometry">
-             <rect>
-              <x>80</x>
-              <y>160</y>
-              <width>48</width>
-              <height>20</height>
-             </rect>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">background-color: rgb(255, 255, 255);</string>
-            </property>
-           </widget>
-           <widget class="QLabel" name="label_43">
-            <property name="geometry">
-             <rect>
-              <x>15</x>
-              <y>160</y>
-              <width>59</width>
-              <height>16</height>
-             </rect>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">font: 10pt &quot;Arial&quot;;</string>
-            </property>
-            <property name="text">
-             <string>辐射阈值6</string>
-            </property>
-           </widget>
            <widget class="QLabel" name="label_44">
             <property name="geometry">
              <rect>
@@ -1309,6 +1368,19 @@
             </property>
             <property name="text">
              <string>kW/m^2</string>
+            </property>
+           </widget>
+           <widget class="QPushButton" name="pushButton_20">
+            <property name="geometry">
+             <rect>
+              <x>50</x>
+              <y>170</y>
+              <width>75</width>
+              <height>23</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>提交</string>
             </property>
            </widget>
           </widget>
@@ -1346,12 +1418,18 @@
      <string>菜单</string>
     </property>
     <addaction name="action"/>
+    <addaction name="actiond"/>
    </widget>
    <addaction name="menu"/>
   </widget>
   <action name="action">
    <property name="text">
     <string>读取视频</string>
+   </property>
+  </action>
+  <action name="actiond">
+   <property name="text">
+    <string>重启进程</string>
    </property>
   </action>
  </widget>
