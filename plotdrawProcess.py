@@ -102,10 +102,11 @@ class PlotProcess:
                 angle = msg['angle']
                 fireLayerDiameter = msg['fireLayerDiameter']
                 fireLayerHeight = msg['fireLayerHeight']
-                # R_distance = msg['R_distance']
+                R_distance = msg['R_distance_max']
                 # time.sleep(1)
-
-                # x, y =  ufm.calculate_rad_heat_flux_curve_Fh(fireLayerDiameter, fireLayerHeight,R_distance)
+                layer_thickness = msg['layer_thickness']
+                x, y =  ufm.calculate_rad_heat_flux_curve_Fh(fireLayerDiameter, fireLayerHeight, R_distance, layer_thickness)
+                print(x,y)
                 if(self.algorithmMap['draw_rad_heat_flux_curve_FH1'] == True):
                     # if(self.created_draw_rad_heat_flux_curve_FH1 == False):
                         self.fig_draw_rad_heat_flux_curve_FH1 = plt.figure("draw_rad_heat_flux_curve_FH1")

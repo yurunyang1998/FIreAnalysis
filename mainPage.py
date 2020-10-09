@@ -292,6 +292,10 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
         self.algorithmMap["fireHeight"] = self.fireHeight
         self.algorithmMap["fireWidget"] = self.fireWidget
         self.algorithmMap["angle"] = self.fireAngel
+        self.algorithmMap['R_distance_max'] = self.R_distance_max
+        self.algorithmMap['k'] = self.k
+        self.algorithmMap['RadioThreshold'] = self.RadioThreshold
+        self.algorithmMap['layer_thickness'] = 10/self.rateInY
         try:
             if (self.tableWidgetIndex == 7):
                 self.tableWidgetIndex = 1

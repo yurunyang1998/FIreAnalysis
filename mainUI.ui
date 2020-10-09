@@ -430,54 +430,6 @@
           <string>添加阈值</string>
          </property>
         </widget>
-        <widget class="QLineEdit" name="lineEdit_5">
-         <property name="geometry">
-          <rect>
-           <x>10</x>
-           <y>170</y>
-           <width>131</width>
-           <height>31</height>
-          </rect>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">font: 12pt &quot;Arial&quot;;</string>
-         </property>
-         <property name="text">
-          <string>添加火焰高度</string>
-         </property>
-        </widget>
-        <widget class="QLineEdit" name="lineEdit_6">
-         <property name="geometry">
-          <rect>
-           <x>220</x>
-           <y>170</y>
-           <width>133</width>
-           <height>31</height>
-          </rect>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">font: 12pt &quot;Arial&quot;;</string>
-         </property>
-         <property name="text">
-          <string>添加火焰直径</string>
-         </property>
-        </widget>
-        <widget class="QPushButton" name="pushButton_8">
-         <property name="geometry">
-          <rect>
-           <x>360</x>
-           <y>170</y>
-           <width>81</width>
-           <height>31</height>
-          </rect>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">font: 87 12pt &quot;Arial Black&quot;;</string>
-         </property>
-         <property name="text">
-          <string>添加</string>
-         </property>
-        </widget>
         <widget class="QPushButton" name="pushButton_9">
          <property name="geometry">
           <rect>
@@ -489,32 +441,6 @@
          </property>
          <property name="text">
           <string>自动分析火焰数据</string>
-         </property>
-        </widget>
-        <widget class="QLabel" name="label_16">
-         <property name="geometry">
-          <rect>
-           <x>10</x>
-           <y>146</y>
-           <width>131</width>
-           <height>21</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>火焰高度(m)</string>
-         </property>
-        </widget>
-        <widget class="QLabel" name="label_17">
-         <property name="geometry">
-          <rect>
-           <x>220</x>
-           <y>145</y>
-           <width>101</width>
-           <height>21</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>火焰直径(m)</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_18">
@@ -1028,9 +954,9 @@
            <property name="geometry">
             <rect>
              <x>280</x>
-             <y>140</y>
+             <y>90</y>
              <width>251</width>
-             <height>91</height>
+             <height>81</height>
             </rect>
            </property>
            <property name="styleSheet">
@@ -1063,7 +989,7 @@
             <property name="geometry">
              <rect>
               <x>160</x>
-              <y>60</y>
+              <y>50</y>
               <width>75</width>
               <height>23</height>
              </rect>
@@ -1085,6 +1011,80 @@
              <string notr="true">background-color: rgb(255, 255, 255);</string>
             </property>
            </widget>
+          </widget>
+          <widget class="QLabel" name="label_17">
+           <property name="geometry">
+            <rect>
+             <x>220</x>
+             <y>175</y>
+             <width>101</width>
+             <height>21</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>火焰直径(m)</string>
+           </property>
+          </widget>
+          <widget class="QPushButton" name="pushButton_8">
+           <property name="geometry">
+            <rect>
+             <x>360</x>
+             <y>200</y>
+             <width>81</width>
+             <height>31</height>
+            </rect>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">font: 87 12pt &quot;Arial Black&quot;;</string>
+           </property>
+           <property name="text">
+            <string>添加</string>
+           </property>
+          </widget>
+          <widget class="QLabel" name="label_16">
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>176</y>
+             <width>131</width>
+             <height>21</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>火焰高度(m)</string>
+           </property>
+          </widget>
+          <widget class="QLineEdit" name="lineEdit_5">
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>200</y>
+             <width>131</width>
+             <height>31</height>
+            </rect>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">font: 12pt &quot;Arial&quot;;</string>
+           </property>
+           <property name="text">
+            <string>添加火焰高度</string>
+           </property>
+          </widget>
+          <widget class="QLineEdit" name="lineEdit_6">
+           <property name="geometry">
+            <rect>
+             <x>220</x>
+             <y>200</y>
+             <width>133</width>
+             <height>31</height>
+            </rect>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">font: 12pt &quot;Arial&quot;;</string>
+           </property>
+           <property name="text">
+            <string>添加火焰直径</string>
+           </property>
           </widget>
          </widget>
         </item>
@@ -1110,7 +1110,7 @@
            <property name="geometry">
             <rect>
              <x>10</x>
-             <y>60</y>
+             <y>110</y>
              <width>251</width>
              <height>23</height>
             </rect>
@@ -1122,8 +1122,8 @@
           <widget class="QPushButton" name="pushButton_4">
            <property name="geometry">
             <rect>
-             <x>10</x>
-             <y>100</y>
+             <x>300</x>
+             <y>190</y>
              <width>251</width>
              <height>23</height>
             </rect>
@@ -1136,7 +1136,7 @@
            <property name="geometry">
             <rect>
              <x>300</x>
-             <y>100</y>
+             <y>150</y>
              <width>251</width>
              <height>23</height>
             </rect>
@@ -1149,7 +1149,7 @@
            <property name="geometry">
             <rect>
              <x>300</x>
-             <y>60</y>
+             <y>110</y>
              <width>251</width>
              <height>23</height>
             </rect>
@@ -1162,7 +1162,7 @@
            <property name="geometry">
             <rect>
              <x>300</x>
-             <y>20</y>
+             <y>70</y>
              <width>251</width>
              <height>23</height>
             </rect>
@@ -1175,7 +1175,7 @@
            <property name="geometry">
             <rect>
              <x>10</x>
-             <y>20</y>
+             <y>70</y>
              <width>51</width>
              <height>20</height>
             </rect>
@@ -1188,7 +1188,7 @@
            <property name="geometry">
             <rect>
              <x>70</x>
-             <y>20</y>
+             <y>70</y>
              <width>191</width>
              <height>23</height>
             </rect>
@@ -1383,6 +1383,72 @@
              <string>提交</string>
             </property>
            </widget>
+          </widget>
+          <widget class="QFrame" name="frame">
+           <property name="geometry">
+            <rect>
+             <x>790</x>
+             <y>10</y>
+             <width>141</width>
+             <height>91</height>
+            </rect>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">background-color: rgb(203, 203, 203);</string>
+           </property>
+           <property name="frameShape">
+            <enum>QFrame::StyledPanel</enum>
+           </property>
+           <property name="frameShadow">
+            <enum>QFrame::Raised</enum>
+           </property>
+           <widget class="QLabel" name="label_30">
+            <property name="geometry">
+             <rect>
+              <x>10</x>
+              <y>0</y>
+              <width>121</width>
+              <height>91</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>a点,沿火焰倾斜方向
+b点,沿火焰倾斜反方向
+c点,沿火焰垂直方向</string>
+            </property>
+           </widget>
+          </widget>
+          <widget class="QLabel" name="label_32">
+           <property name="geometry">
+            <rect>
+             <x>90</x>
+             <y>20</y>
+             <width>81</width>
+             <height>31</height>
+            </rect>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">font: 14pt &quot;Agency FB&quot;;</string>
+           </property>
+           <property name="text">
+            <string>垂直火焰</string>
+           </property>
+          </widget>
+          <widget class="QLabel" name="label_39">
+           <property name="geometry">
+            <rect>
+             <x>380</x>
+             <y>20</y>
+             <width>81</width>
+             <height>31</height>
+            </rect>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">font: 14pt &quot;Agency FB&quot;;</string>
+           </property>
+           <property name="text">
+            <string>倾斜火焰</string>
+           </property>
           </widget>
          </widget>
         </item>

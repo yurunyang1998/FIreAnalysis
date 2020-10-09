@@ -122,10 +122,10 @@ def heat_flux_h(d_flame, height_original, layer_thickness, R_distance):
     #z=0
     #d_flame:火焰直径，array
     #Height:火焰高度
-    #L:火焰高度
-    Height=np.max(height_original)
-    layerNum=math.ceil(Height/layer_thickness)
-    H_array=np.linspace(layer_thickness,Height,layerNum)
+    #L:火焰高
+    # Height=np.max(height_original)
+    layerNum= len(height_original)
+    H_array= height_original
 
     Qh_total=0    
     k=-3.674
@@ -317,12 +317,12 @@ R_distance=1#这个参数是圆柱外边缘到目标微元的水平距离，是�
 rad_heat=[1.6,4.0,12.5,25.0,37.5] #这个也是手动输入的参数
 
 
-# d_flame = d_flame_fitting(d_original, height_original, layer_thickness)
+d_flame = d_flame_fitting(d_original, height_original, layer_thickness)
 
 # fig = plt.figure()
 
 # x,y=calculate_rad_heat_flux_curve_Fh(d_flame, height_original, R_distance_max, layer_thickness)
-
+# print(x,y)
 #垂直圆柱体火焰在水平方向热流密度分布,先调用这个函数，返回值在后面的两个功能中会用到。
 # draw_rad_heat_flux_curve_Fh(x, y, fig)
 
