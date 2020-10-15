@@ -9,32 +9,54 @@ class PlotProcess:
         self.queue = queue_
         self.readProcess = mp.Process(target=self.dealHandle,args=(self.queue,))
         self.flag = True
-        self.algorithmMap = {"draw_rad_heat_flux_curve_FH1":False,
-                            "draw_rad_heat_flux_curve_FV2" :False,
-                            "plot_abc" : False,
-                            "tilt_flame_hazardous_radius_xa":False,
-                            "tilt_flame_hazardous_radius_xb":False,
-                             "tilt_flame_hazardous_radius_xc":False,
-                             "draw_rad_heat_flux_curve_Fh":False,
-                             "draw_rad_heat_flux_curve_Fv":False,
-                             "draw_rad_heat_flux_vertical_view":False,
-                             "flame_hazardous_radius_xa":False
+        self.algorithmMap = {"draw_rad_heat_flux_curve_Fh": False,
+                             "draw_rad_heat_flux_curve_Fv": False,
+                             "draw_rad_heat_flux_vertical_view": False,
+                             "draw_rad_heat_flux_curve_FV1_x_pos": False,
+                             "draw_rad_heat_flux_curve_FV1_x_neg": False,
+                             "draw_rad_heat_flux_curve_FV2_y_vertical": False,
+                             "draw_rad_heat_flux_curve_FH1_x_pos": False,
+                             "draw_rad_heat_flux_curve_FH1_x_neg": False,
+                             "draw_rad_heat_flux_curve_FH2_y_vertical": False,
+                             "flame_hazardous_radius_xa": False,
+                             "tilt_flame_hazardous_radius_xa": False,
+                             "tilt_flame_hazardous_radius_xb": False,
+                             "tilt_flame_hazardous_radius_xc": False,
+                             "plot_abc": False
                              }
         # self.figureInit()
         self.created_draw_rad_heat_flux_curve_FH1 = False
         self.created_draw_rad_heat_flux_curve_FV2 = False
 
-    def handle_close_draw_rad_heat_flux_curve_FH1(self, evt):
-        self.algorithmMap['draw_rad_heat_flux_curve_FH1'] = False
+    def handle_close_draw_rad_heat_flux_curve_Fh(self, evt):
+        self.algorithmMap['draw_rad_heat_flux_curve_Fh'] = False
 
-        self.created_draw_rad_heat_flux_curve_FH1= False
+    def handle_close_draw_rad_heat_flux_curve_Fv(self, evt):
+        self.algorithmMap['draw_rad_heat_flux_curve_Fv'] = False
 
-    def handle_close_draw_rad_heat_flux_curve_FV2(self, evt):
-        self.algorithmMap['draw_rad_heat_flux_curve_FV2'] = False
-        self.created_draw_rad_heat_flux_curve_FV2= False
+    def handle_close_draw_rad_heat_flux_vertical_view(self, evt):
+        self.algorithmMap['draw_rad_heat_flux_vertical_view'] = False
 
-    def handle_close_plot_abc(self, evt):
-        self.algorithmMap['plot_abc'] = False
+    def handle_close_draw_rad_heat_flux_curve_FV1_x_pos(self, evt):
+        self.algorithmMap['draw_rad_heat_flux_curve_FV1_x_pos'] = False
+
+    def handle_close_draw_rad_heat_flux_curve_FV1_x_neg(self, evt):
+        self.algorithmMap['draw_rad_heat_flux_curve_FV1_x_neg'] = False
+
+    def handle_close_draw_rad_heat_flux_curve_FV2_y_vertical(self, evt):
+        self.algorithmMap['draw_rad_heat_flux_curve_FV2_y_vertical'] = False
+
+    def handle_close_draw_rad_heat_flux_curve_FH1_x_posh(self, evt):
+        self.algorithmMap['draw_rad_heat_flux_curve_FH1_x_pos'] = False
+
+    def handle_close_draw_rad_heat_flux_curve_FH1_x_neg(self, evt):
+        self.algorithmMap['draw_rad_heat_flux_curve_FH1_x_neg'] = False
+
+    def handle_close_draw_rad_heat_flux_curve_FH2_y_vertical(self, evt):
+        self.algorithmMap['draw_rad_heat_flux_curve_FH2_y_vertical'] =False
+
+    def handle_close_flame_hazardous_radius_xa(self, evt):
+        self.algorithmMap['flame_hazardous_radius_xa'] = False
 
     def handle_close_tilt_flame_hazardous_radius_xa(self, evt):
         self.algorithmMap['tilt_flame_hazardous_radius_xa'] = False
@@ -45,19 +67,8 @@ class PlotProcess:
     def handle_close_tilt_flame_hazardous_radius_xc(self, evt):
         self.algorithmMap['tilt_flame_hazardous_radius_xc'] = False
 
-    def handle_close_draw_rad_heat_flux_curve_Fh(self, evt):
-        self.algorithmMap['draw_rad_heat_flux_curve_Fh'] = False
-
-    def handle_close_draw_rad_heat_flux_curve_Fv(self, evt):
-        self.algorithmMap['draw_rad_heat_flux_curve_Fv'] = False
-
-    def handle_close_draw_rad_heat_flux_vertical_view(self, evt):
-        self.algorithmMap['draw_rad_heat_flux_vertical_view'] =False
-
-    def handle_close_flame_hazardous_radius_xa(self, evt):
-        self.algorithmMap['flame_hazardous_radius_xa'] = False
-
-
+    def handle_close_plot_abc(self, evt):
+        self.algorithmMap['plot_abc'] = False
 
     # def figureInit(self):
     #     self.fig_draw_rad_heat_flux_curve_FH1 =  plt.figure("draw_rad_heat_flux_curve_FH1")
