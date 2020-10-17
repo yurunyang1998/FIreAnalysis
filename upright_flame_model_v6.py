@@ -180,7 +180,7 @@ def draw_rad_heat_flux_curve_Fh(x, y, fig):
     plt.show()
 
 def flame_hazardous_radius_xa(x, y, fig):
-    #plt.clf()
+    plt.clf()
     plt.ion()
     #x, y=calculate_rad_heat_flux_curve_Fh(d_flame, height_original, R_distance_max, layer_thickness)
     #拟合曲线，计算5个Radiation对应的X_a
@@ -310,14 +310,14 @@ d_original = np.array([
                        ])
 # four key display functions 
 
-#需要手动设置的参数：
-R_distance_max=50#这个参数是绘制曲线时x轴的范围，应大于火焰半径 //TODO:: 需要在界面中添加的参数
-layer_thickness=0.5
-R_distance=1#这个参数是圆柱外边缘到目标微元的水平距离，是一个给定的参数,观测点距离火焰的水平距离（函数draw_rad_heat_flux_curve_Fv的输入参数）
+# #需要手动设置的参数：
+# R_distance_max=50#这个参数是绘制曲线时x轴的范围，应大于火焰半径 //TODO:: 需要在界面中添加的参数
+# layer_thickness=0.5
+# R_distance=1#这个参数是圆柱外边缘到目标微元的水平距离，是一个给定的参数,观测点距离火焰的水平距离（函数draw_rad_heat_flux_curve_Fv的输入参数）
 rad_heat=[1.6,4.0,12.5,25.0,37.5] #这个也是手动输入的参数
 
 
-d_flame = d_flame_fitting(d_original, height_original, layer_thickness)
+# d_flame = d_flame_fitting(d_original, height_original, layer_thickness)
 
 # fig = plt.figure()
 

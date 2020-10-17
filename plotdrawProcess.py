@@ -1,5 +1,5 @@
 import upright_flame_model_v6 as ufm
-import tilt_flame_model_v2 as tfm
+import tilt_flame_model_v3 as tfm
 import  multiprocessing as mp
 import time
 import matplotlib.pyplot as plt
@@ -25,74 +25,77 @@ class PlotProcess:
                              "plot_abc": False
                              }
         # self.figureInit()
-        self.created_draw_rad_heat_flux_curve_FH1 = False
-        self.created_draw_rad_heat_flux_curve_FV2 = False
+
+        self.created_draw_rad_heat_flux_curve_Fh = False
+        self.created_draw_rad_heat_flux_curve_Fv = False
+        self.created_draw_rad_heat_flux_vertical_view = False
+        self.created_draw_rad_heat_flux_curve_FV1_x_pos = False
+        self.created_draw_rad_heat_flux_curve_FV1_x_neg = False
+        self.created_draw_rad_heat_flux_curve_FV2_y_vertical = False
+        self.created_draw_rad_heat_flux_curve_FH1_x_pos = False
+        self.created_draw_rad_heat_flux_curve_FH1_x_neg = False
+        self.created_draw_rad_heat_flux_curve_FH2_y_vertical = False
+        self.created_flame_hazardous_radius_xa = False
+        self.created_tilt_flame_hazardous_radius_xa = False
+        self.created_tilt_flame_hazardous_radius_xb = False
+        self.created_tilt_flame_hazardous_radius_xc = False
+        self.created_plot_abc = False
 
     def handle_close_draw_rad_heat_flux_curve_Fh(self, evt):
         self.algorithmMap['draw_rad_heat_flux_curve_Fh'] = False
+        self.created_draw_rad_heat_flux_curve_Fh = False
 
     def handle_close_draw_rad_heat_flux_curve_Fv(self, evt):
         self.algorithmMap['draw_rad_heat_flux_curve_Fv'] = False
+        self.created_draw_rad_heat_flux_curve_Fv = False
 
     def handle_close_draw_rad_heat_flux_vertical_view(self, evt):
         self.algorithmMap['draw_rad_heat_flux_vertical_view'] = False
+        self.created_draw_rad_heat_flux_vertical_view = False
 
     def handle_close_draw_rad_heat_flux_curve_FV1_x_pos(self, evt):
         self.algorithmMap['draw_rad_heat_flux_curve_FV1_x_pos'] = False
+        self.created_draw_rad_heat_flux_curve_FV1_x_pos = False
 
     def handle_close_draw_rad_heat_flux_curve_FV1_x_neg(self, evt):
         self.algorithmMap['draw_rad_heat_flux_curve_FV1_x_neg'] = False
+        self.created_draw_rad_heat_flux_curve_FV1_x_neg = False
 
     def handle_close_draw_rad_heat_flux_curve_FV2_y_vertical(self, evt):
         self.algorithmMap['draw_rad_heat_flux_curve_FV2_y_vertical'] = False
+        self.created_draw_rad_heat_flux_curve_FV2_y_vertical = False
 
-    def handle_close_draw_rad_heat_flux_curve_FH1_x_posh(self, evt):
+    def handle_close_draw_rad_heat_flux_curve_FH1_x_pos(self, evt):
         self.algorithmMap['draw_rad_heat_flux_curve_FH1_x_pos'] = False
+        self.created_draw_rad_heat_flux_curve_FH1_x_pos = False
 
     def handle_close_draw_rad_heat_flux_curve_FH1_x_neg(self, evt):
         self.algorithmMap['draw_rad_heat_flux_curve_FH1_x_neg'] = False
+        self.created_draw_rad_heat_flux_curve_FH1_x_neg = False
 
     def handle_close_draw_rad_heat_flux_curve_FH2_y_vertical(self, evt):
         self.algorithmMap['draw_rad_heat_flux_curve_FH2_y_vertical'] =False
+        self.created_draw_rad_heat_flux_curve_FH2_y_vertical = False
 
     def handle_close_flame_hazardous_radius_xa(self, evt):
         self.algorithmMap['flame_hazardous_radius_xa'] = False
+        self.created_flame_hazardous_radius_xa = False
 
     def handle_close_tilt_flame_hazardous_radius_xa(self, evt):
         self.algorithmMap['tilt_flame_hazardous_radius_xa'] = False
+        self.created_tilt_flame_hazardous_radius_xa = False
 
     def handle_close_tilt_flame_hazardous_radius_xb(self, evt):
         self.algorithmMap['tilt_flame_hazardous_radius_xb'] = False
+        self.created_tilt_flame_hazardous_radius_xb = False
 
     def handle_close_tilt_flame_hazardous_radius_xc(self, evt):
         self.algorithmMap['tilt_flame_hazardous_radius_xc'] = False
+        self.created_tilt_flame_hazardous_radius_xc = False
 
     def handle_close_plot_abc(self, evt):
         self.algorithmMap['plot_abc'] = False
-
-    # def figureInit(self):
-    #     self.fig_draw_rad_heat_flux_curve_FH1 =  plt.figure("draw_rad_heat_flux_curve_FH1")
-    #     self.fig_plot_abc = plt.figure("plot_abc")
-    #     self.fig_tilt_flame_hazardous_radius_xa = plt.figure("tilt_flame_hazardous_radius_xa")
-    #     self.fig_tilt_flame_hazardous_radius_xb = plt.figure("tilt_flame_hazardous_radius_xb")
-    #     self.fig_tilt_flame_hazardous_radius_xc = plt.figure("tilt_flame_hazardous_radius_xc")
-    #     self.fig_draw_rad_heat_flux_curve_Fh = plt.figure("draw_rad_heat_flux_curve_Fh")
-    #     self.fig_draw_rad_heat_flux_curve_Fv = plt.figure("draw_rad_heat_flux_curve_Fv")
-    #     self.fig_draw_rad_heat_flux_vertical_view = plt.figure("draw_rad_heat_flux_vertical_view")
-    #     self.fig_flame_hazardous_radius_xa = plt.figure("flame_hazardous_radius_xa")
-    #
-    #
-    #
-    #     self.fig_draw_rad_heat_flux_curve_FH1.canvas.mpl_connect('close_event', self.handle_close_draw_rad_heat_flux_curve_FH1)
-    #     self.fig_plot_abc.canvas.mpl_connect("close_event", self.handle_close_plot_abc )
-    #     self.fig_tilt_flame_hazardous_radius_xa.canvas.mpl_connect("close_event", self.handle_close_flame_hazardous_radius_xa)
-    #     self.fig_tilt_flame_hazardous_radius_xb.canvas.mpl_connect("close_event", self.handle_close_tilt_flame_hazardous_radius_xb)
-    #     self.fig_tilt_flame_hazardous_radius_xc.canvas.mpl_connect("close_event", self.handle_close_tilt_flame_hazardous_radius_xc)
-    #     self.fig_draw_rad_heat_flux_curve_Fh.canvas.mpl_connect("close_event", self.handle_close_draw_rad_heat_flux_curve_Fh)
-    #     self.fig_draw_rad_heat_flux_curve_Fv.canvas.mpl_connect("close_event", self.handle_close_draw_rad_heat_flux_curve_Fv)
-    #     self.fig_draw_rad_heat_flux_vertical_view.canvas.mpl_connect("close_event", self.handle_close_draw_rad_heat_flux_vertical_view)
-    #     self.fig_flame_hazardous_radius_xa.canvas.mpl_connect("close_event", self.handle_close_tilt_flame_hazardous_radius_xa)
-    #
+        self.created_plot_abc = False
 
 
 
@@ -116,77 +119,175 @@ class PlotProcess:
                 R_distance = msg['R_distance_max']
                 # time.sleep(1)
                 layer_thickness = msg['layer_thickness']
-                x, y =  ufm.calculate_rad_heat_flux_curve_Fh(fireLayerDiameter, fireLayerHeight, R_distance, layer_thickness)
-                print(x,y)
-                if(self.algorithmMap['draw_rad_heat_flux_curve_FH1'] == True):
-                    # if(self.created_draw_rad_heat_flux_curve_FH1 == False):
-                        self.fig_draw_rad_heat_flux_curve_FH1 = plt.figure("draw_rad_heat_flux_curve_FH1")
-                        self.fig_draw_rad_heat_flux_curve_FH1.canvas.mpl_connect('close_event',
-                                                                                 self.handle_close_draw_rad_heat_flux_curve_FH1)
-                        # self.created_draw_rad_heat_flux_curve_FH1 = True
+                try:
+                    x, y =  ufm.calculate_rad_heat_flux_curve_Fh(fireLayerDiameter, fireLayerHeight, R_distance, layer_thickness)
+                except Exception as e:
+                    continue
 
-                        tfm.draw_rad_heat_flux_curve_FH1(fireHeight, fireWidget, angle, self.fig_draw_rad_heat_flux_curve_FH1)
-                    # time.sleep(1)
-                if(self.algorithmMap['draw_rad_heat_flux_curve_FV2'] == True):
-                    if(self.created_draw_rad_heat_flux_curve_FV2 == False):
-                        self.fig_draw_rad_heat_flux_curve_FV2 = plt.figure("draw_rad_heat_flux_curve_FV2")
-                        self.fig_draw_rad_heat_flux_curve_FV2.canvas.mpl_connect("close_event",
-                                                                                 self.handle_close_draw_rad_heat_flux_curve_FV2)
-                        # self.created_draw_rad_heat_flux_curve_FV2 = True
-                    tfm.draw_rad_heat_flux_curve_FV2(fireHeight, fireWidget, angle, self.fig_draw_rad_heat_flux_curve_FV2)
+                if (self.algorithmMap['draw_rad_heat_flux_curve_Fh'] == True):
+                    try:
+                        if (self.created_draw_rad_heat_flux_curve_Fh == False):
+                            self.draw_rad_heat_flux_curve_Fh_fig = plt.figure(
+                                "draw_rad_heat_flux_curve_Fh")
+                            self.draw_rad_heat_flux_curve_Fh_fig.canvas.mpl_connect('close_event',
+                                                                                           self.handle_close_draw_rad_heat_flux_curve_Fh)
+                            self.created_draw_rad_heat_flux_curve_Fh = True
+                        ufm.draw_rad_heat_flux_curve_Fh(x, y, self.draw_rad_heat_flux_curve_Fh_fig)
+                    except Exception as e:
+                        print(e)
 
-                if(self.algorithmMap['plot_abc'] == True):
-                    self.fig_plot_abc = plt.figure("plot_abc")
-                    self.fig_plot_abc.canvas.mpl_connect("close_event",
-                                                         self.handle_close_plot_abc)
-                    tfm.plot_abc(fireHeight, fireWidget, angle, 4, self.fig_plot_abc)
+                if (self.algorithmMap['draw_rad_heat_flux_curve_Fv'] == True):
+                    try:
+                        if (self.created_draw_rad_heat_flux_curve_Fv == False):
+                            self.draw_rad_heat_flux_curve_Fv_fig = plt.figure(
+                                "draw_rad_heat_flux_curve_Fv")
+                            self.draw_rad_heat_flux_curve_Fv_fig.canvas.mpl_connect('close_event',
+                                                                                    self.handle_close_draw_rad_heat_flux_curve_Fv)
+                            self.created_draw_rad_heat_flux_curve_Fv = True
+                        ufm.draw_rad_heat_flux_curve_Fv(fireWidget, fireHeight, layer_thickness, R_distance, self.draw_rad_heat_flux_curve_Fv_fig)
+                    except Exception as e:
+                        print(e)
+
+
+                if (self.algorithmMap['draw_rad_heat_flux_vertical_view'] == True):
+                    try:
+                        if (self.created_draw_rad_heat_flux_vertical_view == False):
+                            self.draw_rad_heat_flux_vertical_view_fig = plt.figure(
+                                "draw_rad_heat_flux_vertical_view")
+                            self.draw_rad_heat_flux_vertical_view_fig.canvas.mpl_connect('close_event',
+                                                                                    self.handle_close_draw_rad_heat_flux_vertical_view)
+                            self.created_draw_rad_heat_flux_vertical_view = True
+                        ufm.draw_rad_heat_flux_vertical_view(x, y, self.draw_rad_heat_flux_vertical_view_fig)
+                    except Exception as e:
+                        print(e)
+
+
+                if(self.algorithmMap['draw_rad_heat_flux_curve_FV1_x_pos'] == True):
+                    try:
+                        if(self.created_draw_rad_heat_flux_curve_FV1_x_neg == False):
+                            self.draw_rad_heat_flux_curve_FV1_x_pos_fig = plt.figure("draw_rad_heat_flux_curve_FV1_x_pos")
+                            self.draw_rad_heat_flux_curve_FV1_x_pos_fig.canvas.mpl_connect('close_event',
+                                                                                     self.handle_close_draw_rad_heat_flux_curve_FV1_x_pos)
+                            self.created_draw_rad_heat_flux_curve_FV1_x_pos = True
+                        tfm.draw_rad_heat_flux_curve_FH1_x_pos(fireHeight, fireWidget, angle, self.draw_rad_heat_flux_curve_FV1_x_pos_fig)
+                    except Exception as e:
+                        print(e)
+
+                if(self.algorithmMap['draw_rad_heat_flux_curve_FV1_x_neg'] == True):
+                    try:
+                        if(self.created_draw_rad_heat_flux_curve_FV1_x_neg == False):
+                            self.draw_rad_heat_flux_curve_FV1_x_neg_fig = plt.figure("draw_rad_heat_flux_curve_FV1_x_neg")
+                            self.draw_rad_heat_flux_curve_FV1_x_neg_fig.canvas.mpl_connect("close_event",
+                                                                                     self.handle_close_draw_rad_heat_flux_curve_FV1_x_neg)
+                            self.created_draw_rad_heat_flux_curve_FV1_x_neg = True
+                        tfm.draw_rad_heat_flux_curve_FV1_x_neg(fireHeight, fireWidget, angle, self.draw_rad_heat_flux_curve_FV1_x_neg_fig)
+                    except Exception as e:
+                        print(e)
+
+
+                if(self.algorithmMap['draw_rad_heat_flux_curve_FV2_y_vertical'] == True):
+                    try:
+                        if(self.created_draw_rad_heat_flux_curve_FV2_y_vertical):
+                            self.draw_rad_heat_flux_curve_FV2_y_vertical_fig = plt.figure("draw_rad_heat_flux_curve_FV2_y_vertical")
+                            self.draw_rad_heat_flux_curve_FV2_y_vertical_fig.canvas.mpl_connect("close_event",
+                                                             self.handle_close_draw_rad_heat_flux_curve_FV2_y_vertical)
+                            self.created_draw_rad_heat_flux_curve_FV2_y_vertical = True
+                        tfm.draw_rad_heat_flux_curve_FV2_y_vertical(fireHeight, fireWidget, angle, self.created_draw_rad_heat_flux_curve_FV2_y_vertical)
+                    except Exception as e:
+                        print(e)
+
+                if(self.algorithmMap['draw_rad_heat_flux_curve_FH1_x_pos'] == True):
+                    try:
+                        if(self.created_draw_rad_heat_flux_curve_FV1_x_pos == False):
+                            self.fig_draw_rad_heat_flux_curve_FH1_x_pos = plt.figure("draw_rad_heat_flux_curve_FH1_x_pos")
+                            self.fig_draw_rad_heat_flux_curve_FH1_x_pos.canvas.mpl_connect("close_event",
+                                                                                   self.handle_close_draw_rad_heat_flux_curve_FH1_x_pos)
+                            self.created_draw_rad_heat_flux_curve_FV1_x_pos = True
+                        tfm.draw_rad_heat_flux_curve_FH1_x_pos(fireHeight, fireWidget, angle, self.fig_draw_rad_heat_flux_curve_FH1_x_pos)
+                    except Exception as e:
+                        print(e)
+
+
+                if(self.algorithmMap['draw_rad_heat_flux_curve_FH1_x_neg'] == True):
+                    try:
+                        if(self.created_draw_rad_heat_flux_curve_FH1_x_neg == False):
+
+                            self.fig_draw_rad_heat_flux_curve_FH1_x_neg = plt.figure("draw_rad_heat_flux_curve_FH1_x_neg")
+                            self.fig_draw_rad_heat_flux_curve_FH1_x_neg.canvas.mpl_connect("close_event",
+                                                                               self.handle_close_draw_rad_heat_flux_curve_FH1_x_neg)
+                            self.created_draw_rad_heat_flux_curve_FH1_x_neg = True
+                        tfm.draw_rad_heat_flux_curve_FH1_x_neg(fireHeight, fireWidget, angle, self.fig_draw_rad_heat_flux_curve_FH1_x_neg)
+                    except Exception as e:
+                        print(e)
+
+                if(self.algorithmMap['draw_rad_heat_flux_curve_FH2_y_vertical'] == True):
+                    try:
+                        if(self.created_draw_rad_heat_flux_curve_FH2_y_vertical == False):
+                            self.fig_draw_rad_heat_flux_curve_FH2_y_vertical = plt.figure("draw_rad_heat_flux_curve_FH2_y_vertical")
+                            self.fig_draw_rad_heat_flux_curve_FH2_y_vertical.canvas.mpl_connect("close_event",
+                                                                               self.handle_close_draw_rad_heat_flux_curve_FH2_y_vertical)
+                            self.created_draw_rad_heat_flux_curve_FH2_y_vertical = True
+                        tfm.draw_rad_heat_flux_curve_FH2_y_vertical(fireHeight, fireWidget, angle, self.fig_draw_rad_heat_flux_curve_FH2_y_vertical)
+                    except Exception as e:
+                        print(e)
+
+                if(self.algorithmMap['flame_hazardous_radius_xa'] == True):
+                    try:
+                        if(self.created_flame_hazardous_radius_xa == False):
+                            self.fig_flame_hazardous_radius_xa = plt.figure("flame_hazardous_radius_xa")
+                            self.fig_flame_hazardous_radius_xa.canvas.mpl_connect("close_event",
+                                                                            self.handle_close_flame_hazardous_radius_xa)
+                            self.created_flame_hazardous_radius_xa = True
+                        ufm.flame_hazardous_radius_xa(x, y, self.fig_flame_hazardous_radius_xa)
+                    except Exception as e:
+                        print(e)
 
                 if(self.algorithmMap['tilt_flame_hazardous_radius_xa'] == True):
-                    self.fig_tilt_flame_hazardous_radius_xa = plt.figure("tilt_flame_hazardous_radius_xa")
-                    self.fig_tilt_flame_hazardous_radius_xa.canvas.mpl_connect("close_event",
-                                                                               self.handle_close_tilt_flame_hazardous_radius_xa)
-                    tfm.tilt_flame_hazardous_radius_xa(fireHeight, fireWidget, angle, self.fig_tilt_flame_hazardous_radius_xa)
+                    try:
+                        if(self.created_tilt_flame_hazardous_radius_xa == False):
+                            self.fig_tilt_flame_hazardous_radius_xa = plt.figure("tilt_flame_hazardous_radius_xa")
+                            self.fig_tilt_flame_hazardous_radius_xa.canvas.mpl_connect("close_event",
+                                                                                self.handle_close_tilt_flame_hazardous_radius_xa)
+                            self.created_tilt_flame_hazardous_radius_xa = True
+                        tfm.tilt_flame_hazardous_radius_xa(fireHeight, fireWidget, angle, self.fig_tilt_flame_hazardous_radius_xa)
+                    except Exception as e:
+                        print(e)
+
 
 
                 if(self.algorithmMap['tilt_flame_hazardous_radius_xb'] == True):
-                    self.fig_tilt_flame_hazardous_radius_xb = plt.figure("tilt_flame_hazardous_radius_xb")
-                    self.fig_tilt_flame_hazardous_radius_xb.canvas.mpl_connect("close_event",
-                                                                               self.handle_close_tilt_flame_hazardous_radius_xb)
-                    tfm.tilt_flame_hazardous_radius_xb(fireHeight, fireWidget, angle, self.fig_tilt_flame_hazardous_radius_xb)
+                    try:
+                        if(self.created_tilt_flame_hazardous_radius_xb == False):
+                            self.fig_tilt_flame_hazardous_radius_xb = plt.figure("tilt_flame_hazardous_radius_xb")
+                            self.fig_tilt_flame_hazardous_radius_xb.canvas.mpl_connect("close_event",
+                                                                                 self.handle_close_tilt_flame_hazardous_radius_xb)
+                            self.created_tilt_flame_hazardous_radius_xb = True
+                        tfm.tilt_flame_hazardous_radius_xb(fireHeight, fireWidget, angle, self.fig_tilt_flame_hazardous_radius_xb)
+                    except Exception as e:
+                        print(e)
 
 
                 if(self.algorithmMap['tilt_flame_hazardous_radius_xc'] == True):
-                    self.fig_tilt_flame_hazardous_radius_xc = plt.figure("tilt_flame_hazardous_radius_xc")
-                    self.fig_tilt_flame_hazardous_radius_xc.canvas.mpl_connect("close_event",
-                                                                               self.handle_close_tilt_flame_hazardous_radius_xc)
-                    tfm.tilt_flame_hazardous_radius_xc((fireHeight, fireWidget, angle, self.fig_tilt_flame_hazardous_radius_xc))
+                    try:
+                        if(self.created_tilt_flame_hazardous_radius_xc == False):
+                            self.fig_tilt_flame_hazardous_radius_xc = plt.figure("tilt_flame_hazardous_radius_xc")
+                            self.fig_tilt_flame_hazardous_radius_xc.canvas.mpl_connect("close_event",
+                                                                          self.handle_close_tilt_flame_hazardous_radius_xc)
+                            self.created_tilt_flame_hazardous_radius_xc = True
+                        tfm.tilt_flame_hazardous_radius_xc(fireHeight,fireWidget,angle, self.fig_tilt_flame_hazardous_radius_xc)
+                    except Exception as e:
+                        print(e)
 
-
-                if(self.algorithmMap['draw_rad_heat_flux_curve_Fh'] == True):
-                    self.fig_draw_rad_heat_flux_curve_Fh = plt.figure("draw_rad_heat_flux_curve_Fh")
-                    self.fig_draw_rad_heat_flux_curve_Fh.canvas.mpl_connect("close_event",
-                                                                            self.handle_close_draw_rad_heat_flux_curve_Fh)
-                    ufm.draw_rad_heat_flux_curve_Fh(fireHeight,fireWidget, angle, self.fig_draw_rad_heat_flux_curve_Fh)
-
-                if(self.algorithmMap['draw_rad_heat_flux_curve_Fv'] == True):
-                    self.fig_draw_rad_heat_flux_curve_Fv = plt.figure("draw_rad_heat_flux_curve_Fv")
-                    self.fig_draw_rad_heat_flux_curve_Fv.canvas.mpl_connect("close_event",
-                                                                            self.handle_close_draw_rad_heat_flux_curve_Fv)
-                    ufm.draw_rad_heat_flux_curve_Fv(fireHeight, fireWidget, angle, self.fig_draw_rad_heat_flux_curve_Fv)
-
-
-                if(self.algorithmMap['draw_rad_heat_flux_vertical_view'] == True):
-                    self.fig_draw_rad_heat_flux_vertical_view = plt.figure("draw_rad_heat_flux_vertical_view")
-                    self.fig_draw_rad_heat_flux_vertical_view.canvas.mpl_connect("close_event",
-                                                                                 self.handle_close_draw_rad_heat_flux_vertical_view)
-                    ufm.draw_rad_heat_flux_vertical_view(fireHeight, fireWidget, angle, self.fig_draw_rad_heat_flux_vertical_view)
-
-                if(self.algorithmMap['flame_hazardous_radius_xa'] == True):
-                    self.fig_flame_hazardous_radius_xa = plt.figure("flame_hazardous_radius_xa")
-                    self.fig_flame_hazardous_radius_xa.canvas.mpl_connect("close_event",
-                                                                          self.handle_close_flame_hazardous_radius_xa)
-                    # ufm.flame_hazardous_radius_xa()
-
+                if (self.algorithmMap['plot_abc'] == True):
+                    try:
+                        if (self.created_plot_abc == False):
+                            self.fig_plot_abc = plt.figure("plot_abc")
+                            self.fig_plot_abc.canvas.mpl_connect("close_event",
+                                                                            self.handle_close_plot_abc)
+                            self.created_plot_abc = True
+                        tfm.plot_abc(fireHeight, fireWidget, angle,self.fig_plot_abc)
+                    except Exception as e:
+                        print(e)
 
     def set(self):
         print("set")

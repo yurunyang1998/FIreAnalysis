@@ -103,7 +103,7 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
         self.fireHeatFluxparam = 0
         self.fireLayerDiameter =[]
         self.fireLayerHeight =[]
-        self.R_distance_max = 50
+        self.R_distance_max = 1
         self.k = 1
         self.T = 100
         self.RadioThreshold = [1.6,4.0,12.5,25.0,37.5]
@@ -117,20 +117,20 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
         self.plotProcess = plotdrawProcess.PlotProcess(self.queue)
         self.plotProcess.run()
 
-        self.algorithmMap = {"draw_rad_heat_flux_curve_Fh":False,
-                            "draw_rad_heat_flux_curve_Fv" :False,
-                            "draw_rad_heat_flux_vertical_view" : False,
-                            "draw_rad_heat_flux_curve_FV1_x_pos":False,
-                            "draw_rad_heat_flux_curve_FV1_x_neg":False,
-                             "draw_rad_heat_flux_curve_FV2_y_vertical":False,
-                             "draw_rad_heat_flux_curve_FH1_x_pos":False,
-                             "draw_rad_heat_flux_curve_FH1_x_neg":False,
-                             "draw_rad_heat_flux_curve_FH2_y_vertical":False,
-                             "flame_hazardous_radius_xa":False,
+        self.algorithmMap = {"draw_rad_heat_flux_curve_Fh": False,
+                             "draw_rad_heat_flux_curve_Fv": False,
+                             "draw_rad_heat_flux_vertical_view": False,
+                             "draw_rad_heat_flux_curve_FV1_x_pos": False,
+                             "draw_rad_heat_flux_curve_FV1_x_neg": False,
+                             "draw_rad_heat_flux_curve_FV2_y_vertical": False,
+                             "draw_rad_heat_flux_curve_FH1_x_pos": False,
+                             "draw_rad_heat_flux_curve_FH1_x_neg": False,
+                             "draw_rad_heat_flux_curve_FH2_y_vertical": False,
+                             "flame_hazardous_radius_xa": False,
                              "tilt_flame_hazardous_radius_xa": False,
                              "tilt_flame_hazardous_radius_xb": False,
                              "tilt_flame_hazardous_radius_xc": False,
-                             "plot_abc":False
+                             "plot_abc": False
                              }
 
     def OpenVideo(self):
@@ -283,6 +283,7 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
     def addFireSize(self):
 
         try:
+            self.th.autoAnalysisFireInfo = False
             if(self.lineEdit_5.text()=="" or self.lineEdit_6.text()==""):
                 alert(self,"请输入数据")
                 return
@@ -291,7 +292,7 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
                 return
             self.fireHeight = float(self.lineEdit_5.text())
             self.fireWidget = float(self.lineEdit_6.text())
-
+            
 
         except Exception as e:
             print(e)
@@ -299,6 +300,7 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
     def addFireSizeandAngle(self):
 
         try:
+            self.th.autoAnalysisFireInfo = False
             if(self.lineEdit_27.text()=="" or self.lineEdit_28.text()=="" or self.lineEdit_29.text()==""):
                 alert(self,"请输入数据")
                 return
@@ -323,19 +325,21 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
 
 
     def fireInfo(self,height,width,angle):
-        self.lineEdit_5.setText(str("{:.2f}".format(height / self.rateInY)))
-        self.lineEdit_6.setText(str("{:.2f}".format(width / self.rateInX)))
+        # self.lineEdit_5.setText(str("{:.2f}".format(height / self.rateInY)))
+        # self.lineEdit_6.setText(str("{:.2f}".format(width / self.rateInX)))
         self.fireHeight = float("{:.2f}".format(height / self.rateInY))
         self.fireWidget = float("{:.2f}".format(width / self.rateInX))
-        self.fireAngel =  angle
-        self.label_19.setText(str(angle))
+        self.fireAngel = angle
+        if(self.radioButton.isChecked()):
+            self.label_58.setText(str(angle))
         self.algorithmMap["fireHeight"] = self.fireHeight
         self.algorithmMap["fireWidget"] = self.fireWidget
         self.algorithmMap["angle"] = self.fireAngel
         self.algorithmMap['R_distance_max'] = self.R_distance_max
         self.algorithmMap['k'] = self.k
         self.algorithmMap['RadioThreshold'] = self.RadioThreshold
-        self.algorithmMap['layer_thickness'] = 10/self.rateInY
+        self.algorithmMap['layer_thickness'] = 10 / self.rateInY
+
         try:
             if (self.tableWidgetIndex == 7):
                 self.tableWidgetIndex = 1
@@ -401,8 +405,8 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
         self.RadioThreshold.append(self.lineEdit_22.text())
 
     ######### 算法函数
-    def draw_rad_heat_flux_curve_F1_x_pos(self):
-        self.algorithmMap["draw_rad_heat_flux_curve_FH1_x_pos"] = True
+    def draw_rad_heat_flux_curve_FV1_x_pos(self):
+        self.algorithmMap["draw_rad_heat_flux_curve_FV1_x_pos"] = True
         # print(self.algorithmMap)
 
     def draw_rad_heat_flux_curve_FV1_x_neg(self):

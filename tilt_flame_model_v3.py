@@ -144,9 +144,9 @@ def FV2_func(H, X, theta, R):
 ##############水平热流密度#################################
 #Radiative heat flux curve
 #水平热流密度，沿火焰倾斜方向
-def draw_rad_heat_flux_curve_FH1_x_pos(H, R, theta):
+def draw_rad_heat_flux_curve_FH1_x_pos(H, R, theta, fig):
     try:
-
+        plt.clf()
         plt.ion()
         x = np.arange(1, 50, 1) #Radius
         y = []
@@ -157,17 +157,16 @@ def draw_rad_heat_flux_curve_FH1_x_pos(H, R, theta):
         plt.xlabel("Distance to flame (m)")
         plt.ylabel("Radiative heat flux (kW/m^2)")
         plt.legend()
-        plt.pause(0.5)
-        plt.clf()
+        plt.pause(1)
         plt.show()
     except Exception as e:
         print(e)
 
 #水平热流密度，背向火焰倾斜方向
-def draw_rad_heat_flux_curve_FH1_x_neg(H, R, theta):
+def draw_rad_heat_flux_curve_FH1_x_neg(H, R, theta, fig):
     try:
-
         plt.ion()
+        plt.clf()
         x = np.arange(-50, 0, 1) #Radius
         y = []
         for x_dis in x:
@@ -177,15 +176,15 @@ def draw_rad_heat_flux_curve_FH1_x_neg(H, R, theta):
         plt.xlabel("Distance to flame (m)")
         plt.ylabel("Radiative heat flux (kW/m^2)")
         plt.legend()
-        plt.pause(0.5)
-        plt.clf()
+        plt.pause(1)
         plt.show()
     except Exception as e:
         print(e)
 #当观察者位于垂直于火焰倾斜方向的位置时，视角系数为FH2
 #水平热流密度，垂直火焰倾斜方向
-def draw_rad_heat_flux_curve_FH2_y_vertical(H, R, theta):
+def draw_rad_heat_flux_curve_FH2_y_vertical(H, R, theta, fig):
     try:
+        plt.clf()
         plt.ion()
         x = np.arange(1, 50, 1) #Radius
         y = []
@@ -197,7 +196,6 @@ def draw_rad_heat_flux_curve_FH2_y_vertical(H, R, theta):
         plt.ylabel("Radiative heat flux (kW/m^2)")
         plt.legend()
         plt.pause(0.5)
-        plt.clf()
         plt.show()
     except Exception as e:
         print(e)
@@ -223,7 +221,7 @@ def draw_rad_heat_flux_curve_FV1_x_pos(H, R, theta):
     plt.pause(0.1)
     plt.show()
 #垂直热流密度，背向火焰倾斜方向
-def draw_rad_heat_flux_curve_FV1_x_neg(H, R, theta):
+def draw_rad_heat_flux_curve_FV1_x_neg(H, R, theta, figure):
     plt.ion()
     plt.clf()
     x = np.arange(-50, 0, 1) #Radius
@@ -239,7 +237,7 @@ def draw_rad_heat_flux_curve_FV1_x_neg(H, R, theta):
     plt.show()
 #当观察者位于垂直于火焰倾斜方向的位置时，视角系数为FH2
 #垂直热流密度，垂直火焰倾斜方向
-def draw_rad_heat_flux_curve_FV2_y_vertical(H, R, theta):
+def draw_rad_heat_flux_curve_FV2_y_vertical(H, R, theta, fig):
     plt.ion()
     plt.clf()
     x = np.arange(0, 50, 1) #Radius
