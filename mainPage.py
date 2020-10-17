@@ -107,6 +107,7 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
         self.k = 1
         self.T = 100
         self.RadioThreshold = [1.6,4.0,12.5,25.0,37.5]
+        self.layer_thickness = 10
 
         self.paused = False
         self.moveMouse = False
@@ -292,7 +293,7 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
                 return
             self.fireHeight = float(self.lineEdit_5.text())
             self.fireWidget = float(self.lineEdit_6.text())
-            
+
 
         except Exception as e:
             print(e)
@@ -338,7 +339,7 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
         self.algorithmMap['R_distance_max'] = self.R_distance_max
         self.algorithmMap['k'] = self.k
         self.algorithmMap['RadioThreshold'] = self.RadioThreshold
-        self.algorithmMap['layer_thickness'] = 10 / self.rateInY
+        self.algorithmMap['layer_thickness'] =  self.layer_thickness/self.rateInY
 
         try:
             if (self.tableWidgetIndex == 7):
@@ -645,11 +646,10 @@ class Thread(QThread):
     def getFireLayerDiameter(self, img, flameNum):
         preciseFireDiameter = []  # 包含每一个像素层的火焰宽度
         preciseFireHeight = []
-        layer_thickness = 10
 
-        layerNum = int(img.shape[1] / layer_thickness)  # 获取每层的高度
+        layerNum = int(img.shape[1] / self.layer_thickness)  # 获取每层的高度
         for i in range(1, layerNum):
-            preciseFireHeight.append(layer_thickness * i)
+            preciseFireHeight.append(self.layer_thickness * i)
         preciseFireHeight.reverse()
         # print("layerNum:", layerNum)
         try:
@@ -682,7 +682,7 @@ class Thread(QThread):
         for i in range(len(preciseFireDiameter)):
             layerNum = layerNum + preciseFireDiameter[i]
             if (i % 10 == 0):
-                roughFireDiameter.append(int(layerNum / layer_thickness))
+                roughFireDiameter.append(int(layerNum / self.layer_thickness))
                 layerNum = 0
 
         return roughFireDiameter, preciseFireHeight
