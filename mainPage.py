@@ -109,6 +109,7 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
         self.RadioThreshold = [1.6,4.0,12.5,25.0,37.5]
         self.layer_thickness = 10
 
+
         self.paused = False
         self.moveMouse = False
         self.tableWidgetIndex = 1
@@ -133,6 +134,21 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
                              "tilt_flame_hazardous_radius_xc": False,
                              "plot_abc": False
                              }
+
+        self.algorithmList = ["draw_rad_heat_flux_curve_Fh",
+                             "draw_rad_heat_flux_curve_Fv",
+                             "draw_rad_heat_flux_vertical_view",
+                             "draw_rad_heat_flux_curve_FV1_x_pos",
+                             "draw_rad_heat_flux_curve_FV1_x_neg",
+                             "draw_rad_heat_flux_curve_FV2_y_vertical",
+                             "draw_rad_heat_flux_curve_FH1_x_pos",
+                             "draw_rad_heat_flux_curve_FH1_x_neg",
+                             "draw_rad_heat_flux_curve_FH2_y_vertical",
+                             "flame_hazardous_radius_xa",
+                             "tilt_flame_hazardous_radius_xa",
+                             "tilt_flame_hazardous_radius_xb",
+                             "tilt_flame_hazardous_radius_xc",
+                             "plot_abc"]
 
     def OpenVideo(self):
 
@@ -159,6 +175,10 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
 
 
     def restartProcess(self):
+        try:
+            self.plotProcess.readProcess.terminate()
+        except Exception as e:
+            print(e)
         self.queue = multiprocessing.Queue()
         self.plotProcess = plotdrawProcess.PlotProcess(self.queue)
         self.plotProcess.run()
@@ -284,33 +304,62 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
     def addFireSize(self):
 
         try:
+            self.th.fixedFireInfo = True
             self.th.autoAnalysisFireInfo = False
             if(self.lineEdit_5.text()=="" or self.lineEdit_6.text()==""):
                 alert(self,"请输入数据")
                 return
-            if ((not self.lineEdit_5.text().isnumeric()) or (not self.lineEdit_6.text().isnumeric())):
-                alert(self,"请输入数据")
-                return
+            # if ((not self.lineEdit_5.text().isdecimal()) or (not self.lineEdit_6.text().isdecimal())):
+            #     alert(self,"请输入数据")
+            #     return
             self.fireHeight = float(self.lineEdit_5.text())
             self.fireWidget = float(self.lineEdit_6.text())
 
-
+            layer_height  =  self.layer_thickness/self.rateInY
+            layernum = self.fireHeight / layer_height
+            fireLayerHeights = []
+            fireLayerDiameter = []
+            for i in range(1,int(layernum)):
+                fireLayerHeights.append(layernum*i)
+                fireLayerDiameter.append(self.fireWidget)
+            self.fireLayerHeight = fireLayerHeights
+            self.fireLayerDiameter = fireLayerDiameter
+            self.algorithmMap['fireHeight'] = self.fireHeight
+            self.algorithmMap['fireWidget'] = self.fireWidget
+            self.algorithmMap["fireLayerHeight"] = self.fireLayerHeight
+            self.algorithmMap["fireLayerDiameter"] = self.fireLayerDiameter
+            self.algorithmMap["angle"] = self.fireAngel
+            self.algorithmMap['R_distance_max'] = self.R_distance_max
+            self.algorithmMap['k'] = self.k
+            self.algorithmMap['RadioThreshold'] = self.RadioThreshold
+            self.algorithmMap['layer_thickness'] = self.layer_thickness / self.rateInY
         except Exception as e:
-            print(e)
+            traceback.print_exc()
 
     def addFireSizeandAngle(self):
 
         try:
+            self.th.fixedFireInfo = True
             self.th.autoAnalysisFireInfo = False
             if(self.lineEdit_27.text()=="" or self.lineEdit_28.text()=="" or self.lineEdit_29.text()==""):
                 alert(self,"请输入数据")
                 return
-            if ((not self.lineEdit_27.text().isnumeric()) or (not self.lineEdit_28.text().isnumeric()) or (not self.lineEdit_29.text().isnumeric())):
-                alert(self,"请输入数据")
-                return
+            # if ((not self.lineEdit_27.text().isnumeric()) or (not self.lineEdit_28.text().isnumeric()) or (not self.lineEdit_29.text().isnumeric())):
+            #     alert(self,"请输入数据")
+            #     return
             self.fireHeight = float(self.lineEdit_27.text())
             self.fireWidget = float(self.lineEdit_28.text())
             self.fireAngel = float(self.lineEdit_29.text())
+
+            self.algorithmMap['fireHeight'] = self.fireHeight
+            self.algorithmMap['fireWidget'] = self.fireWidget
+            self.algorithmMap["fireLayerHeight"] = self.fireLayerHeight
+            self.algorithmMap["fireLayerDiameter"] = self.fireLayerDiameter
+            self.algorithmMap["angle"] = self.fireAngel
+            self.algorithmMap['R_distance_max'] = self.R_distance_max
+            self.algorithmMap['k'] = self.k
+            self.algorithmMap['RadioThreshold'] = self.RadioThreshold
+            self.algorithmMap['layer_thickness'] = self.layer_thickness / self.rateInY
 
         except Exception as e:
             print(e)
@@ -353,6 +402,7 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
 
     def setAutoAnalysisFireInfo(self):
         self.th.autoAnalysisFireInfo = (not self.th.autoAnalysisFireInfo)
+        self.th.fixedFireInfo = False
 
     def fireLayerInfo(self, fireLayerDiameter_, fireLayerHeight_):
         # print("setfirelayinfo")
@@ -373,7 +423,7 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
         algorithmMapCopy = self.algorithmMap.copy()
         self.queue.put(algorithmMapCopy)
         # print(self.algorithmMap)
-        for key in self.algorithmMap.keys():
+        for key in self.algorithmList:
             self.algorithmMap[key] = False
 
 
@@ -480,6 +530,8 @@ class Thread(QThread):
     maxbar = []
     segmented = False
     autoAnalysisFireInfo = False
+    fixedFireInfo = False
+    layer_thickness = 10
     def run(self):
         try:
             self.cap = cv2.VideoCapture(videoName)
@@ -596,6 +648,11 @@ class Thread(QThread):
             # cv2.imshow('max',maxArea)
             if(maxContour is not None ):
                 x, y, w, h = cv2.boundingRect(maxContour)
+                if (self.fixedFireInfo):
+                    self.writeRequestandMsgToQueueSignal.emit()
+
+
+
                 if(self.autoAnalysisFireInfo == True):
                     # print(x,x+w,y,y+h)
                     try:
@@ -604,9 +661,9 @@ class Thread(QThread):
                         angel = self.getFireAngel(roiArea) #获取火焰角度
                         self.changeFireinfo.emit(w,h,angel+10)
                         if(flameNum % 10 == 0):
-                            fireLayerDiameter, fireLayerHeight = self.getFireLayerDiameter(roiArea,flameNum)  # 获取火焰每一层的宽度和高度
-                            self.changeFireLayerInfo.emit(fireLayerDiameter, fireLayerHeight)
-                            self.writeRequestandMsgToQueueSignal.emit()
+                                fireLayerDiameter, fireLayerHeight = self.getFireLayerDiameter(roiArea,flameNum)  # 获取火焰每一层的宽度和高度
+                                self.changeFireLayerInfo.emit(fireLayerDiameter, fireLayerHeight)
+                                self.writeRequestandMsgToQueueSignal.emit()
 
                     except Exception as e:
                         traceback.print_exc()

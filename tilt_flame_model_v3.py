@@ -14,18 +14,18 @@ import   matplotlib.backends.backend_tkagg
 
 
 pi=np.pi
-#R=15
-
-X=50
-H=20
-theta=45/180*pi
-#a=H/R
-#b=X/R
-#火焰发射率数据epsilon range(0~1),T=火焰温度
-epsilon=0.5
+# #R=15
+#
+# X=50
+# H=20
+# theta=45/180*pi
+# #a=H/R
+# #b=X/R
+# #火焰发射率数据epsilon range(0~1),T=火焰温度
+# epsilon=0.5
 sigma=5.67*(10**(-8))
-T=400 #tempreture
-E=epsilon*sigma*(T**4)
+# T=400 #tempreture
+# E=epsilon*sigma*(T**4)
 
 
 
@@ -35,55 +35,6 @@ def close_handle(evt):
     print("close")
 
 
-
-##Radiative heat flux curve
-#def draw_rad_heat_flux_curve(H, X, theta):
-#    x = np.arange(1, 50, 1) #Radius
-#    y = []
-#    for r in x:
-#        y_1 = FV1_func(H, X, theta, r)*E
-#        y.append(y_1)
-#    plt.plot(x, y, label="sigmoid")
-#    plt.xlabel("Radius (m)")
-#    plt.ylabel("Radiative heat flux (kW/m^2)")
-#    plt.legend()
-#    plt.show()
-
-
-#def tilt_flame_rad_heat(H, R, theta):
-#    rad_heat=[37.5, 25.0, 12.5, 4.0, 1.6]
-#    R_5=[0,0,0,0,0]
-#    #Example:
-#    #H=20
-#    #X=50
-#    theta=theta/180*pi
-#    a=H/R
-#    b=X/R
-#    FV1=-a*cos(theta)/(pi*(b-a*sin(theta)))*atan(sqrt((b-1)/(b+1)))+a*cos(theta)/(pi*(b-a*sin(theta)))\
-#    *(a**2+(b+1)**2-2*b*(1+a*sin(theta)))/(sqrt(a**2+(b+1)**2-2*a*(b+1)*sin(theta))*sqrt(a**2+(b-1)**2-2*a*(b-1)*sin(theta)))\
-#    *atan(sqrt((a**2+(b+1)**2-2*a*(b+1)*sin(theta))/(a**2+(b-1)**2-2*a*(b-1)*sin(theta)))*sqrt((b-1)/(b+1)))+cos(theta)/(pi*sqrt(1+(b**2-1)*cos(theta)**2))\
-#    *((atan((a*b-(b**2-1)*sin(theta))/(sqrt(b**2-1)*sqrt(1+(b**2-1)*cos(theta)**2))))+(atan(((b**2-1)*sin(theta))/(sqrt(b**2-1)*sqrt(1+(b**2-1)*cos(theta)**2)))))
-#    #This is for test:f_qv_r0=FV1-0.118
-#    for i in range(5):
-#        f_qv_r0=FV1*E-rad_heat[i]
-#        result=nsolve(f_qv_r0, R, 20) # 20 is the initial guess, this is required for nsolve function
-#        R_5[i]=result
-#    #this is the Hazardous Radius (5 values)
-#    print(R_5)
-
-#    #plot the hazardous radius
-#    fig = plt.figure()
-#    ax = fig.add_subplot(1)
-#    colors = ["blue","cyan","red","green","yellow"]
-#    for i in range(5):
-#        cir = Circle(xy = (0.0, 0.0), radius=R_5[i], alpha=0.5, facecolor= colors[i])
-#        ax.add_patch(cir)
-#        x, y = 0, 0
-#        ax.plot(x, y, 'ro',)
-#        plt.title('Hazardous Radius (5 levels)')
-#        plt.axis('scaled')
-#        plt.axis('equal')   #changes limits of x or y axis so that equal increments of x and y have the same length
-#    plt.show()
 
 
 #6.1 当观察者位于火焰倾斜方向的位置时，其视角系数
@@ -144,12 +95,13 @@ def FV2_func(H, X, theta, R):
 ##############水平热流密度#################################
 #Radiative heat flux curve
 #水平热流密度，沿火焰倾斜方向
-def draw_rad_heat_flux_curve_FH1_x_pos(H, R, theta, fig):
+def draw_rad_heat_flux_curve_FH1_x_pos(H, R, theta, epsilon, T, fig):
     try:
         plt.clf()
         plt.ion()
         x = np.arange(1, 50, 1) #Radius
         y = []
+        E=epsilon*sigma*(T**4)
         for x_dis in x:
             y_1 = FH1_func(H, x_dis, theta, R)*E
             y.append(abs(y_1))
@@ -163,12 +115,13 @@ def draw_rad_heat_flux_curve_FH1_x_pos(H, R, theta, fig):
         print(e)
 
 #水平热流密度，背向火焰倾斜方向
-def draw_rad_heat_flux_curve_FH1_x_neg(H, R, theta, fig):
+def draw_rad_heat_flux_curve_FH1_x_neg(H, R, theta, epsilon, T, fig):
     try:
         plt.ion()
         plt.clf()
         x = np.arange(-50, 0, 1) #Radius
         y = []
+        E=epsilon*sigma*(T**4)
         for x_dis in x:
             y_1 = FH1_func(H, x_dis, theta, R)*E
             y.append(abs(y_1))
@@ -182,12 +135,13 @@ def draw_rad_heat_flux_curve_FH1_x_neg(H, R, theta, fig):
         print(e)
 #当观察者位于垂直于火焰倾斜方向的位置时，视角系数为FH2
 #水平热流密度，垂直火焰倾斜方向
-def draw_rad_heat_flux_curve_FH2_y_vertical(H, R, theta, fig):
+def draw_rad_heat_flux_curve_FH2_y_vertical(H, R, theta, epsilon, T,  fig):
     try:
         plt.clf()
         plt.ion()
         x = np.arange(1, 50, 1) #Radius
         y = []
+        E=epsilon*sigma*(T**4)
         for x_dis in x:
             y_1 = FH2_func(H, x_dis, theta, R)*E
             y.append(abs(y_1))
@@ -206,11 +160,12 @@ def draw_rad_heat_flux_curve_FH2_y_vertical(H, R, theta, fig):
 ##############垂直热流密度#################################
 #Radiative heat flux curve
 #垂直热流密度，沿火焰倾斜方向
-def draw_rad_heat_flux_curve_FV1_x_pos(H, R, theta):
+def draw_rad_heat_flux_curve_FV1_x_pos(H, R, epsilon, T, theta):
     plt.ion()
     plt.clf()
     x = np.arange(1, 50, 1) #Radius
     y = []
+    E = epsilon * sigma * (T ** 4)
     for x_dis in x:
         y_1 = FV1_func(H, x_dis, theta, R)*E
         y.append(abs(y_1))
@@ -221,11 +176,12 @@ def draw_rad_heat_flux_curve_FV1_x_pos(H, R, theta):
     plt.pause(0.1)
     plt.show()
 #垂直热流密度，背向火焰倾斜方向
-def draw_rad_heat_flux_curve_FV1_x_neg(H, R, theta, figure):
+def draw_rad_heat_flux_curve_FV1_x_neg(H, R, theta, epsilon, T, figure):
     plt.ion()
     plt.clf()
     x = np.arange(-50, 0, 1) #Radius
     y = []
+    E = epsilon * sigma * (T ** 4)
     for x_dis in x:
         y_1 = FV1_func(H, x_dis, theta, R)*E
         y.append(abs(y_1))
@@ -237,11 +193,12 @@ def draw_rad_heat_flux_curve_FV1_x_neg(H, R, theta, figure):
     plt.show()
 #当观察者位于垂直于火焰倾斜方向的位置时，视角系数为FH2
 #垂直热流密度，垂直火焰倾斜方向
-def draw_rad_heat_flux_curve_FV2_y_vertical(H, R, theta, fig):
+def draw_rad_heat_flux_curve_FV2_y_vertical(H, R, theta, epsilon, T,  fig):
     plt.ion()
     plt.clf()
     x = np.arange(0, 50, 1) #Radius
     y = []
+    E = epsilon * sigma * (T ** 4)
     for x_dis in x:
         y_1 = FV2_func(H, x_dis, theta, R)*E
         y.append(abs(y_1))
@@ -254,7 +211,7 @@ def draw_rad_heat_flux_curve_FV2_y_vertical(H, R, theta, fig):
 ##############垂直热流密度#################################
 
 # 给定辐射热流rad_heat时，a点位置的计算函数
-def tilt_flame_rad_heat_pa(H, R, theta, rad_heat):
+def tilt_flame_rad_heat_pa(H, R, theta, epsilon, T,  rad_heat):
     try:
         X_a = Symbol('X_a')
         #rad_heat=rad_heat
@@ -265,6 +222,7 @@ def tilt_flame_rad_heat_pa(H, R, theta, rad_heat):
         a=H/R
         #b=X/R
         b=X_a/R
+        E=epsilon*sigma*(T**4)
         x1=a**2+(b+1)**2-2*a*(b+1)*sin(theta)
         x2=a**2+(b-1)*(b-1)-2*a*(b-1)*sin(theta)
         FH1=atan(pow(((b+1)/(b-1)),0.5))/pi+sin(theta)/(pi*pow(1+(b**2-1)*cos(theta)*cos(theta),0.5))\

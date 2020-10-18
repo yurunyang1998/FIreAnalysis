@@ -117,7 +117,9 @@ class PlotProcess:
                 fireLayerDiameter = msg['fireLayerDiameter']
                 fireLayerHeight = msg['fireLayerHeight']
                 R_distance = msg['R_distance_max']
-                # time.sleep(1)
+                rad_heat= msg["RadioThreshold"] #这个也是手动输入的参数
+                epsilon = msg['epsilon']
+                T = msg['T']
                 layer_thickness = msg['layer_thickness']
                 try:
                     x, y =  ufm.calculate_rad_heat_flux_curve_Fh(fireLayerDiameter, fireLayerHeight, R_distance, layer_thickness)
@@ -164,12 +166,12 @@ class PlotProcess:
 
                 if(self.algorithmMap['draw_rad_heat_flux_curve_FV1_x_pos'] == True):
                     try:
-                        if(self.created_draw_rad_heat_flux_curve_FV1_x_neg == False):
+                        if(self.created_draw_rad_heat_flux_curve_FV1_x_pos == False):
                             self.draw_rad_heat_flux_curve_FV1_x_pos_fig = plt.figure("draw_rad_heat_flux_curve_FV1_x_pos")
                             self.draw_rad_heat_flux_curve_FV1_x_pos_fig.canvas.mpl_connect('close_event',
                                                                                      self.handle_close_draw_rad_heat_flux_curve_FV1_x_pos)
                             self.created_draw_rad_heat_flux_curve_FV1_x_pos = True
-                        tfm.draw_rad_heat_flux_curve_FH1_x_pos(fireHeight, fireWidget, angle, self.draw_rad_heat_flux_curve_FV1_x_pos_fig)
+                        tfm.draw_rad_heat_flux_curve_FV1_x_pos(fireHeight, fireWidget, angle, epsilon, T, self.draw_rad_heat_flux_curve_FV1_x_pos_fig)
                     except Exception as e:
                         print(e)
 
@@ -180,7 +182,7 @@ class PlotProcess:
                             self.draw_rad_heat_flux_curve_FV1_x_neg_fig.canvas.mpl_connect("close_event",
                                                                                      self.handle_close_draw_rad_heat_flux_curve_FV1_x_neg)
                             self.created_draw_rad_heat_flux_curve_FV1_x_neg = True
-                        tfm.draw_rad_heat_flux_curve_FV1_x_neg(fireHeight, fireWidget, angle, self.draw_rad_heat_flux_curve_FV1_x_neg_fig)
+                        tfm.draw_rad_heat_flux_curve_FV1_x_neg(fireHeight, fireWidget, angle,  epsilon, T, self.draw_rad_heat_flux_curve_FV1_x_neg_fig)
                     except Exception as e:
                         print(e)
 
@@ -192,17 +194,17 @@ class PlotProcess:
                             self.draw_rad_heat_flux_curve_FV2_y_vertical_fig.canvas.mpl_connect("close_event",
                                                              self.handle_close_draw_rad_heat_flux_curve_FV2_y_vertical)
                             self.created_draw_rad_heat_flux_curve_FV2_y_vertical = True
-                        tfm.draw_rad_heat_flux_curve_FV2_y_vertical(fireHeight, fireWidget, angle, self.created_draw_rad_heat_flux_curve_FV2_y_vertical)
+                        tfm.draw_rad_heat_flux_curve_FV2_y_vertical(fireHeight, fireWidget, angle, epsilon, T, self.created_draw_rad_heat_flux_curve_FV2_y_vertical)
                     except Exception as e:
                         print(e)
 
                 if(self.algorithmMap['draw_rad_heat_flux_curve_FH1_x_pos'] == True):
                     try:
-                        if(self.created_draw_rad_heat_flux_curve_FV1_x_pos == False):
+                        if(self.created_draw_rad_heat_flux_curve_FH1_x_pos == False):
                             self.fig_draw_rad_heat_flux_curve_FH1_x_pos = plt.figure("draw_rad_heat_flux_curve_FH1_x_pos")
                             self.fig_draw_rad_heat_flux_curve_FH1_x_pos.canvas.mpl_connect("close_event",
                                                                                    self.handle_close_draw_rad_heat_flux_curve_FH1_x_pos)
-                            self.created_draw_rad_heat_flux_curve_FV1_x_pos = True
+                            self.created_draw_rad_heat_flux_curve_FH1_x_pos = True
                         tfm.draw_rad_heat_flux_curve_FH1_x_pos(fireHeight, fireWidget, angle, self.fig_draw_rad_heat_flux_curve_FH1_x_pos)
                     except Exception as e:
                         print(e)
@@ -216,7 +218,7 @@ class PlotProcess:
                             self.fig_draw_rad_heat_flux_curve_FH1_x_neg.canvas.mpl_connect("close_event",
                                                                                self.handle_close_draw_rad_heat_flux_curve_FH1_x_neg)
                             self.created_draw_rad_heat_flux_curve_FH1_x_neg = True
-                        tfm.draw_rad_heat_flux_curve_FH1_x_neg(fireHeight, fireWidget, angle, self.fig_draw_rad_heat_flux_curve_FH1_x_neg)
+                        tfm.draw_rad_heat_flux_curve_FH1_x_neg(fireHeight, fireWidget, angle, epsilon, T, self.fig_draw_rad_heat_flux_curve_FH1_x_neg)
                     except Exception as e:
                         print(e)
 
@@ -227,7 +229,7 @@ class PlotProcess:
                             self.fig_draw_rad_heat_flux_curve_FH2_y_vertical.canvas.mpl_connect("close_event",
                                                                                self.handle_close_draw_rad_heat_flux_curve_FH2_y_vertical)
                             self.created_draw_rad_heat_flux_curve_FH2_y_vertical = True
-                        tfm.draw_rad_heat_flux_curve_FH2_y_vertical(fireHeight, fireWidget, angle, self.fig_draw_rad_heat_flux_curve_FH2_y_vertical)
+                        tfm.draw_rad_heat_flux_curve_FH2_y_vertical(fireHeight, fireWidget, angle,epsilon, T, self.fig_draw_rad_heat_flux_curve_FH2_y_vertical)
                     except Exception as e:
                         print(e)
 
@@ -238,7 +240,7 @@ class PlotProcess:
                             self.fig_flame_hazardous_radius_xa.canvas.mpl_connect("close_event",
                                                                             self.handle_close_flame_hazardous_radius_xa)
                             self.created_flame_hazardous_radius_xa = True
-                        ufm.flame_hazardous_radius_xa(x, y, self.fig_flame_hazardous_radius_xa)
+                        ufm.flame_hazardous_radius_xa(x, y, rad_heat, self.fig_flame_hazardous_radius_xa)
                     except Exception as e:
                         print(e)
 
