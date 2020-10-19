@@ -439,11 +439,11 @@ class Ui_QtWidgetsApplication1Class(object):
         self.label_49.setStyleSheet("font: 14pt \"Arial\";")
         self.label_49.setObjectName("label_49")
         self.label_50 = QtWidgets.QLabel(self.widget_10)
-        self.label_50.setGeometry(QtCore.QRect(40, 130, 16, 31))
+        self.label_50.setGeometry(QtCore.QRect(90, 50, 21, 31))
         self.label_50.setStyleSheet("font: 14pt \"Arial\";")
         self.label_50.setObjectName("label_50")
         self.lineEdit_25 = QtWidgets.QLineEdit(self.widget_10)
-        self.lineEdit_25.setGeometry(QtCore.QRect(60, 130, 51, 31))
+        self.lineEdit_25.setGeometry(QtCore.QRect(40, 130, 91, 41))
         self.lineEdit_25.setStyleSheet("background-color: rgb(255, 255, 255);")
         self.lineEdit_25.setObjectName("lineEdit_25")
         self.label_51 = QtWidgets.QLabel(self.widget_10)
@@ -636,7 +636,7 @@ class Ui_QtWidgetsApplication1Class(object):
         self.menuBar.addAction(self.menu.menuAction())
 
         self.retranslateUi(QtWidgetsApplication1Class)
-        self.tabWidget.setCurrentIndex(3)
+        self.tabWidget.setCurrentIndex(2)
         QtCore.QMetaObject.connectSlotsByName(QtWidgetsApplication1Class)
 
     def retranslateUi(self, QtWidgetsApplication1Class):
@@ -708,7 +708,7 @@ class Ui_QtWidgetsApplication1Class(object):
         self.label_47.setText(_translate("QtWidgetsApplication1Class", "火焰温度"))
         self.label_48.setText(_translate("QtWidgetsApplication1Class", "○  赋值"))
         self.label_49.setText(_translate("QtWidgetsApplication1Class", "○ 监测火焰温度"))
-        self.label_50.setText(_translate("QtWidgetsApplication1Class", "T"))
+        self.label_50.setText(_translate("QtWidgetsApplication1Class", "T="))
         self.label_51.setText(_translate("QtWidgetsApplication1Class", "火焰温度与\n"
 "高度的关系"))
         self.pushButton_27.setText(_translate("QtWidgetsApplication1Class", "提交"))

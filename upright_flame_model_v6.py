@@ -115,7 +115,7 @@ def draw_rad_heat_flux_curve_Fv(d_flame, height_original, layer_thickness, R_dis
         plt.ylabel("Radiative heat flux (kW/m^2)")
         plt.text(0.01, 0.01, 'r='+str(int(R_distance))+" m", wrap=True)
         plt.legend()
-        plt.pause(0.04)
+        plt.pause(1)
         plt.show()
     except Exception as e:
         traceback.print_exc()
@@ -214,7 +214,7 @@ def flame_hazardous_radius_xa(x, y, rad_heat, fig):
             plt.axis('equal')   #changes limits of x or y axis so that equal increments of x and y have the same length
         except :
             continue
-    plt.pause(0.04)
+    plt.pause(1)
     plt.show()
 
 
@@ -240,7 +240,7 @@ def draw_rad_heat_flux_vertical_view(x, y, fig):
         plt.title('Heat Flux distribution (Vertical View)')
         plt.xlabel("Distance to flame (m)")
         plt.ylabel("Distance to flame (m)")
-        plt.pause(0.04)
+        plt.pause(1)
         plt.show()
 
     except Exception as e:
