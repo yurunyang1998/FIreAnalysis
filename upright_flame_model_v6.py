@@ -51,8 +51,10 @@ def heat_flux_v(d_flame, height_original, z_height, layer_thickness, x_distance)
     #L:火焰高度
     #x_distance:圆柱边缘到目标微元的水平距离
     Height=np.max(height_original)
-    layerNum=math.ceil(Height/layer_thickness)
-    H_array=np.linspace(Height/layerNum,Height,layerNum)
+    #layerNum=math.ceil(Height/layer_thickness)
+    #H_array=np.linspace(Height/layerNum,Height,layerNum)
+    layerNum= len(height_original)
+    H_array= height_original
     Qv_total=0.0    
     k=-3.674
     z=z_height
@@ -92,8 +94,10 @@ def draw_rad_heat_flux_curve_Fv(d_flame, height_original, layer_thickness, R_dis
         #z_height=np.max(height_original)
         #h = np.arange(z_height/100, z_height, z_height/100) #Radius
         Height=np.max(height_original)
-        layerNum=math.ceil(Height/layer_thickness)
-        H_array=np.linspace(Height/layerNum,Height,layerNum)
+        #layerNum=math.ceil(Height/layer_thickness)
+        #H_array=np.linspace(Height/layerNum,Height,layerNum)
+        layerNum= len(height_original)
+        H_array= height_original
 
         y = []
         for h_dis in H_array:
