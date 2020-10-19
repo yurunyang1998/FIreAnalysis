@@ -107,7 +107,7 @@ class PlotProcess:
         print("Process is reading ....")
         while True:
                 msg = queue.get(True)
-                print(1)
+                # print(1)
                 for key in msg.keys():
                     if(msg[key] == True):
                         self.algorithmMap[key] = True
@@ -189,12 +189,12 @@ class PlotProcess:
 
                 if(self.algorithmMap['draw_rad_heat_flux_curve_FV2_y_vertical'] == True):
                     try:
-                        if(self.created_draw_rad_heat_flux_curve_FV2_y_vertical):
+                        if(self.created_draw_rad_heat_flux_curve_FV2_y_vertical == False):
                             self.draw_rad_heat_flux_curve_FV2_y_vertical_fig = plt.figure("draw_rad_heat_flux_curve_FV2_y_vertical")
                             self.draw_rad_heat_flux_curve_FV2_y_vertical_fig.canvas.mpl_connect("close_event",
                                                              self.handle_close_draw_rad_heat_flux_curve_FV2_y_vertical)
                             self.created_draw_rad_heat_flux_curve_FV2_y_vertical = True
-                        tfm.draw_rad_heat_flux_curve_FV2_y_vertical(fireHeight, fireWidget, angle, epsilon, T, self.created_draw_rad_heat_flux_curve_FV2_y_vertical)
+                        tfm.draw_rad_heat_flux_curve_FV2_y_vertical(fireHeight, fireWidget, angle, epsilon, T, self.draw_rad_heat_flux_curve_FV2_y_vertical_fig)
                     except Exception as e:
                         print(e)
 
