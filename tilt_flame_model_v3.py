@@ -22,7 +22,8 @@ pi=np.pi
 # #a=H/R
 # #b=X/R
 # #火焰发射率数据epsilon range(0~1),T=火焰温度
-# epsilon=0.5
+# epsilon=0.5 发射率直接设置
+# epsilon=1-math.e**(k*np.max(d_flame)) #发射率通过k进行计算，d_flame是所有的直径，最大值是倾斜火焰直径，如果你算出的火焰形态的d_flame就是最大值,那就是epsilon=1-math.e**(k*d_flame)
 sigma=5.67*(10**(-8))
 # T=400 #tempreture
 # E=epsilon*sigma*(T**4)
