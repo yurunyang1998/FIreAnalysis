@@ -57,6 +57,7 @@ def heat_flux_v(d_flame, height_original, z_height, layer_thickness, x_distance)
     H_array= height_original
     Qv_total=0.0    
     k=-3.674
+    #k可以在这里赋值
     z=z_height
     i=0
     r=max(d_flame)/2+x_distance
@@ -78,7 +79,8 @@ def heat_flux_v(d_flame, height_original, z_height, layer_thickness, x_distance)
         #print(Fv1)
         T=600 #tempreture
         #T=tempCal(H)
-        epsilon=1-math.e**(k*d_flame[i]) #发射率
+        #epsilon=0.5#给epsilon直接赋值
+        epsilon=1-math.e**(k*d_flame[i]) #根据k的值计算发射率epsilon
         E=sigma*epsilon*(T**4)
 
         qv=Fv*E 
@@ -153,7 +155,8 @@ def heat_flux_h(d_flame, height_original, layer_thickness, R_distance):
         #print(Fh)
         T=600 #tempreture
         #T=tempCal(H)
-        epsilon=1-math.e**(k*d_flame[i]) #发射率
+        #epsilon=0.5#给epsilon直接赋值
+        epsilon=1-math.e**(k*d_flame[i]) #根据k的值计算发射率epsilon
         E=sigma*epsilon*(T**4)
         qh=Fh*E
         Qh_total=Qh_total+qh
