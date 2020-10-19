@@ -105,10 +105,10 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
         self.fireLayerHeight =[]
         self.R_distance_max = 1
         self.k = 1
-        self.T = 100
+        self.T = 400
         self.RadioThreshold = [1.6,4.0,12.5,25.0,37.5]
         self.layer_thickness = 10
-
+        self.epsilon = 0.5
 
         self.paused = False
         self.moveMouse = False
@@ -333,6 +333,7 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
             self.algorithmMap['k'] = self.k
             self.algorithmMap['RadioThreshold'] = self.RadioThreshold
             self.algorithmMap['layer_thickness'] = self.layer_thickness / self.rateInY
+            self.algorithmMap['epsilon'] = self.epsilon
         except Exception as e:
             traceback.print_exc()
 
@@ -434,16 +435,25 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
         self.R_distance_max = self.lineEdit_26.text()
 
     def addk(self):
-        self.k = self.lineEdit_10.text()
+        if(self.lineEdit_10.size()>0):
+            self.k = self.lineEdit_10.text()
+        if(self.lineEdit_9.size()>0):
+            self.epsilon = self.lineEdit_9.text()
 
     def addT(self):
-        self.T = self.lineEdit_13.text()
+        if(self.lineEdit_13.size()>0):
+            self.T = self.lineEdit_13.text()
 
     def addk2(self):
-        self.k = self.lineEdit_19.text()
+        if(self.lineEdit_19.size()>0):
+            self.k = self.lineEdit_19.text()
+        if(self.lineEdit_18.size()>0):
+            self.epsilon = self.lineEdit_18.text()
+
 
     def addT2(self):
-        self.T = self.lineEdit_25.text()
+        if(self.lineEdit_13.size()):
+            self.T = self.lineEdit_25.text()
 
 
 

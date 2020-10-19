@@ -68,7 +68,7 @@
        </size>
       </property>
       <property name="currentIndex">
-       <number>3</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="tab_3">
        <attribute name="title">
@@ -1409,9 +1409,9 @@
          <widget class="QLabel" name="label_50">
           <property name="geometry">
            <rect>
-            <x>40</x>
-            <y>130</y>
-            <width>16</width>
+            <x>90</x>
+            <y>50</y>
+            <width>21</width>
             <height>31</height>
            </rect>
           </property>
@@ -1419,16 +1419,16 @@
            <string notr="true">font: 14pt &quot;Arial&quot;;</string>
           </property>
           <property name="text">
-           <string>T</string>
+           <string>T=</string>
           </property>
          </widget>
          <widget class="QLineEdit" name="lineEdit_25">
           <property name="geometry">
            <rect>
-            <x>60</x>
+            <x>40</x>
             <y>130</y>
-            <width>51</width>
-            <height>31</height>
+            <width>91</width>
+            <height>41</height>
            </rect>
           </property>
           <property name="styleSheet">

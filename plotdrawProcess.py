@@ -146,7 +146,7 @@ class PlotProcess:
                             self.draw_rad_heat_flux_curve_Fv_fig.canvas.mpl_connect('close_event',
                                                                                     self.handle_close_draw_rad_heat_flux_curve_Fv)
                             self.created_draw_rad_heat_flux_curve_Fv = True
-                        ufm.draw_rad_heat_flux_curve_Fv(fireWidget, fireHeight, layer_thickness, R_distance, self.draw_rad_heat_flux_curve_Fv_fig)
+                        ufm.draw_rad_heat_flux_curve_Fv(fireLayerDiameter, fireLayerHeight, layer_thickness, R_distance, self.draw_rad_heat_flux_curve_Fv_fig)
                     except Exception as e:
                         print(e)
 
@@ -205,7 +205,7 @@ class PlotProcess:
                             self.fig_draw_rad_heat_flux_curve_FH1_x_pos.canvas.mpl_connect("close_event",
                                                                                    self.handle_close_draw_rad_heat_flux_curve_FH1_x_pos)
                             self.created_draw_rad_heat_flux_curve_FH1_x_pos = True
-                        tfm.draw_rad_heat_flux_curve_FH1_x_pos(fireHeight, fireWidget, angle, self.fig_draw_rad_heat_flux_curve_FH1_x_pos)
+                        tfm.draw_rad_heat_flux_curve_FH1_x_pos(fireHeight, fireWidget, angle,epsilon, T, self.fig_draw_rad_heat_flux_curve_FH1_x_pos)
                     except Exception as e:
                         print(e)
 
@@ -287,7 +287,7 @@ class PlotProcess:
                             self.fig_plot_abc.canvas.mpl_connect("close_event",
                                                                             self.handle_close_plot_abc)
                             self.created_plot_abc = True
-                        tfm.plot_abc(fireHeight, fireWidget, angle,self.fig_plot_abc)
+                        tfm.plot_abc(fireHeight, fireWidget, angle, rad_heat ,self.fig_plot_abc)
                     except Exception as e:
                         print(e)
 
