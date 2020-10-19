@@ -161,7 +161,7 @@ def draw_rad_heat_flux_curve_FH2_y_vertical(H, R, theta, epsilon, T,  fig):
 ##############垂直热流密度#################################
 #Radiative heat flux curve
 #垂直热流密度，沿火焰倾斜方向
-def draw_rad_heat_flux_curve_FV1_x_pos(H, R, epsilon, T, theta):
+def draw_rad_heat_flux_curve_FV1_x_pos(H, R,theta,epsilon, T, fig):
     plt.ion()
     plt.clf()
     x = np.arange(1, 50, 1) #Radius
@@ -177,7 +177,7 @@ def draw_rad_heat_flux_curve_FV1_x_pos(H, R, epsilon, T, theta):
     plt.pause(0.1)
     plt.show()
 #垂直热流密度，背向火焰倾斜方向
-def draw_rad_heat_flux_curve_FV1_x_neg(H, R, theta, epsilon, T, figure):
+def draw_rad_heat_flux_curve_FV1_x_neg(H, R, theta, epsilon, T, fig):
     plt.ion()
     plt.clf()
     x = np.arange(-50, 0, 1) #Radius

@@ -99,7 +99,7 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
 
         self.fireHeight = 0
         self.fireWidget = 0
-        self.fireAngel = 0
+        self.fireAngel = 45
         self.fireHeatFluxparam = 0
         self.fireLayerDiameter =[]
         self.fireLayerHeight =[]
@@ -334,6 +334,8 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
             self.algorithmMap['RadioThreshold'] = self.RadioThreshold
             self.algorithmMap['layer_thickness'] = self.layer_thickness / self.rateInY
             self.algorithmMap['epsilon'] = self.epsilon
+            self.algorithmMap['T'] = self.T
+
         except Exception as e:
             traceback.print_exc()
 
@@ -342,16 +344,25 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
         try:
             self.th.fixedFireInfo = True
             self.th.autoAnalysisFireInfo = False
-            if(self.lineEdit_27.text()=="" or self.lineEdit_28.text()=="" or self.lineEdit_29.text()==""):
-                alert(self,"请输入数据")
+            if (self.lineEdit_27.text() == "" or self.lineEdit_28.text() == ""):
+                alert(self, "请输入数据")
                 return
-            # if ((not self.lineEdit_27.text().isnumeric()) or (not self.lineEdit_28.text().isnumeric()) or (not self.lineEdit_29.text().isnumeric())):
+            # if ((not self.lineEdit_5.text().isdecimal()) or (not self.lineEdit_6.text().isdecimal())):
             #     alert(self,"请输入数据")
             #     return
             self.fireHeight = float(self.lineEdit_27.text())
             self.fireWidget = float(self.lineEdit_28.text())
             self.fireAngel = float(self.lineEdit_29.text())
 
+            layer_height = self.layer_thickness / self.rateInY
+            layernum = self.fireHeight / layer_height
+            fireLayerHeights = []
+            fireLayerDiameter = []
+            for i in range(1, int(layernum)):
+                fireLayerHeights.append(layernum * i)
+                fireLayerDiameter.append(self.fireWidget)
+            self.fireLayerHeight = fireLayerHeights
+            self.fireLayerDiameter = fireLayerDiameter
             self.algorithmMap['fireHeight'] = self.fireHeight
             self.algorithmMap['fireWidget'] = self.fireWidget
             self.algorithmMap["fireLayerHeight"] = self.fireLayerHeight
@@ -361,9 +372,45 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
             self.algorithmMap['k'] = self.k
             self.algorithmMap['RadioThreshold'] = self.RadioThreshold
             self.algorithmMap['layer_thickness'] = self.layer_thickness / self.rateInY
+            self.algorithmMap['epsilon'] = self.epsilon
+            self.algorithmMap['T'] = self.T
+            print("add fire info")
 
         except Exception as e:
-            print(e)
+            traceback.print_exc()
+        # try:
+        #     self.th.fixedFireInfo = True
+        #     self.th.autoAnalysisFireInfo = False
+        #     if(self.lineEdit_27.text()=="" or self.lineEdit_28.text()=="" or self.lineEdit_29.text()==""):
+        #         alert(self,"请输入数据")
+        #         return
+        #     # if ((not self.lineEdit_27.text().isnumeric()) or (not self.lineEdit_28.text().isnumeric()) or (not self.lineEdit_29.text().isnumeric())):
+        #     #     alert(self,"请输入数据")
+        #     #     return
+        #     self.fireHeight = float(self.lineEdit_27.text())
+        #     self.fireWidget = float(self.lineEdit_28.text())
+        #
+        #     layer_height = self.layer_thickness / self.rateInY
+        #     layernum = self.fireHeight / layer_height
+        #     fireLayerHeights = []
+        #     fireLayerDiameter = []
+        #     for i in range(1, int(layernum)):
+        #         fireLayerHeights.append(layernum * i)
+        #         fireLayerDiameter.append(self.fireWidget)
+        #
+        #     self.algorithmMap['fireHeight'] = self.fireHeight
+        #     self.algorithmMap['fireWidget'] = self.fireWidget
+        #     self.algorithmMap["fireLayerHeight"] = self.fireLayerHeight
+        #     self.algorithmMap["fireLayerDiameter"] = self.fireLayerDiameter
+        #     self.algorithmMap["angle"] = self.fireAngel
+        #     self.algorithmMap['R_distance_max'] = self.R_distance_max
+        #     self.algorithmMap['k'] = self.k
+        #     self.algorithmMap['RadioThreshold'] = self.RadioThreshold
+        #     self.algorithmMap['layer_thickness'] = self.layer_thickness / self.rateInY
+        #     self.algorithmMap['epsilon'] = self.epsilon
+        #     self.algorithmMap['T'] = self.T
+        # except Exception as e:
+        #     print(e)
 
 
     def autoAnalysisFireSize(self):
@@ -390,7 +437,8 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
         self.algorithmMap['k'] = self.k
         self.algorithmMap['RadioThreshold'] = self.RadioThreshold
         self.algorithmMap['layer_thickness'] =  self.layer_thickness/self.rateInY
-
+        self.algorithmMap['epsilon'] = self.epsilon
+        self.algorithmMap['T'] = self.T
         try:
             if (self.tableWidgetIndex == 7):
                 self.tableWidgetIndex = 1
@@ -468,7 +516,7 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
     ######### 算法函数
     def draw_rad_heat_flux_curve_FV1_x_pos(self):
         self.algorithmMap["draw_rad_heat_flux_curve_FV1_x_pos"] = True
-        # print(self.algorithmMap)
+        print(self.algorithmMap)
 
     def draw_rad_heat_flux_curve_FV1_x_neg(self):
         self.algorithmMap['draw_rad_heat_flux_curve_FV1_x_neg'] = True
@@ -658,13 +706,13 @@ class Thread(QThread):
             # cv2.imshow('max',maxArea)
             if(maxContour is not None ):
                 x, y, w, h = cv2.boundingRect(maxContour)
-                if (self.fixedFireInfo):
+                if (self.fixedFireInfo == True):
                     self.writeRequestandMsgToQueueSignal.emit()
-
+                    print("fixedFireInfo ")
 
 
                 if(self.autoAnalysisFireInfo == True):
-                    # print(x,x+w,y,y+h)
+                    print("autoAnalysisFireInfo")
                     try:
                         img = cv2.rectangle(img, (x, y), (x + w, y + h), (255, 255, 255), 1)  #框选出火焰区域
                         roiArea = img[y:y+h, x:x+w]
