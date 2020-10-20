@@ -250,16 +250,16 @@ def tilt_flame_rad_heat_pa(H, R, theta, epsilon, T,  rad_heat):
         traceback.print_exc()
         return 0
 
-def tilt_flame_hazardous_radius_xa(H, R, theta, epsilon, T, fig):
+def tilt_flame_hazardous_radius_xa(H, R, theta, epsilon, T, rad_heat, fig):
     try:
         plt.ion()
-        rad_heat=[1.6,4.0,12.5,25.0,30.0]
+        # rad_heat=[1.6,4.0,12.5,25.0,30.0]
         R_5=[0,0,0,0,0]
 
         for i in range(5):
             try:
                 R_5[i]=tilt_flame_rad_heat_pa(H, R, theta, epsilon, T, rad_heat[i])
-                print(R_5[i])
+                # print(R_5[i])
             except:
                 traceback.print_exc()
         #this is the Hazardous Radius (5 values)
@@ -275,7 +275,7 @@ def tilt_flame_hazardous_radius_xa(H, R, theta, epsilon, T, fig):
                 x, y = 0, 0
                 ax.plot(x, y, 'ro')
                 #step=max(R_5)/15.0
-                plt.text(0.0, 0.1*i, 'R'+str(5-i)+'='+str(round(R_5[i],3)), ha='right', wrap=True, rotation='horizontal')
+                # plt.text(0.0, 0.1*i, 'R'+str(5-i)+'='+str(round(R_5[i],3)), ha='right', wrap=True, rotation='horizontal')
                 plt.title('Hazardous Radius (5 levels)')
                 plt.axis('scaled')
                 plt.axis('equal')   #changes limits of x or y axis so that equal increments of x and y have the same length
@@ -287,16 +287,16 @@ def tilt_flame_hazardous_radius_xa(H, R, theta, epsilon, T, fig):
         traceback.print_exc()
         plt.pause(3)
 
-def tilt_flame_hazardous_radius_xb(H, R, theta, fig):
+def tilt_flame_hazardous_radius_xb(H, R, theta, epsilon, T,rad_heat, fig):
     try:
         # fig.canvas.mpl_connect('close_event', lambda evt:fig.close())
 
         plt.ion()
-        rad_heat=[1.6,4.0,12.5,25.0,30]
+        # rad_heat=[1.6,4.0,12.5,25.0,30]
         R_5=[0,0,0,0,0]
         for i in range(5):
             try:
-                R_5[i]=tilt_flame_rad_heat_pb(H, R, theta, rad_heat[i])
+                R_5[i]=tilt_flame_rad_heat_pb(H, R, theta, epsilon, T, rad_heat[i])
             except :
                 continue
         #this is the Hazardous Radius (5 values)
@@ -314,7 +314,7 @@ def tilt_flame_hazardous_radius_xb(H, R, theta, fig):
                 ax.plot(x, y, 'ro')
                 #ax.arrow(0,0,int(R_5[i]),i*10,length_includes_head = True, head_width = 2, head_length = 2,fc = 'k',ec = 'k')
                 #plt.text(int(R_5[i]), i*10, str(round(R_5[i],3)), ha='right', wrap=True, rotation='vertical')
-                plt.text(0.0,0.1*i, 'R'+str(5-i)+'='+str(round(R_5[i],3)), ha='right', wrap=True, rotation='horizontal')
+                # plt.text(0.0,0.1*i, 'R'+str(5-i)+'='+str(round(R_5[i],3)), ha='right', wrap=True, rotation='horizontal')
                 plt.title('Hazardous Radius (5 levels)')
                 plt.axis('scaled')
                 plt.axis('equal')   #changes limits of x or y axis so that equal increments of x and y have the same length
@@ -328,15 +328,15 @@ def tilt_flame_hazardous_radius_xb(H, R, theta, fig):
         plt.pause(3)
 
 
-def tilt_flame_hazardous_radius_xc(H, R, theta, fig):
+def tilt_flame_hazardous_radius_xc(H, R, theta, epsilon, T, rad_heat, fig):
     try:
         plt.ion()
-        rad_heat=[1.6,4.0,12.5,25.0,30.0]
+        # rad_heat=[1.6,4.0,12.5,25.0,30.0]
         R_5=[0,0,0,0,0]
 
         for i in range(5):
             try:
-                R_5[i]=tilt_flame_rad_heat_pc(H, R, theta, rad_heat[i])
+                R_5[i]=tilt_flame_rad_heat_pc(H, R, theta, epsilon, T, rad_heat[i])
             except Exception as e:
                 continue
         #this is the Hazardous Radius (5 values)
@@ -367,11 +367,11 @@ def tilt_flame_hazardous_radius_xc(H, R, theta, fig):
         plt.pause(3)
 
 # 给定辐射热流rad_heat时，b点位置的计算函数（x轴负半轴位置）
-def tilt_flame_rad_heat_pb(H, R, theta, rad_heat):
-    return tilt_flame_rad_heat_pa(H, R, 180-theta, rad_heat)
+def tilt_flame_rad_heat_pb(H, R, theta, epsilon, T, rad_heat):
+    return tilt_flame_rad_heat_pa(H, R, 180-theta, epsilon, T, rad_heat)
 
 # 给定辐射热流rad_heat时，c点位置的计算函数（y轴负半轴位置）
-def tilt_flame_rad_heat_pc(H, R, theta, rad_heat):
+def tilt_flame_rad_heat_pc(H, R, theta, epsilon, T, rad_heat):
     try:
         Y_c = Symbol('Y_c')
         #rad_heat=rad_heat

@@ -122,6 +122,8 @@ class PlotProcess:
                 epsilon = msg['epsilon']
                 T = msg['T']
                 layer_thickness = msg['layer_thickness']
+                fireHeatFluxparam = msg['fireHeatFluxparam']
+
                 try:
                     x, y =  ufm.calculate_rad_heat_flux_curve_Fh(fireLayerDiameter, fireLayerHeight, R_distance, layer_thickness)
                 except Exception as e:
@@ -254,7 +256,7 @@ class PlotProcess:
                             self.created_tilt_flame_hazardous_radius_xa = True
                         print(fireHeight)
                         print(fireWidget)
-                        tfm.tilt_flame_hazardous_radius_xa(fireHeight, fireWidget, angle, epsilon, T, self.fig_tilt_flame_hazardous_radius_xa)
+                        tfm.tilt_flame_hazardous_radius_xa(fireHeight, fireWidget, angle, epsilon, T, rad_heat, self.fig_tilt_flame_hazardous_radius_xa)
                     except Exception as e:
                         print(e)
 
@@ -267,7 +269,7 @@ class PlotProcess:
                             self.fig_tilt_flame_hazardous_radius_xb.canvas.mpl_connect("close_event",
                                                                                  self.handle_close_tilt_flame_hazardous_radius_xb)
                             self.created_tilt_flame_hazardous_radius_xb = True
-                        tfm.tilt_flame_hazardous_radius_xb(fireHeight, fireWidget, angle, self.fig_tilt_flame_hazardous_radius_xb)
+                        tfm.tilt_flame_hazardous_radius_xb(fireHeight, fireWidget,  angle, epsilon, T, rad_heat, self.fig_tilt_flame_hazardous_radius_xb)
                     except Exception as e:
                         print(e)
 
@@ -279,10 +281,11 @@ class PlotProcess:
                             self.fig_tilt_flame_hazardous_radius_xc.canvas.mpl_connect("close_event",
                                                                           self.handle_close_tilt_flame_hazardous_radius_xc)
                             self.created_tilt_flame_hazardous_radius_xc = True
-                        tfm.tilt_flame_hazardous_radius_xc(fireHeight,fireWidget,angle, self.fig_tilt_flame_hazardous_radius_xc)
+                        tfm.tilt_flame_hazardous_radius_xc(fireHeight,fireWidget,angle, epsilon, T, rad_heat, self.fig_tilt_flame_hazardous_radius_xc)
                     except Exception as e:
                         print(e)
 
+                ##TODO: 修改
                 if (self.algorithmMap['plot_abc'] == True):
                     try:
                         if (self.created_plot_abc == False):
@@ -290,7 +293,7 @@ class PlotProcess:
                             self.fig_plot_abc.canvas.mpl_connect("close_event",
                                                                             self.handle_close_plot_abc)
                             self.created_plot_abc = True
-                        tfm.plot_abc(fireHeight, fireWidget, angle, rad_heat ,self.fig_plot_abc)
+                        tfm.plot_abc(fireHeight, fireWidget ,angle, epsilon, T, rad_heat ,self.fig_plot_abc)
                     except Exception as e:
                         print(e)
 

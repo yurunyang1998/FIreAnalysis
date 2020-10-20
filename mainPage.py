@@ -75,9 +75,9 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
 
         ## 伤害范围
         self.pushButton_14.clicked.connect(self.flame_hazardous_radius_xa)
-        self.pushButton_10.clicked.connect(self.tilt_flame_hazardous_radius_xa)
-        self.pushButton_11.clicked.connect(self.tilt_flame_hazardous_radius_xb)
-        self.pushButton_12.clicked.connect(self.tilt_flame_hazardous_radius_xc)
+        # self.pushButton_10.clicked.connect(self.tilt_flame_hazardous_radius_xa)
+        # self.pushButton_11.clicked.connect(self.tilt_flame_hazardous_radius_xb)
+        # self.pushButton_12.clicked.connect(self.tilt_flame_hazardous_radius_xc)
         self.pushButton_4.clicked.connect(self.plot_abc)
         self.pushButton_13.clicked.connect(self.addHeatFluxParam)
         self.pushButton_20.clicked.connect(self.addRadioThresholds)
@@ -103,7 +103,7 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
         self.fireHeight = 0
         self.fireWidget = 0
         self.fireAngel = 45
-        self.fireHeatFluxparam = 0
+        self.fireHeatFluxparam = 4
         self.fireLayerDiameter =[]
         self.fireLayerHeight =[]
         self.R_distance_max = 5
@@ -338,7 +338,7 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
             self.algorithmMap['layer_thickness'] = self.layer_thickness / self.rateInY
             self.algorithmMap['epsilon'] = self.epsilon
             self.algorithmMap['T'] = self.T
-
+            self.algorithmMap['fireHeatFluxparam'] = self.fireHeatFluxparam
         except Exception as e:
             traceback.print_exc()
 
@@ -377,7 +377,8 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
             self.algorithmMap['layer_thickness'] = self.layer_thickness / self.rateInY
             self.algorithmMap['epsilon'] = self.epsilon
             self.algorithmMap['T'] = self.T
-            print("add fire info")
+            self.algorithmMap['fireHeatFluxparam'] = self.fireHeatFluxparam
+
 
         except Exception as e:
             traceback.print_exc()
@@ -442,6 +443,7 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
         self.algorithmMap['layer_thickness'] =  self.layer_thickness/self.rateInY
         self.algorithmMap['epsilon'] = self.epsilon
         self.algorithmMap['T'] = self.T
+        self.algorithmMap['fireHeatFluxparam'] = self.fireHeatFluxparam
         try:
             if (self.tableWidgetIndex == 7):
                 self.tableWidgetIndex = 1
