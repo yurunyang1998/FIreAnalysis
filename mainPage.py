@@ -710,11 +710,8 @@ class Thread(QThread):
                 x, y, w, h = cv2.boundingRect(maxContour)
                 if (self.fixedFireInfo == True):
                     self.writeRequestandMsgToQueueSignal.emit()
-                    # print("fixedFireInfo ")
-
 
                 if(self.autoAnalysisFireInfo == True):
-                    # print("autoAnalysisFireInfo")
                     try:
                         img = cv2.rectangle(img, (x, y), (x + w, y + h), (255, 255, 255), 1)  #框选出火焰区域
                         roiArea = img[y:y+h, x:x+w]
