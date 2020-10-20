@@ -40,9 +40,14 @@ def close_handle(evt):
 
 #6.1 当观察者位于火焰倾斜方向的位置时，其视角系数
 #6.1.1垂直视角系数
-def FV1_func(H, X, theta, R):
-    a=H/R
-    b=X/R
+# def FV1_func(H, X, theta, X):
+#     a=H/R
+#     b=X/R
+
+def FV1_func(fireHeight, fireWidth, theta, R_distance ):
+    H = fireHeight / (cos(theta))
+    a = H / fireWidth
+    b = R_distance / fireWidth
     if b==1 or b==-1:
         b=b+0.0001
     theta=theta/180*pi
@@ -54,9 +59,11 @@ def FV1_func(H, X, theta, R):
 
 #6.1.2水平视角系数
 #6.1.2水平视角系数计算函数
-def FH1_func(H, X, theta, R):
-    a=H/R
-    b=X/R
+def FH1_func(fireHeight, fireWidth, theta, R_distance):
+
+    H = fireHeight / (cos(theta))
+    a=H/fireWidth
+    b=R_distance/fireWidth
     if b==1 or b==-1:
         b=b+0.0001
     theta=theta/180*pi
@@ -70,9 +77,10 @@ def FH1_func(H, X, theta, R):
 
 #6.2当观察者位于垂直于火焰倾斜方向的位置时，其视角系数
 #6.2.1水平视角系数：
-def FH2_func(H, X, theta, R):
-    a=H/R
-    b=X/R
+def FH2_func(fireHeight, fireWidth, theta, R_distance):
+    H = fireHeight / (cos(theta))
+    a = H / fireWidth
+    b = R_distance / fireWidth
     if b==1 or b==-1:
         b=b+0.0001
     fh2_val=atan(pow(((b-1)/(b+1)),0.5))/pi+pow((b**2-1),0.5)*sin(theta)/(2*pi*pow(b**2-sin(theta)*sin(theta),0.5))\
@@ -82,9 +90,10 @@ def FH2_func(H, X, theta, R):
     return fh2_val
 
 #6.2.2垂直视角系数：
-def FV2_func(H, X, theta, R):
-    a=H/R
-    b=X/R
+def FV2_func(fireHeight, fireWidth, theta, R_distance):
+    H = fireHeight / (cos(theta))
+    a = H / fireWidth
+    b = R_distance / fireWidth
     if b==1 or b==-1:
         b=b+0.0001
     theta=theta/180*pi
@@ -96,15 +105,15 @@ def FV2_func(H, X, theta, R):
 ##############水平热流密度#################################
 #Radiative heat flux curve
 #水平热流密度，沿火焰倾斜方向
-def draw_rad_heat_flux_curve_FH1_x_pos(H, R, theta, epsilon, T, fig):
+def draw_rad_heat_flux_curve_FH1_x_pos(H, W, theta, epsilon, T, R_distance, fig):
     try:
         plt.clf()
         plt.ion()
-        x = np.arange(1, 50, 1) #Radius
+        x = np.arange(1, R_distance, 1) #Radius
         y = []
         E=epsilon*sigma*(T**4)
         for x_dis in x:
-            y_1 = FH1_func(H, x_dis, theta, R)*E
+            y_1 = FH1_func(H, W, theta, x_dis)*E
             y.append(abs(y_1))
         plt.plot(x, y, label="Horizontal radiative heat flux (along the tilt flame)")
         plt.xlabel("Distance to flame (m)")
@@ -116,15 +125,15 @@ def draw_rad_heat_flux_curve_FH1_x_pos(H, R, theta, epsilon, T, fig):
         print(e)
 
 #水平热流密度，背向火焰倾斜方向
-def draw_rad_heat_flux_curve_FH1_x_neg(H, R, theta, epsilon, T, fig):
+def draw_rad_heat_flux_curve_FH1_x_neg(H, W,theta,epsilon, T, R_distance, fig):
     try:
         plt.ion()
         plt.clf()
-        x = np.arange(-50, 0, 1) #Radius
+        x = np.arange(R_distance*(-1), 0, 1) #Radius
         y = []
         E=epsilon*sigma*(T**4)
         for x_dis in x:
-            y_1 = FH1_func(H, x_dis, theta, R)*E
+            y_1 = FH1_func(H, W, theta, x_dis)*E
             y.append(abs(y_1))
         plt.plot(x, y, label="Horizontal radiative heat flux (back to the tilt flame)")
         plt.xlabel("Distance to flame (m)")
@@ -136,15 +145,15 @@ def draw_rad_heat_flux_curve_FH1_x_neg(H, R, theta, epsilon, T, fig):
         print(e)
 #当观察者位于垂直于火焰倾斜方向的位置时，视角系数为FH2
 #水平热流密度，垂直火焰倾斜方向
-def draw_rad_heat_flux_curve_FH2_y_vertical(H, R, theta, epsilon, T,  fig):
+def draw_rad_heat_flux_curve_FH2_y_vertical(H, W,theta,epsilon, T, R_distance, fig):
     try:
         plt.clf()
         plt.ion()
-        x = np.arange(1, 50, 1) #Radius
+        x = np.arange(1, R_distance, 1) #Radius
         y = []
         E=epsilon*sigma*(T**4)
         for x_dis in x:
-            y_1 = FH2_func(H, x_dis, theta, R)*E
+            y_1 = FH2_func(H, W, theta, x_dis)*E
             y.append(abs(y_1))
         plt.plot(x, y, label="Horizontal radiative heat flux (perpendicular to the tilt flame)")
         plt.xlabel("Distance to flame (m)")
@@ -161,14 +170,14 @@ def draw_rad_heat_flux_curve_FH2_y_vertical(H, R, theta, epsilon, T,  fig):
 ##############垂直热流密度#################################
 #Radiative heat flux curve
 #垂直热流密度，沿火焰倾斜方向
-def draw_rad_heat_flux_curve_FV1_x_pos(H, R,theta,epsilon, T, fig):
+def draw_rad_heat_flux_curve_FV1_x_pos(H, W,theta,epsilon, T, R_distance, fig):
     plt.ion()
     plt.clf()
-    x = np.arange(1, 50, 1) #Radius
+    x = np.arange(1, R_distance, 1) #Radius
     y = []
     E = epsilon * sigma * (T ** 4)
     for x_dis in x:
-        y_1 = FV1_func(H, x_dis, theta, R)*E
+        y_1 = FV1_func(H, W, theta, x_dis)*E
         y.append(abs(y_1))
     plt.plot(x, y, label="Vertical radiative heat flux (along the tilt flame)")
     plt.xlabel("Distance to flame (m)")
@@ -177,14 +186,14 @@ def draw_rad_heat_flux_curve_FV1_x_pos(H, R,theta,epsilon, T, fig):
     plt.pause(1)
     plt.show()
 #垂直热流密度，背向火焰倾斜方向
-def draw_rad_heat_flux_curve_FV1_x_neg(H, R, theta, epsilon, T, fig):
+def draw_rad_heat_flux_curve_FV1_x_neg(H, W,theta,epsilon, T, R_distance, fig):
     plt.ion()
     plt.clf()
-    x = np.arange(-50, 0, 1) #Radius
+    x = np.arange(R_distance*(-1), 0, 1) #Radius
     y = []
     E = epsilon * sigma * (T ** 4)
     for x_dis in x:
-        y_1 = FV1_func(H, x_dis, theta, R)*E
+        y_1 = FV1_func(H, W, theta, x_dis)*E
         y.append(abs(y_1))
     plt.plot(x, y, label="Vertical radiative heat flux (back to the tilt flame)")
     plt.xlabel("Distance to flame (m)")
@@ -194,14 +203,14 @@ def draw_rad_heat_flux_curve_FV1_x_neg(H, R, theta, epsilon, T, fig):
     plt.show()
 #当观察者位于垂直于火焰倾斜方向的位置时，视角系数为FH2
 #垂直热流密度，垂直火焰倾斜方向
-def draw_rad_heat_flux_curve_FV2_y_vertical(H, R, theta, epsilon, T,  fig):
+def draw_rad_heat_flux_curve_FV2_y_vertical(H, W,theta,epsilon, T, R_distance, fig):
     plt.ion()
     plt.clf()
-    x = np.arange(0, 50, 1) #Radius
+    x = np.arange(0, R_distance, 1) #Radius
     y = []
     E = epsilon * sigma * (T ** 4)
     for x_dis in x:
-        y_1 = FV2_func(H, x_dis, theta, R)*E
+        y_1 = FV2_func(H, W, theta, x_dis)*E
         y.append(abs(y_1))
     plt.plot(x, y, label="Vertical radiative heat flux (perpendicular to the tilt flame)")
     plt.xlabel("Distance to flame (m)")
@@ -238,9 +247,10 @@ def tilt_flame_rad_heat_pa(H, R, theta, epsilon, T,  rad_heat):
         # print(X_a)
         return(X_a)
     except Exception as e:
+        traceback.print_exc()
         return 0
 
-def tilt_flame_hazardous_radius_xa(H, R, theta, fig):
+def tilt_flame_hazardous_radius_xa(H, R, theta, epsilon, T, fig):
     try:
         plt.ion()
         rad_heat=[1.6,4.0,12.5,25.0,30.0]
@@ -248,9 +258,10 @@ def tilt_flame_hazardous_radius_xa(H, R, theta, fig):
 
         for i in range(5):
             try:
-                R_5[i]=tilt_flame_rad_heat_pa(H, R, theta, rad_heat[i])
+                R_5[i]=tilt_flame_rad_heat_pa(H, R, theta, epsilon, T, rad_heat[i])
+                print(R_5[i])
             except:
-                continue
+                traceback.print_exc()
         #this is the Hazardous Radius (5 values)
         #plot the hazardous radius
         # fig = plt.figure()

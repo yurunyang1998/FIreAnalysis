@@ -110,7 +110,7 @@ def draw_rad_heat_flux_curve_Fv(d_flame, height_original, layer_thickness, R_dis
             except Exception as e:
                 print(e)
         plt.clf()
-        plt.plot(H_array, y, label="Radiative heat flux")
+        plt.plot(x, y, label="Radiative heat flux")
         plt.title('Radiative heat flux curve for upright flame--vertical direction')
         plt.xlabel("Height of observation (m)")
         plt.ylabel("Radiative heat flux (kW/m^2)")
@@ -126,6 +126,8 @@ def draw_rad_heat_flux_curve_Fv(d_flame, height_original, layer_thickness, R_dis
 #水平表面jH接收的来自整个火焰的辐射热流
 #每个r处的heat_flux_h
 def heat_flux_h(d_flame, height_original, layer_thickness, R_distance):
+    # print(d_flame)
+    # print(height_original)
     #z=0
     #d_flame:火焰直径，array
     #Height:火焰高度
@@ -139,8 +141,13 @@ def heat_flux_h(d_flame, height_original, layer_thickness, R_distance):
     r=R_distance
     i=0
     #r表示圆柱中心线到目标微元的水平距离
-    for i in range (1,layerNum):
+
+    minlaynum = min(len(height_original),len(d_flame))
+
+    for i in range (1,minlaynum):
         H=H_array[i]
+        if(d_flame[i]==0):
+            d_flame[i] = 0.01
         S=2*r/d_flame[i]
         B=(1+S**2)/(2*S)
 
@@ -176,7 +183,9 @@ def calculate_rad_heat_flux_curve_Fh(d_flame, height_original, R_distance_max, l
     return x, y
 #############################################################################################
 def draw_rad_heat_flux_curve_Fh(x, y, fig):
-    ax = fig.add_subplot(111)
+    print(x)
+    print(y)
+    # ax = fig.add_subplot(111)
     #x, y=calculate_rad_heat_flux_curve_Fh(d_flame, height_original, R_distance_max, layer_thickness)
     plt.clf()
     plt.title('Radiative heat flux curve for upright flame--horizontal direction')
@@ -209,7 +218,7 @@ def flame_hazardous_radius_xa(x, y, rad_heat, fig):
             ax1.add_patch(cir)
             x, y = 0, 0
             ax1.plot(x, y, 'ro')
-            plt.text(int(X_a_array[i]), i*10, str(int(X_a_array[i])), ha='right', wrap=True, rotation='vertical')
+            # plt.text(int(X_a_array[i]), i*10, str(int(X_a_array[i])), ha='right', wrap=True, rotation='vertical')
             plt.title('Hazardous Radius for the upright flame(5 levels)')
             plt.axis('scaled')
             plt.axis('equal')   #changes limits of x or y axis so that equal increments of x and y have the same length
@@ -223,7 +232,7 @@ def draw_rad_heat_flux_vertical_view(x, y, fig):
     
     #只需要把curve的x（与火焰的distance）和y（热流值）传来即可
     try:
-        #plt.clf()
+        plt.clf()
         plt.ion()
         #x, y=calculate_rad_heat_flux_curve_Fh(d_flame, height_original, R_distance_max, layer_thickness)
         x3d=x

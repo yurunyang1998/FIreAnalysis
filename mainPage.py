@@ -47,6 +47,7 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
         self.pushButton_6.clicked.connect(self.CalculateRate)
         self.pushButton_7.clicked.connect(self.addThresholdValue_Color)
         self.pushButton_31.clicked.connect(self.setAutoAnalysisFireInfo)
+        self.pushButton_32.clicked.connect(self.addLayer_thickness)
 
         ## 垂直辐射热流计算
         self.pushButton_5.clicked.connect(self.draw_rad_heat_flux_curve_Fh)
@@ -105,7 +106,7 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
         self.fireHeatFluxparam = 0
         self.fireLayerDiameter =[]
         self.fireLayerHeight =[]
-        self.R_distance_max = 1
+        self.R_distance_max = 5
         self.k = 1
         self.T = 400
         self.RadioThreshold = [1.6,4.0,12.5,25.0,37.5]
@@ -479,10 +480,10 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
 
 
     def addRDistanceMax(self):
-        self.R_distance_max = self.lineEdit_14.text()
+        self.R_distance_max = float(self.lineEdit_14.text())
 
     def addRDistanceMax2(self):
-        self.R_distance_max = self.lineEdit_26.text()
+        self.R_distance_max = float(self.lineEdit_26.text())
 
     def addk(self):
         if(self.lineEdit_10.size()>0):
@@ -502,9 +503,14 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
 
 
     def addT2(self):
-        if(self.lineEdit_13.size()):
+        if(self.lineEdit_13.size()>0):
             self.T = self.lineEdit_25.text()
 
+    def addLayer_thickness(self):
+        if(self.lineEdit_30.size()>0):
+            layer_thickness  = float(self.lineEdit_30.text())*self.rateInY
+            self.layer_thickness = layer_thickness
+            self.th.layer_thickness = layer_thickness
 
 
     def addRadioThresholds(self):
@@ -790,14 +796,14 @@ class Thread(QThread):
             traceback.print_exc()
 
         roughFireDiameter = []
-        layerNum = 0
+        perlayerDiamerter = 0
         # if(type(preciseFireDiameter)==None):
         #     return [],[]
         for i in range(len(preciseFireDiameter)):
-            layerNum = layerNum + preciseFireDiameter[i]
-            if (i % 10 == 0):
-                roughFireDiameter.append(int(layerNum / self.layer_thickness))
-                layerNum = 0
+            perlayerDiamerter = perlayerDiamerter + preciseFireDiameter[i]
+            if (i % self.layer_thickness == 0):
+                roughFireDiameter.append(int(perlayerDiamerter / self.layer_thickness))
+                perlayerDiamerter = 0
 
         return roughFireDiameter, preciseFireHeight
 

@@ -3,6 +3,7 @@ import tilt_flame_model_v3 as tfm
 import  multiprocessing as mp
 import time
 import matplotlib.pyplot as plt
+import  traceback
 
 class PlotProcess:
     def __init__(self,queue_):
@@ -124,7 +125,7 @@ class PlotProcess:
                 try:
                     x, y =  ufm.calculate_rad_heat_flux_curve_Fh(fireLayerDiameter, fireLayerHeight, R_distance, layer_thickness)
                 except Exception as e:
-                    continue
+                    traceback.print_exc()
 
                 if (self.algorithmMap['draw_rad_heat_flux_curve_Fh'] == True):
                     try:
@@ -171,7 +172,7 @@ class PlotProcess:
                             self.draw_rad_heat_flux_curve_FV1_x_pos_fig.canvas.mpl_connect('close_event',
                                                                                      self.handle_close_draw_rad_heat_flux_curve_FV1_x_pos)
                             self.created_draw_rad_heat_flux_curve_FV1_x_pos = True
-                        tfm.draw_rad_heat_flux_curve_FV1_x_pos(fireHeight, fireWidget, angle, epsilon, T, self.draw_rad_heat_flux_curve_FV1_x_pos_fig)
+                        tfm.draw_rad_heat_flux_curve_FV1_x_pos(fireHeight, fireWidget, angle, epsilon, T, R_distance, self.draw_rad_heat_flux_curve_FV1_x_pos_fig)
                     except Exception as e:
                         print(e)
 
@@ -182,7 +183,7 @@ class PlotProcess:
                             self.draw_rad_heat_flux_curve_FV1_x_neg_fig.canvas.mpl_connect("close_event",
                                                                                      self.handle_close_draw_rad_heat_flux_curve_FV1_x_neg)
                             self.created_draw_rad_heat_flux_curve_FV1_x_neg = True
-                        tfm.draw_rad_heat_flux_curve_FV1_x_neg(fireHeight, fireWidget, angle,  epsilon, T, self.draw_rad_heat_flux_curve_FV1_x_neg_fig)
+                        tfm.draw_rad_heat_flux_curve_FV1_x_neg(fireHeight, fireWidget, angle,  epsilon, T, R_distance, self.draw_rad_heat_flux_curve_FV1_x_neg_fig)
                     except Exception as e:
                         print(e)
 
@@ -194,7 +195,7 @@ class PlotProcess:
                             self.draw_rad_heat_flux_curve_FV2_y_vertical_fig.canvas.mpl_connect("close_event",
                                                              self.handle_close_draw_rad_heat_flux_curve_FV2_y_vertical)
                             self.created_draw_rad_heat_flux_curve_FV2_y_vertical = True
-                        tfm.draw_rad_heat_flux_curve_FV2_y_vertical(fireHeight, fireWidget, angle, epsilon, T, self.draw_rad_heat_flux_curve_FV2_y_vertical_fig)
+                        tfm.draw_rad_heat_flux_curve_FV2_y_vertical(fireHeight, fireWidget, angle, epsilon, T, R_distance,  self.draw_rad_heat_flux_curve_FV2_y_vertical_fig)
                     except Exception as e:
                         print(e)
 
@@ -205,7 +206,7 @@ class PlotProcess:
                             self.fig_draw_rad_heat_flux_curve_FH1_x_pos.canvas.mpl_connect("close_event",
                                                                                    self.handle_close_draw_rad_heat_flux_curve_FH1_x_pos)
                             self.created_draw_rad_heat_flux_curve_FH1_x_pos = True
-                        tfm.draw_rad_heat_flux_curve_FH1_x_pos(fireHeight, fireWidget, angle,epsilon, T, self.fig_draw_rad_heat_flux_curve_FH1_x_pos)
+                        tfm.draw_rad_heat_flux_curve_FH1_x_pos(fireHeight, fireWidget, angle,epsilon, T, R_distance, self.fig_draw_rad_heat_flux_curve_FH1_x_pos)
                     except Exception as e:
                         print(e)
 
@@ -218,7 +219,7 @@ class PlotProcess:
                             self.fig_draw_rad_heat_flux_curve_FH1_x_neg.canvas.mpl_connect("close_event",
                                                                                self.handle_close_draw_rad_heat_flux_curve_FH1_x_neg)
                             self.created_draw_rad_heat_flux_curve_FH1_x_neg = True
-                        tfm.draw_rad_heat_flux_curve_FH1_x_neg(fireHeight, fireWidget, angle, epsilon, T, self.fig_draw_rad_heat_flux_curve_FH1_x_neg)
+                        tfm.draw_rad_heat_flux_curve_FH1_x_neg(fireHeight, fireWidget, angle, epsilon, T, R_distance, self.fig_draw_rad_heat_flux_curve_FH1_x_neg)
                     except Exception as e:
                         print(e)
 
@@ -229,7 +230,7 @@ class PlotProcess:
                             self.fig_draw_rad_heat_flux_curve_FH2_y_vertical.canvas.mpl_connect("close_event",
                                                                                self.handle_close_draw_rad_heat_flux_curve_FH2_y_vertical)
                             self.created_draw_rad_heat_flux_curve_FH2_y_vertical = True
-                        tfm.draw_rad_heat_flux_curve_FH2_y_vertical(fireHeight, fireWidget, angle,epsilon, T, self.fig_draw_rad_heat_flux_curve_FH2_y_vertical)
+                        tfm.draw_rad_heat_flux_curve_FH2_y_vertical(fireHeight, fireWidget, angle,epsilon, R_distance, T, self.fig_draw_rad_heat_flux_curve_FH2_y_vertical)
                     except Exception as e:
                         print(e)
 
@@ -251,7 +252,9 @@ class PlotProcess:
                             self.fig_tilt_flame_hazardous_radius_xa.canvas.mpl_connect("close_event",
                                                                                 self.handle_close_tilt_flame_hazardous_radius_xa)
                             self.created_tilt_flame_hazardous_radius_xa = True
-                        tfm.tilt_flame_hazardous_radius_xa(fireHeight, fireWidget, angle, self.fig_tilt_flame_hazardous_radius_xa)
+                        print(fireHeight)
+                        print(fireWidget)
+                        tfm.tilt_flame_hazardous_radius_xa(fireHeight, fireWidget, angle, epsilon, T, self.fig_tilt_flame_hazardous_radius_xa)
                     except Exception as e:
                         print(e)
 
