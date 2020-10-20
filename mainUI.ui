@@ -1775,7 +1775,7 @@ font: 14pt &quot;Arial&quot;;</string>
           <widget class="QPushButton" name="pushButton_4">
            <property name="geometry">
             <rect>
-             <x>300</x>
+             <x>440</x>
              <y>110</y>
              <width>251</width>
              <height>23</height>
@@ -1788,8 +1788,8 @@ font: 14pt &quot;Arial&quot;;</string>
           <widget class="QWidget" name="widget_6" native="true">
            <property name="geometry">
             <rect>
-             <x>620</x>
-             <y>10</y>
+             <x>280</x>
+             <y>20</y>
              <width>141</width>
              <height>201</height>
             </rect>
@@ -1975,10 +1975,10 @@ font: 14pt &quot;Arial&quot;;</string>
           <widget class="QFrame" name="frame">
            <property name="geometry">
             <rect>
-             <x>790</x>
-             <y>10</y>
-             <width>141</width>
-             <height>91</height>
+             <x>760</x>
+             <y>40</y>
+             <width>131</width>
+             <height>101</height>
             </rect>
            </property>
            <property name="styleSheet">
@@ -2002,7 +2002,7 @@ font: 14pt &quot;Arial&quot;;</string>
             <property name="text">
              <string>a点,沿火焰倾斜方向
 b点,沿火焰倾斜反方向
-c点,垂直火焰方向</string>
+c点,垂直火焰倾斜方向</string>
             </property>
            </widget>
           </widget>
@@ -2025,7 +2025,7 @@ c点,垂直火焰方向</string>
           <widget class="QLabel" name="label_39">
            <property name="geometry">
             <rect>
-             <x>380</x>
+             <x>520</x>
              <y>20</y>
              <width>81</width>
              <height>31</height>
@@ -2041,7 +2041,7 @@ c点,垂直火焰方向</string>
           <widget class="QLineEdit" name="lineEdit_7">
            <property name="geometry">
             <rect>
-             <x>300</x>
+             <x>440</x>
              <y>70</y>
              <width>51</width>
              <height>20</height>
@@ -2054,7 +2054,7 @@ c点,垂直火焰方向</string>
           <widget class="QPushButton" name="pushButton_13">
            <property name="geometry">
             <rect>
-             <x>360</x>
+             <x>500</x>
              <y>70</y>
              <width>191</width>
              <height>23</height>

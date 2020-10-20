@@ -287,13 +287,14 @@ class PlotProcess:
 
                 ##TODO: 修改
                 if (self.algorithmMap['plot_abc'] == True):
+                    print("PLOT",fireHeatFluxparam )
                     try:
                         if (self.created_plot_abc == False):
                             self.fig_plot_abc = plt.figure("plot_abc")
                             self.fig_plot_abc.canvas.mpl_connect("close_event",
                                                                             self.handle_close_plot_abc)
                             self.created_plot_abc = True
-                        tfm.plot_abc(fireHeight, fireWidget ,angle, epsilon, T, rad_heat ,self.fig_plot_abc)
+                        tfm.plot_abc(fireHeight, fireWidget ,angle, epsilon, T, R_distance, fireHeatFluxparam ,self.fig_plot_abc)
                     except Exception as e:
                         print(e)
 
