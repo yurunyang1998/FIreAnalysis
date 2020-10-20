@@ -100,9 +100,10 @@ def draw_rad_heat_flux_curve_Fv(d_flame, height_original, layer_thickness, R_dis
         #H_array=np.linspace(Height/layerNum,Height,layerNum)
         layerNum= len(height_original)
         H_array= height_original
-
+        #height_original*2 is the display range of height 
+        x = np.arange(0, Height*2, Height*2/5) #Radius
         y = []
-        for h_dis in H_array:
+        for h_dis in x:
             try:
                 y_1 = heat_flux_v(d_flame, height_original, h_dis, layer_thickness, R_distance)
                 y.append(y_1)
