@@ -48,6 +48,7 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
         self.pushButton_7.clicked.connect(self.addThresholdValue_Color)
         self.pushButton_31.clicked.connect(self.setAutoAnalysisFireInfo)
         self.pushButton_32.clicked.connect(self.addLayer_thickness)
+        self.pushButton_2.clicked.connect(self.outputData)
 
         ## 垂直辐射热流计算
         self.pushButton_5.clicked.connect(self.draw_rad_heat_flux_curve_Fh)
@@ -116,6 +117,8 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
         self.paused = False
         self.moveMouse = False
         self.tableWidgetIndex = 1
+        self.outputIndex = 1
+        self.outputDataStr = ""
 
         self.th = Thread(self)
         self.queue = multiprocessing.Queue()
@@ -451,6 +454,10 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
             self.tableWidget.setItem(self.tableWidgetIndex, 1, QTableWidgetItem(str(self.fireHeight)))
             self.tableWidget.setItem(self.tableWidgetIndex, 2, QTableWidgetItem(str(self.fireWidget)))
             self.tableWidgetIndex += 1
+
+            self.outputDataStr +=str(self.outputIndex)+" "+str(self.fireHeight)+" "+str(self.fireWidget)+" "+str(self.fireAngel)+"\n"
+            self.outputIndex +=1
+
         except Exception as e:
             print(e)
 
@@ -522,6 +529,16 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
         self.RadioThreshold.append(self.lineEdit_20.text())
         self.RadioThreshold.append(self.lineEdit_21.text())
         self.RadioThreshold.append(self.lineEdit_22.text())
+
+    def outputData(self):
+        self.th.autoAnalysisFireInfo = False
+        try:
+            with open("output.txt",mode='w') as file:
+                index = "INDEX HEIGHT WIDTH THETA\n"
+                file.write(index)
+                file.write(self.outputDataStr)
+        except Exception as e:
+            print(e)
 
     ######### 算法函数
     def draw_rad_heat_flux_curve_FV1_x_pos(self):
@@ -724,7 +741,7 @@ class Thread(QThread):
                         img = cv2.rectangle(img, (x, y), (x + w, y + h), (255, 255, 255), 1)  #框选出火焰区域
                         roiArea = img[y:y+h, x:x+w]
                         angel = self.getFireAngel(roiArea) #获取火焰角度
-                        self.changeFireinfo.emit(w,h,angel+10)
+                        self.changeFireinfo.emit(w,h,angel)
                         if(flameNum % 10 == 0):
                                 fireLayerDiameter, fireLayerHeight = self.getFireLayerDiameter(roiArea,flameNum)  # 获取火焰每一层的宽度和高度
                                 self.changeFireLayerInfo.emit(fireLayerDiameter, fireLayerHeight)
