@@ -107,7 +107,7 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
         self.fireHeatFluxparam = 4
         self.fireLayerDiameter =[]
         self.fireLayerHeight =[]
-        self.R_distance_max = 5
+        self.R_distance_max = 15
         self.k = 1
         self.T = 400
         self.RadioThreshold = [1.6,4.0,12.5,25.0,37.5]
@@ -516,8 +516,8 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
             self.T = self.lineEdit_25.text()
 
     def addLayer_thickness(self):
-        if(self.lineEdit_30.size()>0):
-            layer_thickness  = float(self.lineEdit_30.text())*self.rateInY
+        layer_thickness  = float(self.lineEdit_30.text())*self.rateInY
+        if(layer_thickness>0):
             self.layer_thickness = layer_thickness
             self.th.layer_thickness = layer_thickness
 
