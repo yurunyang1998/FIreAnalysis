@@ -15,9 +15,9 @@ import matplotlib.pyplot as plt
 
 if __name__ == '__main__':
 
-    # app = QApplication(sys.argv)
-    # dialog = LoginPage()
-    # if dialog.exec_() == QDialog.Accepted:
+    app = QApplication(sys.argv)
+    dialog = LoginPage()
+    if dialog.exec_() == QDialog.Accepted:
         app = QApplication(sys.argv)
         ex = mainPage.MainPage()
         ex.show()
