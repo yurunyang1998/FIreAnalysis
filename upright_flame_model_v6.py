@@ -62,7 +62,9 @@ def heat_flux_v(d_flame, height_original, z_height, layer_thickness, x_distance)
     i=0
     r=max(d_flame)/2+x_distance
     #r表示圆柱中心线到目标微元的水平距离
-    for i in range (0,layerNum):
+    minlaynum = min(len(height_original),len(d_flame))
+
+    for i in range (1,minlaynum):
         H=H_array[i]
         if (d_flame[i]==0):
             d_flame[i]=0.01
