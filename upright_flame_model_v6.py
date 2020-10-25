@@ -185,17 +185,16 @@ def calculate_rad_heat_flux_curve_Fh(d_flame, height_original, R_distance_max, l
     return x, y
 #############################################################################################
 def draw_rad_heat_flux_curve_Fh(x, y, fig):
-    print(x)
-    print(y)
     # ax = fig.add_subplot(111)
     #x, y=calculate_rad_heat_flux_curve_Fh(d_flame, height_original, R_distance_max, layer_thickness)
     plt.clf()
+    plt.ion()
     plt.title('Radiative heat flux curve for upright flame--horizontal direction')
     plt.plot(x, y, label="Radiative heat flux")
     plt.xlabel("Distance to flame (m)")
     plt.ylabel("Radiative heat flux (kW/m^2)")
     plt.legend()
-    plt.pause(0.04)
+    plt.pause(0.1)
     plt.show()
 
 def flame_hazardous_radius_xa(x, y, rad_heat, fig):
