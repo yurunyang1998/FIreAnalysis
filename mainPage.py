@@ -75,7 +75,7 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
         self.pushButton_27.clicked.connect(self.addT2)
 
         ## 伤害范围
-        # self.pushButton_14.clicked.connect(self.flame_hazardous_radius_xa)
+        self.pushButton_14.clicked.connect(self.flame_hazardous_radius_xa)
         # self.pushButton_10.clicked.connect(self.tilt_flame_hazardous_radius_xa)
         # self.pushButton_11.clicked.connect(self.tilt_flame_hazardous_radius_xb)
         # self.pushButton_12.clicked.connect(self.tilt_flame_hazardous_radius_xc)
@@ -140,6 +140,18 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
                              "tilt_flame_hazardous_radius_xc": False,
                              "plot_abc": False
                              }
+        self.algorithmMap['fireHeight'] = self.fireHeight
+        self.algorithmMap['fireWidget'] = self.fireWidget
+        self.algorithmMap["fireLayerHeight"] = self.fireLayerHeight
+        self.algorithmMap["fireLayerDiameter"] = self.fireLayerDiameter
+        self.algorithmMap["angle"] = self.fireAngel
+        self.algorithmMap['R_distance_max'] = self.R_distance_max
+        self.algorithmMap['k'] = self.k
+        self.algorithmMap['RadioThreshold'] = self.RadioThreshold
+        self.algorithmMap['layer_thickness'] = self.layer_thickness / self.rateInY
+        self.algorithmMap['epsilon'] = self.epsilon
+        self.algorithmMap['T'] = self.T
+        self.algorithmMap['fireHeatFluxparam'] = self.fireHeatFluxparam
 
         self.algorithmList = ["draw_rad_heat_flux_curve_Fh",
                              "draw_rad_heat_flux_curve_Fv",
@@ -328,6 +340,8 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
             for i in range(1,int(layernum)):
                 fireLayerHeights.append(layernum*i)
                 fireLayerDiameter.append(self.fireWidget)
+            print(fireLayerHeights,fireLayerDiameter)
+
             self.fireLayerHeight = fireLayerHeights
             self.fireLayerDiameter = fireLayerDiameter
             self.algorithmMap['fireHeight'] = self.fireHeight
