@@ -338,9 +338,9 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
             fireLayerHeights = []
             fireLayerDiameter = []
             for i in range(1,int(layernum)):
-                fireLayerHeights.append(layernum*i)
+                fireLayerHeights.append(layer_height*i)
                 fireLayerDiameter.append(self.fireWidget)
-            print(fireLayerHeights,fireLayerDiameter)
+            # print(fireLayerHeights,fireLayerDiameter)
 
             self.fireLayerHeight = fireLayerHeights
             self.fireLayerDiameter = fireLayerDiameter
@@ -379,7 +379,7 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
             fireLayerHeights = []
             fireLayerDiameter = []
             for i in range(1, int(layernum)):
-                fireLayerHeights.append(layernum * i)
+                fireLayerHeights.append(layer_height * i)
                 fireLayerDiameter.append(self.fireWidget)
             self.fireLayerHeight = fireLayerHeights
             self.fireLayerDiameter = fireLayerDiameter
