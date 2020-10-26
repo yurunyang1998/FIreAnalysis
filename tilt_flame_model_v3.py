@@ -476,8 +476,8 @@ def plot_abc(H, W, theta, epsilon, T, R_distance, rad_heat ,fig):
 
 #当热流密度为4kW/m2时，找出对应4 kW/m2时a点、b点、c点的位置，以这些位置为半径，分别化同心圆
 #名称：以火焰中心为中心的伤害范围示意图
-fig = plt.figure()
-plot_abc(1, 0.8, 75, 0.5, 600, 10, 200, fig)
+#fig = plt.figure()
+#plot_abc(1, 0.8, 75, 0.5, 600, 10, 200, fig)
 
 #plot_abc(H, W, theta, epsilon, T, R_distance, rad_heat ,fig)
 #假设人在a点的伤害半径
