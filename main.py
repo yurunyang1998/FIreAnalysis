@@ -11,35 +11,28 @@ from  loginPage import LoginPage
 ################################################
 #######对话框
 ################################################
-import matplotlib.pyplot as plt
 
 if __name__ == '__main__':
 
-    app = QApplication(sys.argv)
-    dialog = LoginPage()
-    if dialog.exec_() == QDialog.Accepted:
+    # app = QApplication(sys.argv)
+    # dialog = LoginPage()
+    # if dialog.exec_() == QDialog.Accepted:
+    #     app = QApplication(sys.argv)
+    #     ex = mainPage.MainPage()
+    #     ex.show()
+    #     sys.exit(app.exec_())
+    v_compare = QVersionNumber(5, 6, 0)
+    v_current, _ = QVersionNumber.fromString(QT_VERSION_STR)  # 获取当前Qt版本
+    if QVersionNumber.compare(v_current, v_compare) >= 0:
+        QApplication.setAttribute(Qt.AA_EnableHighDpiScaling)  # Qt从5.6.0开始，支持High-DPI
+        app = QApplication(sys.argv)  #
+    else:
         app = QApplication(sys.argv)
-        ex = mainPage.MainPage()
-        ex.show()
-        sys.exit(app.exec_())
-
-
-# import matplotlib.pyplot as plt
-#
-#
-# # f2 = plt.figure()
-# # plt.title("figure2")
-# #
-# # f3 = plt.figure(5)
-# # plt.title("figure5")
-# #
-# f6 = plt.figure(6, (4, 4), 100)
-# # plt.title("figure6")
-#
-# f7 = plt.figure(7, None, None, '#FFD700', '#FF0000')
-# plt.title("figure7")
-# # f1 = plt.figure()
-#
-#
-#
-# plt.show()
+        font = QFont("宋体")
+        pointsize = font.pointSize()
+        font.setPixelSize(pointsize * 90 / 72)
+        app.setFont(font)
+    # app = QApplication(sys.argv)
+    ex = mainPage.MainPage()
+    ex.show()
+    sys.exit(app.exec_())
