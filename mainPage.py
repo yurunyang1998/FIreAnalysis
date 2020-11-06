@@ -399,40 +399,6 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
 
         except Exception as e:
             traceback.print_exc()
-        # try:
-        #     self.th.fixedFireInfo = True
-        #     self.th.autoAnalysisFireInfo = False
-        #     if(self.lineEdit_27.text()=="" or self.lineEdit_28.text()=="" or self.lineEdit_29.text()==""):
-        #         alert(self,"请输入数据")
-        #         return
-        #     # if ((not self.lineEdit_27.text().isnumeric()) or (not self.lineEdit_28.text().isnumeric()) or (not self.lineEdit_29.text().isnumeric())):
-        #     #     alert(self,"请输入数据")
-        #     #     return
-        #     self.fireHeight = float(self.lineEdit_27.text())
-        #     self.fireWidget = float(self.lineEdit_28.text())
-        #
-        #     layer_height = self.layer_thickness / self.rateInY
-        #     layernum = self.fireHeight / layer_height
-        #     fireLayerHeights = []
-        #     fireLayerDiameter = []
-        #     for i in range(1, int(layernum)):
-        #         fireLayerHeights.append(layernum * i)
-        #         fireLayerDiameter.append(self.fireWidget)
-        #
-        #     self.algorithmMap['fireHeight'] = self.fireHeight
-        #     self.algorithmMap['fireWidget'] = self.fireWidget
-        #     self.algorithmMap["fireLayerHeight"] = self.fireLayerHeight
-        #     self.algorithmMap["fireLayerDiameter"] = self.fireLayerDiameter
-        #     self.algorithmMap["angle"] = self.fireAngel
-        #     self.algorithmMap['R_distance_max'] = self.R_distance_max
-        #     self.algorithmMap['k'] = self.k
-        #     self.algorithmMap['RadioThreshold'] = self.RadioThreshold
-        #     self.algorithmMap['layer_thickness'] = self.layer_thickness / self.rateInY
-        #     self.algorithmMap['epsilon'] = self.epsilon
-        #     self.algorithmMap['T'] = self.T
-        # except Exception as e:
-        #     print(e)
-
 
     def autoAnalysisFireSize(self):
         while(1):
@@ -469,8 +435,7 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
             self.tableWidget.setItem(self.tableWidgetIndex, 2, QTableWidgetItem(str(self.fireWidget)))
             self.tableWidgetIndex += 1
 
-            self.outputDataStr +=str(self.outputIndex)+" "+str(self.fireHeight)+" "+str(self.fireWidget)+" "+str(self.fireAngel)+"\n"
-            self.outputIndex +=1
+
 
         except Exception as e:
             print(e)
@@ -479,7 +444,7 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
         self.th.autoAnalysisFireInfo = (not self.th.autoAnalysisFireInfo)
         self.th.fixedFireInfo = False
 
-    def fireLayerInfo(self, fireLayerDiameter_, fireLayerHeight_):
+    def fireLayerInfo(self, fireLayerDiameter_, fireLayerHeight_ , preciseFireHeight_, preciseFireDiameter_):
         # print("setfirelayinfo")
         self.fireLayerDiameter =[float("{:.2f}".format(x/self.rateInX)) for x in fireLayerDiameter_]
         self.fireLayerHeight = [float("{:.2f}".format(x/self.rateInY)) for x in fireLayerHeight_]
@@ -487,6 +452,13 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
         # self.fireLayerHeight = fireLayerHeight_
         self.algorithmMap["fireLayerDiameter"] = self.fireLayerDiameter
         self.algorithmMap["fireLayerHeight"] = self.fireLayerHeight
+
+        preciseFireHeightInReally = [float("{:.2f}".format(x/self.rateInY)) for x in preciseFireHeight_]
+        preciseFireDiameterInReally = [float("{:.2f}".format(x/self.rateInX)) for x in preciseFireDiameter_]
+        lens = min(len(preciseFireHeightInReally), len(preciseFireDiameterInReally))
+        for i in range(lens):
+            self.outputDataStr += str(self.outputIndex)+" "+str(i)+" "+str(preciseFireHeightInReally[i])+" "+str(preciseFireDiameterInReally[i])+" "+str(self.fireAngel)+"\n"
+        self.outputIndex+=1
 
     def addHeatFluxParam(self):
         if(self.lineEdit_7.text()==""):
@@ -547,10 +519,12 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
     def outputData(self):
         self.th.autoAnalysisFireInfo = False
         try:
-            with open("output.txt",mode='w') as file:
-                index = "INDEX HEIGHT WIDTH THETA\n"
+            filename = 'output-'+str(self.outputIndex)+'.txt'
+            with open(filename,mode='w') as file:
+                index = "INDEX LAYER HEIGHT WIDTH THETA\n"
                 file.write(index)
                 file.write(self.outputDataStr)
+                self.outputDataStr = None
         except Exception as e:
             print(e)
 
@@ -616,7 +590,7 @@ class Thread(QThread):
     changePixmap = pyqtSignal(QtGui.QImage)
     changeSegmentPic = pyqtSignal(QtGui.QImage)
     changeFireinfo = pyqtSignal(int, int, int)
-    changeFireLayerInfo = pyqtSignal(list, list)
+    changeFireLayerInfo = pyqtSignal(list, list, list, list)
     writeRequestandMsgToQueueSignal = pyqtSignal()
 
 
@@ -757,9 +731,9 @@ class Thread(QThread):
                         angel = self.getFireAngel(roiArea) #获取火焰角度
                         self.changeFireinfo.emit(w,h,angel)
                         if(flameNum % 10 == 0):
-                                fireLayerDiameter, fireLayerHeight = self.getFireLayerDiameter(roiArea,flameNum)  # 获取火焰每一层的宽度和高度
-                                self.changeFireLayerInfo.emit(fireLayerDiameter, fireLayerHeight)
-                                self.writeRequestandMsgToQueueSignal.emit()
+                            roughFireDiameter, roughFireHeight, preciseFireHeight, preciseFireDiameter = self.getFireLayerDiameter(roiArea,flameNum)  # 获取火焰每一层的宽度和高度
+                            self.changeFireLayerInfo.emit(roughFireDiameter, roughFireHeight, preciseFireHeight, preciseFireDiameter)
+                            self.writeRequestandMsgToQueueSignal.emit()
 
                     except Exception as e:
                         traceback.print_exc()
@@ -798,12 +772,15 @@ class Thread(QThread):
 
     def getFireLayerDiameter(self, img, flameNum):
         preciseFireDiameter = []  # 包含每一个像素层的火焰宽度
-        preciseFireHeight = []
+        roughFireHeight = []
+
+        heightLayerNum = img.shape[1]
+        preciseFireHeight = list(range(0,heightLayerNum))
 
         layerNum = int(img.shape[1] / self.layer_thickness)  # 获取每层的高度
         for i in range(1, layerNum):
-            preciseFireHeight.append(self.layer_thickness * i)
-        preciseFireHeight.reverse()
+            roughFireHeight.append(self.layer_thickness * i)
+        roughFireHeight.reverse()
         # print("layerNum:", layerNum)
         try:
             for row in img:
@@ -838,7 +815,7 @@ class Thread(QThread):
                 roughFireDiameter.append(int(perlayerDiamerter / self.layer_thickness))
                 perlayerDiamerter = 0
 
-        return roughFireDiameter, preciseFireHeight
+        return roughFireDiameter, roughFireHeight, preciseFireHeight, preciseFireDiameter
 
     def getFireAngel(self,img):
         # cv2.imshow('a',img)
