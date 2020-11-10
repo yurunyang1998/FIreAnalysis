@@ -615,6 +615,7 @@ class Thread(QThread):
                     return
                 if(not self.paused):
                     ret, frame = self.cap.read()
+                    frame = cv2.resize(frame, (int(frame.shape[1]/2), int(frame.shape[0]/2)), interpolation=cv2.INTER_LINEAR)
                     flameNum = flameNum + 1
                     if ret:
                         self.rgbImage = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB) #在这里可以对每帧图像进行处理，
@@ -625,7 +626,7 @@ class Thread(QThread):
                             # cv2.waitKey(1)
                         self.width,self.height = self.rgbImage.shape[1],self.rgbImage.shape[0]
                         convertToQtFormat = QtGui.QImage(self.rgbImage.data, self.rgbImage.shape[1], self.rgbImage.shape[0], QImage.Format_RGB888)
-                        currentCaputre = convertToQtFormat.scaled(self.width/2, self.height/2, QtCore.Qt.KeepAspectRatio)
+                        currentCaputre = convertToQtFormat.scaled(self.width, self.height, QtCore.Qt.KeepAspectRatio)
                         self.changePixmap.emit(currentCaputre)
 
 

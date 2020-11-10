@@ -13,14 +13,6 @@ from  loginPage import LoginPage
 ################################################
 
 if __name__ == '__main__':
-
-    # app = QApplication(sys.argv)
-    # dialog = LoginPage()
-    # if dialog.exec_() == QDialog.Accepted:
-    #     app = QApplication(sys.argv)
-    #     ex = mainPage.MainPage()
-    #     ex.show()
-    #     sys.exit(app.exec_())
     v_compare = QVersionNumber(5, 6, 0)
     v_current, _ = QVersionNumber.fromString(QT_VERSION_STR)  # 获取当前Qt版本
     if QVersionNumber.compare(v_current, v_compare) >= 0:
@@ -33,6 +25,13 @@ if __name__ == '__main__':
         font.setPixelSize(pointsize * 90 / 72)
         app.setFont(font)
     # app = QApplication(sys.argv)
-    ex = mainPage.MainPage()
-    ex.show()
-    sys.exit(app.exec_())
+    dialog = LoginPage()
+    if dialog.exec_() == QDialog.Accepted:
+        ex = mainPage.MainPage()
+        ex.show()
+        sys.exit(app.exec_())
+
+    # # app = QApplication(sys.argv)
+    # ex = mainPage.MainPage()
+    # ex.show()
+    # sys.exit(app.exec_())
