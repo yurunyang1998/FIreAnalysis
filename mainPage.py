@@ -2,7 +2,7 @@ import time
 import traceback
 
 import functools
-from PyQt5.QtWidgets import QFileDialog,QMainWindow,QApplication,QMessageBox,QErrorMessage, QTableWidgetItem
+from PyQt5.QtWidgets import QFileDialog,QMainWindow,QApplication,QMessageBox, QTableWidgetItem
 from PyQt5.QtMultimedia import *
 from PyQt5.QtGui import QPainter, QPixmap, QPen, QImage
 from PyQt5.QtCore import QPoint, QThread, pyqtSignal
@@ -124,6 +124,12 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
         self.queue = multiprocessing.Queue()
         self.plotProcess = plotdrawProcess.PlotProcess(self.queue)
         self.plotProcess.run()
+        desktop = QApplication.desktop()
+        screenRect = desktop.screenGeometry()
+        screenHeight = screenRect.height()
+        screenWidth = screenRect.width()
+        self.th.screenHeight = screenHeight
+        self.th.screenWidth = screenWidth
 
         self.algorithmMap = {"draw_rad_heat_flux_curve_Fh": False,
                              "draw_rad_heat_flux_curve_Fv": False,
@@ -605,6 +611,9 @@ class Thread(QThread):
     autoAnalysisFireInfo = False
     fixedFireInfo = False
     layer_thickness = 10
+
+    screenWidth =0
+    screenHeight =0
     def run(self):
         try:
             self.cap = cv2.VideoCapture(videoName)
@@ -615,7 +624,11 @@ class Thread(QThread):
                     return
                 if(not self.paused):
                     ret, frame = self.cap.read()
-                    frame = cv2.resize(frame, (int(frame.shape[1]/2), int(frame.shape[0]/2)), interpolation=cv2.INTER_LINEAR)
+                    if(self.screenHeight > 768 and self.screenWidth > 1366):
+                        frame = cv2.resize(frame, (int(frame.shape[1]/2), int(frame.shape[0]/2)), interpolation=cv2.INTER_LINEAR)
+                    else:
+                        frame = cv2.resize(frame, (int(frame.shape[1]/4), int(frame.shape[0]/4)), interpolation=cv2.INTER_LINEAR)
+
                     flameNum = flameNum + 1
                     if ret:
                         self.rgbImage = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB) #在这里可以对每帧图像进行处理，
