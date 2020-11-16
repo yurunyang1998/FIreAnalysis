@@ -487,24 +487,27 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
         self.R_distance_max = float(self.lineEdit_26.text())
 
     def addk(self):
-        if(self.lineEdit_10.size()>0):
-            self.k = self.lineEdit_10.text()
-        if(self.lineEdit_9.size()>0):
-            self.epsilon = self.lineEdit_9.text()
+        try:
+            if(self.lineEdit_10.text().__sizeof__() >0):
+                self.k = self.lineEdit_10.text()
+            if(self.lineEdit_9.text().__sizeof__()>0):
+                self.epsilon = self.lineEdit_9.text()
+        except Exception as e:
+            print(e)
 
     def addT(self):
-        if(self.lineEdit_13.size()>0):
+        if(self.lineEdit_13.text().__sizeof__()>0):
             self.T = self.lineEdit_13.text()
 
     def addk2(self):
-        if(self.lineEdit_19.size()>0):
+        if(self.lineEdit_19.text().__sizeof__()>0):
             self.k = self.lineEdit_19.text()
-        if(self.lineEdit_18.size()>0):
+        if(self.lineEdit_18.text().__sizeof__()>0):
             self.epsilon = self.lineEdit_18.text()
 
 
     def addT2(self):
-        if(self.lineEdit_13.size()>0):
+        if(self.lineEdit_13.text().__sizeof__()>0):
             self.T = self.lineEdit_25.text()
 
     def addLayer_thickness(self):
