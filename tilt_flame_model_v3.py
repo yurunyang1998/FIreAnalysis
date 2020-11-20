@@ -121,6 +121,7 @@ def draw_rad_heat_flux_curve_FH1_x_pos(H, W, theta, epsilon, T, R_distance, fig)
             plt.legend()
             plt.pause(1)
             plt.show()
+            return  x, y
         except Exception as e:
             print(e)
 
@@ -189,6 +190,7 @@ def draw_rad_heat_flux_curve_FH2_y_vertical(H, W,theta,epsilon, T, R_distance, f
         plt.legend()
         plt.pause(1)
         plt.show()
+        return  x, y
     except Exception as e:
         print(e)
 
@@ -226,6 +228,7 @@ def draw_rad_heat_flux_curve_FV1_x_pos(H, W,theta,epsilon, T, R_distance, fig):
     plt.legend()
     plt.pause(1)
     plt.show()
+    return x,y
 #垂直热流密度，背向火焰倾斜方向
 def draw_rad_heat_flux_curve_FV1_x_neg(H, W,theta,epsilon, T, R_distance, fig):
     plt.ion()
@@ -242,6 +245,7 @@ def draw_rad_heat_flux_curve_FV1_x_neg(H, W,theta,epsilon, T, R_distance, fig):
     plt.legend()
     plt.pause(0.1)
     plt.show()
+    return  x, y
 #当观察者位于垂直于火焰倾斜方向的位置时，视角系数为FH2
 #垂直热流密度，垂直火焰倾斜方向
 def draw_rad_heat_flux_curve_FV2_y_vertical(H, W, theta, epsilon, T, R_distance, fig):
@@ -259,7 +263,7 @@ def draw_rad_heat_flux_curve_FV2_y_vertical(H, W, theta, epsilon, T, R_distance,
     plt.legend()
     plt.pause(1)
     plt.show()
-
+    return  x,y
 ##############垂直热流密度#################################
 
 # 给定辐射热流rad_heat时，a点位置的计算函数
