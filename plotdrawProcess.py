@@ -108,7 +108,7 @@ class PlotProcess:
         print("Process is reading ....")
         while True:
                 msg = queue.get(True)
-                # print(1)
+                print(msg)
                 for key in msg.keys():
                     if(msg[key] == True):
                         self.algorithmMap[key] = True

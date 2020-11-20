@@ -511,10 +511,11 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
             self.T = self.lineEdit_25.text()
 
     def addLayer_thickness(self):
-        layer_thickness  = float(self.lineEdit_30.text())*self.rateInY
+        layer_thickness  = round(float(self.lineEdit_30.text())*self.rateInY,2)
         if(layer_thickness>0):
-            self.layer_thickness = layer_thickness
-            self.th.layer_thickness = layer_thickness
+            print(int(layer_thickness))
+            self.layer_thickness = int(layer_thickness)
+            self.th.layer_thickness =int(layer_thickness)
 
 
     def addRadioThresholds(self):
