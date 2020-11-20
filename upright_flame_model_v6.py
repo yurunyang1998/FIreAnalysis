@@ -205,7 +205,7 @@ def flame_hazardous_radius_xa(x, y, rad_heat, fig):
     x_xa=np.array(y)
     x_xa=x_xa.astype(np.float64)
     y_xa=x
-    exponential_number=8
+    exponential_number=3
     f2 = np.polyfit(x_xa, y_xa, exponential_number)
     X_a_array=np.polyval(f2, rad_heat)
     #print(X_a_array)
@@ -219,7 +219,8 @@ def flame_hazardous_radius_xa(x, y, rad_heat, fig):
             ax1.add_patch(cir)
             x, y = 0, 0
             ax1.plot(x, y, 'ro')
-            # plt.text(int(X_a_array[i]), i*10, str(int(X_a_array[i])), ha='right', wrap=True, rotation='vertical')
+
+            plt.text(0, X_a_array[i], 'R='+str(round(X_a_array[i],2))+' m', wrap=True)
             plt.title('Hazardous Radius for the upright flame(5 levels)')
             plt.axis('scaled')
             plt.axis('equal')   #changes limits of x or y axis so that equal increments of x and y have the same length
