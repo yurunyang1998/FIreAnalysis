@@ -58,6 +58,7 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
         self.pushButton_8.clicked.connect(self.addFireSize)
         self.pushButton_18.clicked.connect(self.addk)
         self.pushButton_19.clicked.connect(self.addT)
+        self.pushButton_33.clicked.connect(self.addObservePointHeight)
 
         ## 倾斜辐射热流计算
             ##垂直热流密度
@@ -113,6 +114,7 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
         self.RadioThreshold = [1.6,4.0,12.5,25.0,37.5]
         self.layer_thickness = 10
         self.epsilon = 0.5
+        self.observePointHeight = 0
 
         self.paused = False
         self.moveMouse = False
@@ -158,6 +160,7 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
         self.algorithmMap['epsilon'] = self.epsilon
         self.algorithmMap['T'] = self.T
         self.algorithmMap['fireHeatFluxparam'] = self.fireHeatFluxparam
+        self.algorithmMap['observePointHeight'] = self.observePointHeight
 
         self.algorithmList = ["draw_rad_heat_flux_curve_Fh",
                              "draw_rad_heat_flux_curve_Fv",
@@ -362,6 +365,8 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
             self.algorithmMap['epsilon'] = self.epsilon
             self.algorithmMap['T'] = self.T
             self.algorithmMap['fireHeatFluxparam'] = self.fireHeatFluxparam
+            self.algorithmMap['observePointHeight'] = self.observePointHeight
+
         except Exception as e:
             traceback.print_exc()
 
@@ -401,6 +406,7 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
             self.algorithmMap['epsilon'] = self.epsilon
             self.algorithmMap['T'] = self.T
             self.algorithmMap['fireHeatFluxparam'] = self.fireHeatFluxparam
+            self.algorithmMap['observePointHeight'] = self.observePointHeight
 
 
         except Exception as e:
@@ -433,6 +439,8 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
         self.algorithmMap['epsilon'] = self.epsilon
         self.algorithmMap['T'] = self.T
         self.algorithmMap['fireHeatFluxparam'] = self.fireHeatFluxparam
+        self.algorithmMap['observePointHeight'] = self.observePointHeight
+
         try:
             if (self.tableWidgetIndex == 7):
                 self.tableWidgetIndex = 1
@@ -537,6 +545,12 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
                 self.outputDataStr = None
         except Exception as e:
             print(e)
+
+    def addObservePointHeight(self):
+        self.observePointHeight = int(self.lineEdit_31.text())
+
+
+
 
     ######### 算法函数
     def draw_rad_heat_flux_curve_FV1_x_pos(self):

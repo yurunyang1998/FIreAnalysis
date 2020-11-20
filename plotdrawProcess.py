@@ -123,6 +123,7 @@ class PlotProcess:
                 T = msg['T']
                 layer_thickness = msg['layer_thickness']
                 fireHeatFluxparam = msg['fireHeatFluxparam']
+                observePointHeight = msg['observePointHeight']
 
                 try:
                     x, y =  ufm.calculate_rad_heat_flux_curve_Fh(fireLayerDiameter, fireLayerHeight, R_distance, layer_thickness)
