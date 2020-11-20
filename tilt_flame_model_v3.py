@@ -97,7 +97,6 @@ def FV2_func(fireHeight, fireWidth, theta, R_distance):
     b = R_distance / fireWidth
     if b==1 or b==-1:
         b=b+0.0001
-    theta=theta/180*pi
     fv2_val=-(a**2*sin(theta)*cos(theta)/(4*pi*(b**2+a**2*sin(theta)*sin(theta))))*log((a**2+b**2-1-2*a*pow((b**2-1),0.5)*sin(theta)/b)/(a**2+b**2-1+2*a*pow((b**2-1),0.5)*sin(theta)/b))+cos(theta)/(2*pi*pow((b**2-sin(theta)*sin(theta)),0.5))\
         *(atan((a*b/pow(b**2-1,0.5)+sin(theta))/(pow(b**2-sin(theta)*sin(theta),0.5)))+atan((a*b/pow(b**2-1,0.5)-sin(theta))/(pow(b**2-sin(theta)*sin(theta),0.5))))-a*b*cos(theta)/(pi*(b**2+a**2*sin(theta)*sin(theta)))\
         *atan(pow(((b-1)/(b+1)),0.5))+(a*b*cos(theta)*(a**2+b**2+1))/(2*pi*(b**2+a**2*sin(theta)*sin(theta))*pow((pow(a**2+b**2+1,2)-4*(b**2+a**2*sin(theta)*sin(theta))),0.5))\
@@ -110,7 +109,7 @@ def draw_rad_heat_flux_curve_FH1_x_pos(H, W, theta, epsilon, T, R_distance, fig)
         try:
             plt.clf()
             plt.ion()
-            x = np.arange(1, R_distance, 1)  # Radius
+            x = np.arange(W/2, R_distance, 1)  # Radius
             y = []
             E = epsilon * sigma * (T ** 4)
             for x_dis in x:
@@ -127,7 +126,7 @@ def draw_rad_heat_flux_curve_FH1_x_pos(H, W, theta, epsilon, T, R_distance, fig)
 
 def draw_rad_heat_flux_curve_FH1_x_pos_withoutDraw(H, W, theta, epsilon, T, R_distance):
     try:
-        x = np.arange(1, R_distance, 1)  # Radius
+        x = np.arange(W/2, R_distance, 1)  # Radius
         y = []
         E = epsilon * sigma * (T ** 4)
         for x_dis in x:
@@ -143,7 +142,7 @@ def draw_rad_heat_flux_curve_FH1_x_neg(H, W,theta,epsilon, T, R_distance, fig):
     try:
         plt.ion()
         plt.clf()
-        x = np.arange(R_distance*(-1), 0, 1) #Radius
+        x = np.arange(R_distance*(-1), W/2*(-1), 1) #Radius
         y = []
         E=epsilon*sigma*(T**4)
         for x_dis in x:
@@ -161,7 +160,7 @@ def draw_rad_heat_flux_curve_FH1_x_neg(H, W,theta,epsilon, T, R_distance, fig):
 
 def draw_rad_heat_flux_curve_FH1_x_neg_withoutDraw(H, W, theta, epsilon, T, R_distance):
     try:
-        x = np.arange(R_distance * (-1), 0, 1)  # Radius
+        x = np.arange(R_distance * (-1), W/2*(-1), 1)  # Radius
         y = []
         E = epsilon * sigma * (T ** 4)
         for x_dis in x:
@@ -178,7 +177,7 @@ def draw_rad_heat_flux_curve_FH2_y_vertical(H, W,theta,epsilon, T, R_distance, f
     try:
         plt.clf()
         plt.ion()
-        x = np.arange(1, R_distance, 1) #Radius
+        x = np.arange(W/2, R_distance, 1) #Radius
         y = []
         E=epsilon*sigma*(T**4)
         for x_dis in x:
@@ -195,7 +194,7 @@ def draw_rad_heat_flux_curve_FH2_y_vertical(H, W,theta,epsilon, T, R_distance, f
 
 def draw_rad_heat_flux_curve_FH2_y_vertical_withoutDraw(H, W, theta, epsilon, T, R_distance):
     try:
-        x = np.arange(1, R_distance, 1)  # Radius
+        x = np.arange(W/2, R_distance, 1)  # Radius
         y = []
         E = epsilon * sigma * (T ** 4)
         for x_dis in x:
@@ -215,7 +214,7 @@ def draw_rad_heat_flux_curve_FH2_y_vertical_withoutDraw(H, W, theta, epsilon, T,
 def draw_rad_heat_flux_curve_FV1_x_pos(H, W,theta,epsilon, T, R_distance, fig):
     plt.ion()
     plt.clf()
-    x = np.arange(1, R_distance, 1) #Radius
+    x = np.arange(W/2, R_distance, 1) #Radius
     y = []
     E = epsilon * sigma * (T ** 4)
     for x_dis in x:
@@ -231,7 +230,7 @@ def draw_rad_heat_flux_curve_FV1_x_pos(H, W,theta,epsilon, T, R_distance, fig):
 def draw_rad_heat_flux_curve_FV1_x_neg(H, W,theta,epsilon, T, R_distance, fig):
     plt.ion()
     plt.clf()
-    x = np.arange(R_distance*(-1), 0, 1) #Radius
+    x = np.arange(R_distance*(-1), W/2*(-1), 1) #Radius
     y = []
     E = epsilon * sigma * (T ** 4)
     for x_dis in x:
@@ -245,10 +244,10 @@ def draw_rad_heat_flux_curve_FV1_x_neg(H, W,theta,epsilon, T, R_distance, fig):
     plt.show()
 #当观察者位于垂直于火焰倾斜方向的位置时，视角系数为FH2
 #垂直热流密度，垂直火焰倾斜方向
-def draw_rad_heat_flux_curve_FV2_y_vertical(H, W,theta,epsilon, T, R_distance, fig):
+def draw_rad_heat_flux_curve_FV2_y_vertical(H, W, theta, epsilon, T, R_distance, fig):
     plt.ion()
     plt.clf()
-    x = np.arange(0, R_distance, 1) #Radius
+    x = np.arange(W/2, R_distance, 1) #Radius
     y = []
     E = epsilon * sigma * (T ** 4)
     for x_dis in x:
@@ -260,6 +259,7 @@ def draw_rad_heat_flux_curve_FV2_y_vertical(H, W,theta,epsilon, T, R_distance, f
     plt.legend()
     plt.pause(1)
     plt.show()
+
 ##############垂直热流密度#################################
 
 # 给定辐射热流rad_heat时，a点位置的计算函数
@@ -468,8 +468,14 @@ def plot_abc(H, W, theta, epsilon, T, R_distance, rad_heat ,fig):
 
 #draw_rad_heat_flux_curve_FV1_x_pos(50, 15, 45)
 #draw_rad_heat_flux_curve_FV1_x_neg(50, 15, 45)
-#draw_rad_heat_flux_curve_FV2_y_vertical(50, 15, 45)
 
+#=================================
+#下面是对第六个热流计算的测试，这块感觉都没有问题，但是11月19的exe测试中y值都是0.0001之类的，明显小于正常值
+#=================================
+#fig = plt.figure()
+##draw_rad_heat_flux_curve_FH2_y_vertical(3, 1, 45, 0.5, 600, 15, fig)
+#draw_rad_heat_flux_curve_FV2_y_vertical(1, 0.5, 60, 0.5, 600, 15, fig)
+#fig = plt.figure()
 #假设人在垂直火焰倾斜方向的热流密度与X的关系
 #名称：垂直火焰倾斜方向的热流密度沿Y轴分布
 #draw_rad_heat_flux_curve_FV2(50, 15, 45)
