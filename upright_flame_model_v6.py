@@ -181,7 +181,7 @@ def calculate_rad_heat_flux_curve_Fh(d_flame, height_original, R_distance_max, l
     #try:
         #plt.ion()
     #d_flame:火焰直径，array
-    x = np.arange(max(d_flame), R_distance_max, (R_distance_max-(max(d_flame)))/5) #Radius
+    x = np.arange(max(d_flame)/2, R_distance_max, (R_distance_max-(max(d_flame)))/5) #Radius
     y = []
     for x_dis in x:
         y_1 = heat_flux_h(d_flame, height_original, layer_thickness, x_dis)
@@ -240,19 +240,23 @@ def draw_rad_heat_flux_vertical_view(x, y, fig):
     try:
         plt.clf()
         plt.ion()
-        #x, y=calculate_rad_heat_flux_curve_Fh(d_flame, height_original, R_distance_max, layer_thickness)
-        x3d=x
-        y3d=x
-        z3d=y
-        n = 50
-        #对x y进行插值，进行热流的俯视图显示
-        xi=np.linspace(min(x3d),max(x3d),n)
-        yi=np.linspace(min(y3d),max(y3d),n)
-        xi,yi = np.meshgrid(xi, yi)
-        zi=griddata((x3d, y3d), z3d, (xi, yi), method ='nearest')
-        h=plt.contourf(xi,yi,zi) #等高线图
-        cb=plt.colorbar(h)
+        z=y
+        n=20
+        theta1=np.linspace(0,2*pi,n+1)
+        #引入旋转矩阵，对上述三维曲线进行旋转即可
+        sintheta=np.sin(theta1)
+        
+        costheta=np.cos(np.array(theta1))
+        sintheta[-1]=0
 
+        X = x.reshape(len(x),1) * (np.cos(theta1)).reshape(1,len(theta1))
+        Y = x.reshape(len(x),1) * sintheta.reshape(1,len(theta1))
+        Z = (np.array(z)).reshape(len(x),1) * (np.ones((1,n+1))).reshape(1,len(theta1))
+        #% 绘图
+
+        h=plt.contourf(X,Y,Z) #等高线图
+        cb=plt.colorbar(h)
+        plt.text(0, 0, 'flame', wrap=True)
         plt.title('Heat Flux distribution (Vertical View)')
         plt.xlabel("Distance to flame (m)")
         plt.ylabel("Distance to flame (m)")
@@ -270,99 +274,32 @@ def draw_rad_heat_flux_vertical_view(x, y, fig):
 
 #d_flame=[0.01, 0.7, 0.66, 0.61, 0.58, 0.55, 0.53, 0.54, 0.5, 0.48, 0.45, 0.45, 0.41, 0.36, 0.32, 0.28, 0.28, 0.26, 0.22, 0.19, 0.13, 0.08, 0.06, 0.03, 0.06, 0.07, 0.11]
 #height_original=np.array([0.16, 0.15, 0.14, 0.13, 0.13, 0.12, 0.11, 0.11, 0.1, 0.09, 0.09, 0.08, 0.07, 0.07, 0.06, 0.05, 0.05, 0.04, 0.03, 0.03, 0.02, 0.01, 0.01])
-# height_original = np.array([16.13153,
-#                             15.7179,
-#                             15.30427,
-#                             14.89064,
-#                             14.47701,
-#                             14.06338,
-#                             13.64975,
-#                             13.23612,
-#                             12.8225,
-#                             12.40887,
-#                             11.99524,
-#                             11.58161,
-#                             11.16798,
-#                             10.75435,
-#                             10.34072,
-#                             9.92709,
-#                             9.51346,
-#                             9.09984,
-#                             8.68621,
-#                             8.27258,
-#                             7.85895,
-#                             7.44532,
-#                             7.03169,
-#                             6.61806,
-#                             6.20443,
-#                             5.7908,
-#                             5.37718,
-#                             4.96355,
-#                             4.54992
-#                             ])
-# d_original = np.array([
-#                        30.83177,
-#                        30.80872,
-#                        30.77552,
-#                        30.75023,
-#                        30.73182,
-#                        30.71686,
-#                        30.69759,
-#                        30.69019,
-#                        30.68039,
-#                        30.66989,
-#                        30.65819,
-#                        30.66146,
-#                        30.66301,
-#                        30.66267,
-#                        30.66869,
-#                        30.67781,
-#                        30.68658,
-#                        30.70464,
-#                        30.71909,
-#                        30.73802,
-#                        30.73905,
-#                        30.75247,
-#                        30.75126,
-#                        30.76021,
-#                        30.75488,
-#                        30.7566,
-#                        30.74249,
-#                        30.73526,
-#                        30.70671
-#                        ])
-# four key display functions 
 
-# #需要手动设置的参数：
-# R_distance_max=50#这个参数是绘制曲线时x轴的范围，应大于火焰半径 //TODO:: 需要在界面中添加的参数
-# layer_thickness=0.5
-# R_distance=1#这个参数是圆柱外边缘到目标微元的水平距离，是一个给定的参数,观测点距离火焰的水平距离（函数draw_rad_heat_flux_curve_Fv的输入参数）
-# rad_heat=[1.6,4.0,12.5,25.0,37.5] #这个也是手动输入的参数
+## #需要手动设置的参数：
+#R_distance_max=5#这个参数是绘制曲线时x轴的范围，应大于火焰半径 //TODO:: 需要在界面中添加的参数
+#layer_thickness=0.1
+## R_distance=1#这个参数是圆柱外边缘到目标微元的水平距离，是一个给定的参数,观测点距离火焰的水平距离（函数draw_rad_heat_flux_curve_Fv的输入参数）
+#rad_heat=[1.6,4.0,12.5,25.0,37.5] #这个也是手动输入的参数
 
 
-# d_flame = d_flame_fitting(d_original, height_original, layer_thickness)
+## d_flame = d_flame_fitting(d_original, height_original, layer_thickness)
 
-# fig = plt.figure()
 
-# x,y=calculate_rad_heat_flux_curve_Fh(d_flame, height_original, R_distance_max, layer_thickness)
-# print(x,y)
-#垂直圆柱体火焰在水平方向热流密度分布,先调用这个函数，返回值在后面的两个功能中会用到。
-# draw_rad_heat_flux_curve_Fh(x, y, fig)
 
-#垂直圆柱体火焰热流密度分布俯视图
+#x,y=calculate_rad_heat_flux_curve_Fh(d_flame, height_original, R_distance_max, layer_thickness)
+## print(x,y)
+##垂直圆柱体火焰在水平方向热流密度分布,先调用这个函数，返回值在后面的两个功能中会用到。
+## draw_rad_heat_flux_curve_Fh(x, y, fig)
+#fig = plt.figure()
+##垂直圆柱体火焰热流密度分布俯视图
 #draw_rad_heat_flux_vertical_view(x, y, fig)
 
 #垂直圆柱体火焰伤害半径示意图
 #绘制5个不同热流对应的距离火焰的半径（5个同心圆）
-#flame_hazardous_radius_xa(x, y, fig)
+
+#flame_hazardous_radius_xa(x, y, rad_heat, fig)
 #Notes: layer_thickness need to be set based on the specific circumstance. 
 
 #垂直圆柱体火焰垂直方向的热流密度分布
 #R_distance=1#这个参数是圆柱外边缘到目标微元的水平距离，是一个给定的参数,观测点距离火焰的水平距离
 # draw_rad_heat_flux_curve_Fv(d_flame, height_original, layer_thickness, R_distance, fig)
-
-
-
-
-
-
