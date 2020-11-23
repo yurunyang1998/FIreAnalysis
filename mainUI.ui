@@ -1186,7 +1186,7 @@ font: 14pt &quot;Arial&quot;;</string>
 font: 14pt &quot;Arial&quot;;</string>
             </property>
             <property name="text">
-             <string>观测点高度</string>
+             <string>观测点水平距离</string>
             </property>
            </widget>
            <widget class="QPushButton" name="pushButton_33">
@@ -2030,7 +2030,7 @@ font: 14pt &quot;Arial&quot;;</string>
              <string notr="true">font: 10pt &quot;Arial&quot;;</string>
             </property>
             <property name="text">
-             <string>kW/m^2</string>
+             <string>W/m^2</string>
             </property>
            </widget>
            <widget class="QPushButton" name="pushButton_20">
