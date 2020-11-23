@@ -93,6 +93,7 @@ def heat_flux_v(d_flame, height_original, z_height, layer_thickness, x_distance)
 def draw_rad_heat_flux_curve_Fv(d_flame, height_original, layer_thickness, R_distance, observePointHeight , fig):
     #d_flame:火焰直径，array
     #R_distance是水平方向上观测点与火焰的距离
+    #为了减少工作量，将输入的observePointHeight（实际上是界面上的‘观测点水平距离’，应该输入的是R_distance），直接将observePointHeight赋值给R_distance就OK。
     try:
         plt.ion()
         #z_height=np.max(height_original)
@@ -103,11 +104,13 @@ def draw_rad_heat_flux_curve_Fv(d_flame, height_original, layer_thickness, R_dis
         layerNum= len(height_original)
         H_array= height_original
         #height_original*2 is the display range of height
+        #为了减少工作量，将输入的observePointHeight（实际上是界面上的‘观测点水平距离’，应该输入的是R_distance），直接将observePointHeight赋值给R_distance就OK。
+        R_distance=observePointHeight
+        #if(observePointHeight == 0):
+        x = np.arange(0, Height*2, Height*2/5) #Radius
+        #else:
+        #    x = np.arange(0, observePointHeight, observePointHeight/5)
 
-        if(observePointHeight == 0):
-            x = np.arange(0, Height*2, Height*2/5) #Radius
-        else:
-            x = np.arange(0, observePointHeight, observePointHeight/5)
         y = []
         for h_dis in x:
             try:
@@ -218,6 +221,7 @@ def flame_hazardous_radius_xa(x, y, rad_heat, fig):
     X_a_array=np.polyval(f2, rad_heat)
     #print(X_a_array)
     X_a_array[X_a_array<0]=0
+    X_a_array = abs(np.sort(-X_a_array))
 
     colors = ["orange","cyan","pink","lime","yellow"]
     ax1 = fig.add_subplot(111)
@@ -286,20 +290,20 @@ def draw_rad_heat_flux_vertical_view(x, y, fig):
 #rad_heat=[1.6,4.0,12.5,25.0,37.5] #这个也是手动输入的参数
 
 
-### d_flame = d_flame_fitting(d_original, height_original, layer_thickness)
+#### d_flame = d_flame_fitting(d_original, height_original, layer_thickness)
 
 
 
 #x,y=calculate_rad_heat_flux_curve_Fh(d_flame, height_original, R_distance_max, layer_thickness)
 ### print(x,y)
-###垂直圆柱体火焰在水平方向热流密度分布,先调用这个函数，返回值在后面的两个功能中会用到。
-### draw_rad_heat_flux_curve_Fh(x, y, fig)
+####垂直圆柱体火焰在水平方向热流密度分布,先调用这个函数，返回值在后面的两个功能中会用到。
+#### draw_rad_heat_flux_curve_Fh(x, y, fig)
 #fig = plt.figure()
-##垂直圆柱体火焰热流密度分布俯视图
-#draw_rad_heat_flux_vertical_view(x, y, fig)
+###垂直圆柱体火焰热流密度分布俯视图
+##draw_rad_heat_flux_vertical_view(x, y, fig)
 
-#垂直圆柱体火焰伤害半径示意图
-#绘制5个不同热流对应的距离火焰的半径（5个同心圆）
+##垂直圆柱体火焰伤害半径示意图
+##绘制5个不同热流对应的距离火焰的半径（5个同心圆）
 
 #flame_hazardous_radius_xa(x, y, rad_heat, fig)
 #Notes: layer_thickness need to be set based on the specific circumstance. 
