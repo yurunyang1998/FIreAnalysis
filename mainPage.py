@@ -504,8 +504,8 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
             print(e)
 
     def addT(self):
-        if(self.lineEdit_13.text().__sizeof__()>0):
-            self.T = self.lineEdit_13.text()
+        if(self.lineEdit_12.text().__sizeof__()>0):
+            self.T = self.lineEdit_12.text()
 
     def addk2(self):
         if(self.lineEdit_19.text().__sizeof__()>0):
@@ -515,8 +515,8 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
 
 
     def addT2(self):
-        if(self.lineEdit_13.text().__sizeof__()>0):
-            self.T = self.lineEdit_25.text()
+        if(self.lineEdit_24.text().__sizeof__()>0):
+            self.T = self.lineEdit_24.text()
 
     def addLayer_thickness(self):
         layer_thickness  = round(float(self.lineEdit_30.text())*self.rateInY,2)
