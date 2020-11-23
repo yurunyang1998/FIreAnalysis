@@ -172,7 +172,7 @@ class PlotProcess:
                     try:
                         if(self.created_draw_rad_heat_flux_curve_FV1_x_pos == False):
                             self.draw_rad_heat_flux_curve_FV1_x_pos_fig = plt.figure("draw_rad_heat_flux_curve_FV1_x_pos")
-                            self.draw_rad_heat_flux_curve_FV1_x_pos_fidraw_rad_heat_flux_curve_Fvg.canvas.mpl_connect('close_event',
+                            self.draw_rad_heat_flux_curve_FV1_x_pos_fig.canvas.mpl_connect('close_event',
                                                                                      self.handle_close_draw_rad_heat_flux_curve_FV1_x_pos)
                             self.created_draw_rad_heat_flux_curve_FV1_x_pos = True
                         x,y = tfm.draw_rad_heat_flux_curve_FV1_x_pos(fireHeight, fireWidget, angle, epsilon, T, R_distance, self.draw_rad_heat_flux_curve_FV1_x_pos_fig)

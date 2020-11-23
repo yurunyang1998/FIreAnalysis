@@ -60,7 +60,7 @@ def heat_flux_v(d_flame, height_original, z_height, layer_thickness, x_distance)
     #k可以在这里赋值
     z=z_height
     i=0
-    r=max(d_flame)/2+x_distance
+    r=max(d_flame)/2+0.01+x_distance
     #r表示圆柱中心线到目标微元的水平距离
     minlaynum = min(len(height_original),len(d_flame))
 
@@ -161,7 +161,11 @@ def heat_flux_h(d_flame, height_original, layer_thickness, R_distance):
         h2=2*H/d_flame[i]
         A1=(h1**2+S**2+1)/(2*S)
         A2=(h2**2+S**2+1)/(2*S)
-
+        if S==1:
+            S=S-0.0001
+        elif S==-1:
+            S=S+0.0001
+        #print((A1+1)*(S-1)/(A1-1)/(S+1))
         Fh1=(B-1/S)/(pi*sqrt(B**2-1))*atan(sqrt((B+1)*(S-1)/(B-1)/(S+1)))-(A1-1/S)/(pi*sqrt(A1**2-1))*atan(sqrt((A1+1)*(S-1)/(A1-1)/(S+1)))
         Fh2=(B-1/S)/(pi*sqrt(B**2-1))*atan(sqrt((B+1)*(S-1)/(B-1)/(S+1)))-(A2-1/S)/(pi*sqrt(A2**2-1))*atan(sqrt((A2+1)*(S-1)/(A2-1)/(S+1)))
 
@@ -181,7 +185,7 @@ def calculate_rad_heat_flux_curve_Fh(d_flame, height_original, R_distance_max, l
     #try:
         #plt.ion()
     #d_flame:火焰直径，array
-    x = np.arange(max(d_flame)/2, R_distance_max, (R_distance_max-(max(d_flame)))/5) #Radius
+    x = np.arange(max(d_flame)/2+0.01, R_distance_max, (R_distance_max-(max(d_flame)))/5) #Radius
     y = []
     for x_dis in x:
         y_1 = heat_flux_h(d_flame, height_original, layer_thickness, x_dis)
@@ -209,7 +213,7 @@ def flame_hazardous_radius_xa(x, y, rad_heat, fig):
     x_xa=np.array(y)
     x_xa=x_xa.astype(np.float64)
     y_xa=x
-    exponential_number=3
+    exponential_number=4
     f2 = np.polyfit(x_xa, y_xa, exponential_number)
     X_a_array=np.polyval(f2, rad_heat)
     #print(X_a_array)
@@ -282,14 +286,14 @@ def draw_rad_heat_flux_vertical_view(x, y, fig):
 #rad_heat=[1.6,4.0,12.5,25.0,37.5] #这个也是手动输入的参数
 
 
-## d_flame = d_flame_fitting(d_original, height_original, layer_thickness)
+### d_flame = d_flame_fitting(d_original, height_original, layer_thickness)
 
 
 
 #x,y=calculate_rad_heat_flux_curve_Fh(d_flame, height_original, R_distance_max, layer_thickness)
-## print(x,y)
-##垂直圆柱体火焰在水平方向热流密度分布,先调用这个函数，返回值在后面的两个功能中会用到。
-## draw_rad_heat_flux_curve_Fh(x, y, fig)
+### print(x,y)
+###垂直圆柱体火焰在水平方向热流密度分布,先调用这个函数，返回值在后面的两个功能中会用到。
+### draw_rad_heat_flux_curve_Fh(x, y, fig)
 #fig = plt.figure()
 ##垂直圆柱体火焰热流密度分布俯视图
 #draw_rad_heat_flux_vertical_view(x, y, fig)
