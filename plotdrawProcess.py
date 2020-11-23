@@ -150,7 +150,7 @@ class PlotProcess:
                             self.draw_rad_heat_flux_curve_Fv_fig.canvas.mpl_connect('close_event',
                                                                                     self.handle_close_draw_rad_heat_flux_curve_Fv)
                             self.created_draw_rad_heat_flux_curve_Fv = True
-                        ufm.draw_rad_heat_flux_curve_Fv(fireLayerDiameter, fireLayerHeight, layer_thickness, R_distance, self.draw_rad_heat_flux_curve_Fv_fig)
+                        ufm.draw_rad_heat_flux_curve_Fv(fireLayerDiameter, fireLayerHeight, layer_thickness, R_distance, observePointHeight, self.draw_rad_heat_flux_curve_Fv_fig)
                     except Exception as e:
                         print(e)
 
@@ -172,7 +172,7 @@ class PlotProcess:
                     try:
                         if(self.created_draw_rad_heat_flux_curve_FV1_x_pos == False):
                             self.draw_rad_heat_flux_curve_FV1_x_pos_fig = plt.figure("draw_rad_heat_flux_curve_FV1_x_pos")
-                            self.draw_rad_heat_flux_curve_FV1_x_pos_fig.canvas.mpl_connect('close_event',
+                            self.draw_rad_heat_flux_curve_FV1_x_pos_fidraw_rad_heat_flux_curve_Fvg.canvas.mpl_connect('close_event',
                                                                                      self.handle_close_draw_rad_heat_flux_curve_FV1_x_pos)
                             self.created_draw_rad_heat_flux_curve_FV1_x_pos = True
                         x,y = tfm.draw_rad_heat_flux_curve_FV1_x_pos(fireHeight, fireWidget, angle, epsilon, T, R_distance, self.draw_rad_heat_flux_curve_FV1_x_pos_fig)
@@ -181,7 +181,7 @@ class PlotProcess:
                             file.writelines("x: "+str(x)+'\n')
                             file.writelines("y: "+str(y)+"\n\n")
                     except Exception as e:
-                        print(e)
+                        traceback.print_exc()
 
                 if(self.algorithmMap['draw_rad_heat_flux_curve_FV1_x_neg'] == True):
                     try:
