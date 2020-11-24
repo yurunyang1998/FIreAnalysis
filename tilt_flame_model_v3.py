@@ -122,9 +122,9 @@ def draw_rad_heat_flux_curve_FH1_x_pos(H, W, theta, epsilon, T, R_distance, fig)
             plt.xlabel("Distance to flame (m)")
             plt.ylabel("Radiative heat flux (W/m^2)")
             plt.legend()
-            plt.pause(1)
+            plt.pause(2)
             plt.show()
-            return  x, y
+            # return  x, y
         except Exception as e:
             print(e)
 

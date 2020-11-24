@@ -129,6 +129,7 @@ def draw_rad_heat_flux_curve_Fv(d_flame, height_original, layer_thickness, R_dis
         plt.legend()
         plt.pause(1)
         plt.show()
+        return  x,y
     except Exception as e:
         traceback.print_exc()
         plt.pause(0.04)
@@ -186,11 +187,11 @@ def heat_flux_h(d_flame, height_original, layer_thickness, R_distance):
     return Qh_total
     #print(Qh_total)
 
-def calculate_rad_heat_flux_curve_Fh(d_flame, height_original, R_distance_max, layer_thickness):
+def calculate_rad_heat_flux_curve_Fh(d_flame, height_original, R_distance_max, sampleNum, layer_thickness):
     #try:
         #plt.ion()
     #d_flame:火焰直径，array
-    x = np.arange(max(d_flame)/2+0.001, R_distance_max, (R_distance_max-(max(d_flame)/2))/5) #Radius
+    x = np.arange(max(d_flame)/2+0.001, R_distance_max, (R_distance_max-(max(d_flame)/2))/sampleNum) #Radius
     y = []
     for x_dis in x:
         y_1 = heat_flux_h(d_flame, height_original, layer_thickness, x_dis)

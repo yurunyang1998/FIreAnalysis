@@ -59,6 +59,8 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
         self.pushButton_18.clicked.connect(self.addk)
         self.pushButton_19.clicked.connect(self.addT)
         self.pushButton_33.clicked.connect(self.addObservePointHeight)
+        self.pushButton_9.clicked.connect(self.addSampleNum)
+
 
         ## 倾斜辐射热流计算
             ##垂直热流密度
@@ -115,6 +117,7 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
         self.layer_thickness = 10
         self.epsilon = 0.5
         self.observePointHeight = 0
+        self.sampleNum = 5
 
         self.paused = False
         self.moveMouse = False
@@ -161,6 +164,7 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
         self.algorithmMap['T'] = self.T
         self.algorithmMap['fireHeatFluxparam'] = self.fireHeatFluxparam
         self.algorithmMap['observePointHeight'] = self.observePointHeight
+        self.algorithmMap["sampleNum"] = self.sampleNum
 
         self.algorithmList = ["draw_rad_heat_flux_curve_Fh",
                              "draw_rad_heat_flux_curve_Fv",
@@ -366,6 +370,7 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
             self.algorithmMap['T'] = self.T
             self.algorithmMap['fireHeatFluxparam'] = self.fireHeatFluxparam
             self.algorithmMap['observePointHeight'] = self.observePointHeight
+            self.algorithmMap["sampleNum"] = self.sampleNum
 
         except Exception as e:
             traceback.print_exc()
@@ -407,6 +412,7 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
             self.algorithmMap['T'] = self.T
             self.algorithmMap['fireHeatFluxparam'] = self.fireHeatFluxparam
             self.algorithmMap['observePointHeight'] = self.observePointHeight
+            self.algorithmMap["sampleNum"] = self.sampleNum
 
 
         except Exception as e:
@@ -419,6 +425,10 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
             if(self.th.paused):
                 time.sleep(1)
                 continue
+
+    def addSampleNum(self):
+        if(self.lineEdit_32.text() !="" ):
+            self.sampleNum = int(self.lineEdit_32.text())
 
 
     def fireInfo(self,height,width,angle):
