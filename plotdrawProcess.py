@@ -250,7 +250,7 @@ class PlotProcess:
                             self.fig_draw_rad_heat_flux_curve_FH2_y_vertical.canvas.mpl_connect("close_event",
                                                                                self.handle_close_draw_rad_heat_flux_curve_FH2_y_vertical)
                             self.created_draw_rad_heat_flux_curve_FH2_y_vertical = True
-                        x, y = tfm.draw_rad_heat_flux_curve_FH2_y_vertical(fireHeight, fireWidget, angle,epsilon, R_distance, T, self.fig_draw_rad_heat_flux_curve_FH2_y_vertical)
+                        x, y = tfm.draw_rad_heat_flux_curve_FH2_y_vertical(fireHeight, fireWidget, angle,epsilon, T, R_distance, self.fig_draw_rad_heat_flux_curve_FH2_y_vertical)
                         with open("./水平_沿火焰倾斜方向热流密度.txt", "a") as file:
                             file.writelines("x: " + str(x) + '\n')
                             file.writelines("y: " + str(y) + "\n\n")
