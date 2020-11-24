@@ -59,8 +59,6 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
         self.pushButton_18.clicked.connect(self.addk)
         self.pushButton_19.clicked.connect(self.addT)
         self.pushButton_33.clicked.connect(self.addObservePointHeight)
-        self.pushButton_9.clicked.connect(self.addSampleNum)
-
 
         ## 倾斜辐射热流计算
             ##垂直热流密度
@@ -117,7 +115,6 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
         self.layer_thickness = 10
         self.epsilon = 0.5
         self.observePointHeight = 0
-        self.sampleNum = 5
 
         self.paused = False
         self.moveMouse = False
@@ -164,7 +161,6 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
         self.algorithmMap['T'] = self.T
         self.algorithmMap['fireHeatFluxparam'] = self.fireHeatFluxparam
         self.algorithmMap['observePointHeight'] = self.observePointHeight
-        self.algorithmMap["sampleNum"] = self.sampleNum
 
         self.algorithmList = ["draw_rad_heat_flux_curve_Fh",
                              "draw_rad_heat_flux_curve_Fv",
@@ -370,7 +366,6 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
             self.algorithmMap['T'] = self.T
             self.algorithmMap['fireHeatFluxparam'] = self.fireHeatFluxparam
             self.algorithmMap['observePointHeight'] = self.observePointHeight
-            self.algorithmMap["sampleNum"] = self.sampleNum
 
         except Exception as e:
             traceback.print_exc()
@@ -412,7 +407,6 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
             self.algorithmMap['T'] = self.T
             self.algorithmMap['fireHeatFluxparam'] = self.fireHeatFluxparam
             self.algorithmMap['observePointHeight'] = self.observePointHeight
-            self.algorithmMap["sampleNum"] = self.sampleNum
 
 
         except Exception as e:
@@ -425,10 +419,6 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
             if(self.th.paused):
                 time.sleep(1)
                 continue
-
-    def addSampleNum(self):
-        if(self.lineEdit_32.text() !="" ):
-            self.sampleNum = int(self.lineEdit_32.text())
 
 
     def fireInfo(self,height,width,angle):
@@ -509,24 +499,24 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
             if(self.lineEdit_10.text().__sizeof__() >0):
                 self.k = self.lineEdit_10.text()
             if(self.lineEdit_9.text().__sizeof__()>0):
-                self.epsilon = float(self.lineEdit_9.text())
+                self.epsilon = self.lineEdit_9.text()
         except Exception as e:
             print(e)
 
     def addT(self):
         if(self.lineEdit_12.text().__sizeof__()>0):
-            self.T = int(self.lineEdit_12.text())
+            self.T = self.lineEdit_12.text()
 
     def addk2(self):
         if(self.lineEdit_19.text().__sizeof__()>0):
             self.k = self.lineEdit_19.text()
         if(self.lineEdit_18.text().__sizeof__()>0):
-            self.epsilon = float(self.lineEdit_18.text())
+            self.epsilon = self.lineEdit_18.text()
 
 
     def addT2(self):
         if(self.lineEdit_24.text().__sizeof__()>0):
-            self.T = int(self.lineEdit_24.text())
+            self.T = self.lineEdit_24.text()
 
     def addLayer_thickness(self):
         layer_thickness  = round(float(self.lineEdit_30.text())*self.rateInY,2)
@@ -538,11 +528,11 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
 
     def addRadioThresholds(self):
         self.RadioThreshold.clear()
-        self.RadioThreshold.append(int(self.lineEdit_15.text()))
-        self.RadioThreshold.append(int(self.lineEdit_16.text()))
-        self.RadioThreshold.append(int(self.lineEdit_20.text()))
-        self.RadioThreshold.append(int(self.lineEdit_21.text()))
-        self.RadioThreshold.append(int(self.lineEdit_22.text()))
+        self.RadioThreshold.append(self.lineEdit_15.text())
+        self.RadioThreshold.append(self.lineEdit_16.text())
+        self.RadioThreshold.append(self.lineEdit_20.text())
+        self.RadioThreshold.append(self.lineEdit_21.text())
+        self.RadioThreshold.append(self.lineEdit_22.text())
 
     def outputData(self):
         self.th.autoAnalysisFireInfo = False
