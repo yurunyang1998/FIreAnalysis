@@ -244,6 +244,7 @@ def flame_hazardous_radius_xa(x, y, rad_heat, fig):
     plt.pause(1)
     plt.show()
 
+    return  X_a_array
 
 def draw_rad_heat_flux_vertical_view(x, y, fig):
     

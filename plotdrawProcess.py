@@ -270,7 +270,13 @@ class PlotProcess:
                             self.fig_flame_hazardous_radius_xa.canvas.mpl_connect("close_event",
                                                                             self.handle_close_flame_hazardous_radius_xa)
                             self.created_flame_hazardous_radius_xa = True
-                        ufm.flame_hazardous_radius_xa(x, y, rad_heat, self.fig_flame_hazardous_radius_xa)
+                        X_a_array = ufm.flame_hazardous_radius_xa(x, y, rad_heat, self.fig_flame_hazardous_radius_xa)
+                        print(X_a_array)
+                        with open("./垂直圆柱体火焰伤害半径.txt", "a") as file:
+                            file.writelines(str(X_a_array) + '\n')
+
+
+
                     except Exception as e:
                         print(e)
 
@@ -321,7 +327,12 @@ class PlotProcess:
                             self.fig_plot_abc.canvas.mpl_connect("close_event",
                                                                             self.handle_close_plot_abc)
                             self.created_plot_abc = True
-                        tfm.plot_abc(fireHeight, fireWidget ,angle, epsilon, T, R_distance, fireHeatFluxparam ,self.fig_plot_abc)
+                        xa, xb, yc = tfm.plot_abc(fireHeight, fireWidget ,angle, epsilon, T, R_distance, fireHeatFluxparam ,self.fig_plot_abc)
+                        with open("./以火焰为中心的伤害半径.txt", "a") as file:
+                            file.writelines("Xa: "+str(xa)+'\n')
+                            file.writelines("Xb: "+str(xb)+'\n')
+                            file.writelines("Yc: "+str(yc)+'\n\n\n')
+
                     except Exception as e:
                         print(e)
 

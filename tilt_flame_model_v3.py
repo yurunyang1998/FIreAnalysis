@@ -391,6 +391,7 @@ def plot_abc(H, W, theta, epsilon, T, R_distance, rad_heat ,fig):
 
         plt.pause(0.4)
         plt.show()
+        return  X_a, X_b, Y_c
     except Exception as e:
         traceback.print_exc()
         plt.pause(0.4)
