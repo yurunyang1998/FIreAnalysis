@@ -528,11 +528,11 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
 
     def addRadioThresholds(self):
         self.RadioThreshold.clear()
-        self.RadioThreshold.append(self.lineEdit_15.text())
-        self.RadioThreshold.append(self.lineEdit_16.text())
-        self.RadioThreshold.append(self.lineEdit_20.text())
-        self.RadioThreshold.append(self.lineEdit_21.text())
-        self.RadioThreshold.append(self.lineEdit_22.text())
+        self.RadioThreshold.append(int(self.lineEdit_15.text()))
+        self.RadioThreshold.append(int(self.lineEdit_16.text()))
+        self.RadioThreshold.append(int(self.lineEdit_20.text()))
+        self.RadioThreshold.append(int(self.lineEdit_21.text()))
+        self.RadioThreshold.append(int(self.lineEdit_22.text()))
 
     def outputData(self):
         self.th.autoAnalysisFireInfo = False
