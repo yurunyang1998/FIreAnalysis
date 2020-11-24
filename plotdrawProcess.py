@@ -153,10 +153,10 @@ class PlotProcess:
                             self.draw_rad_heat_flux_curve_Fv_fig.canvas.mpl_connect('close_event',
                                                                                     self.handle_close_draw_rad_heat_flux_curve_Fv)
                             self.created_draw_rad_heat_flux_curve_Fv = True
-                            x_, y_ = ufm.draw_rad_heat_flux_curve_Fv(fireLayerDiameter, fireLayerHeight, layer_thickness, R_distance, observePointHeight, self.draw_rad_heat_flux_curve_Fv_fig)
-                            with open("./垂直_垂直圆柱体火焰垂直方向的热流密度分布.txt", "a") as file:
-                                file.writelines("x: " + str(x_) + '\n')
-                                file.writelines("y: " + str(y_) + "\n\n")
+                        x_ ,y_ = ufm.draw_rad_heat_flux_curve_Fv(fireLayerDiameter, fireLayerHeight, layer_thickness, R_distance, observePointHeight, sampleNum,  self.draw_rad_heat_flux_curve_Fv_fig)
+                        with open("./垂直_垂直圆柱体火焰垂直方向的热流密度分布.txt", "a") as file:
+                            file.writelines("x: " + str(x_) + '\n')
+                            file.writelines("y: " + str(y_) + "\n\n")
                     except Exception as e:
                         print(e)
 
@@ -182,7 +182,6 @@ class PlotProcess:
                                                                                      self.handle_close_draw_rad_heat_flux_curve_FV1_x_pos)
                             self.created_draw_rad_heat_flux_curve_FV1_x_pos = True
                         x,y = tfm.draw_rad_heat_flux_curve_FV1_x_pos(fireHeight, fireWidget, angle, epsilon, T, R_distance, self.draw_rad_heat_flux_curve_FV1_x_pos_fig)
-                        print(x)
                         with open("./垂直_沿火焰倾斜方向热流密度.txt","a") as file :
                             file.writelines("x: "+str(x)+'\n')
                             file.writelines("y: "+str(y)+"\n\n")

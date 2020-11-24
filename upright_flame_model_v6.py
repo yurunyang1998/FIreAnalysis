@@ -90,7 +90,7 @@ def heat_flux_v(d_flame, height_original, z_height, layer_thickness, x_distance)
     return Qv_total
     #print(Qv_total)
 
-def draw_rad_heat_flux_curve_Fv(d_flame, height_original, layer_thickness, R_distance, observePointHeight , fig):
+def draw_rad_heat_flux_curve_Fv(d_flame, height_original, layer_thickness, R_distance, observePointHeight ,sampleNum, fig):
     #d_flame:火焰直径，array
     #R_distance是水平方向上观测点与火焰的距离
     #为了减少工作量，将输入的observePointHeight（实际上是界面上的‘观测点水平距离’，应该输入的是R_distance），直接将observePointHeight赋值给R_distance就OK。
@@ -109,7 +109,7 @@ def draw_rad_heat_flux_curve_Fv(d_flame, height_original, layer_thickness, R_dis
             observePointHeight = np.max(d_flame)+0.1
         R_distance = observePointHeight
         #if(observePointHeight == 0):
-        x = np.arange(0, Height*2, Height*2/5) #Radius
+        x = np.arange(0, Height*2, Height*2/sampleNum)#Radius
         #else:
         #    x = np.arange(0, observePointHeight, observePointHeight/5)
 
