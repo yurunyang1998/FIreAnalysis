@@ -124,9 +124,9 @@ class PlotProcess:
                 layer_thickness = msg['layer_thickness']
                 fireHeatFluxparam = msg['fireHeatFluxparam']
                 observePointHeight = msg['observePointHeight']
-                sampleNum = msg['sampleNum']
+
                 try:
-                    x, y =  ufm.calculate_rad_heat_flux_curve_Fh(fireLayerDiameter, fireLayerHeight, R_distance, sampleNum,  layer_thickness)
+                    x, y =  ufm.calculate_rad_heat_flux_curve_Fh(fireLayerDiameter, fireLayerHeight, R_distance, layer_thickness)
                 except Exception as e:
                     traceback.print_exc()
 
@@ -138,10 +138,7 @@ class PlotProcess:
                             self.draw_rad_heat_flux_curve_Fh_fig.canvas.mpl_connect('close_event',
                                                                                            self.handle_close_draw_rad_heat_flux_curve_Fh)
                             self.created_draw_rad_heat_flux_curve_Fh = True
-                        x, y = ufm.draw_rad_heat_flux_curve_Fh(x, y, self.draw_rad_heat_flux_curve_Fh_fig)
-                        with open("./垂直_垂直圆柱体火焰水平方向的热流密度分布.txt", "a") as file:
-                            file.writelines("x: " + str(x) + '\n')
-                            file.writelines("y: " + str(y) + "\n\n")
+                        ufm.draw_rad_heat_flux_curve_Fh(x, y, self.draw_rad_heat_flux_curve_Fh_fig)
                     except Exception as e:
                         print(e)
 
@@ -153,10 +150,7 @@ class PlotProcess:
                             self.draw_rad_heat_flux_curve_Fv_fig.canvas.mpl_connect('close_event',
                                                                                     self.handle_close_draw_rad_heat_flux_curve_Fv)
                             self.created_draw_rad_heat_flux_curve_Fv = True
-                            x_, y_ = ufm.draw_rad_heat_flux_curve_Fv(fireLayerDiameter, fireLayerHeight, layer_thickness, R_distance, observePointHeight, self.draw_rad_heat_flux_curve_Fv_fig)
-                            with open("./垂直_垂直圆柱体火焰垂直方向的热流密度分布.txt", "a") as file:
-                                file.writelines("x: " + str(x_) + '\n')
-                                file.writelines("y: " + str(y_) + "\n\n")
+                        ufm.draw_rad_heat_flux_curve_Fv(fireLayerDiameter, fireLayerHeight, layer_thickness, R_distance, observePointHeight, self.draw_rad_heat_flux_curve_Fv_fig)
                     except Exception as e:
                         print(e)
 
@@ -226,7 +220,7 @@ class PlotProcess:
                             self.fig_draw_rad_heat_flux_curve_FH1_x_pos.canvas.mpl_connect("close_event",
                                                                                    self.handle_close_draw_rad_heat_flux_curve_FH1_x_pos)
                             self.created_draw_rad_heat_flux_curve_FH1_x_pos = True
-                        x, y = tfm.draw_rad_heat_flux_curve_FH1_x_pos(fireHeight, fireWidget, angle, epsilon, T, R_distance, self.fig_draw_rad_heat_flux_curve_FH1_x_pos)
+                        x, y =tfm.draw_rad_heat_flux_curve_FH1_x_pos(fireHeight, fireWidget, angle,epsilon, T, R_distance, self.fig_draw_rad_heat_flux_curve_FH1_x_pos)
                         with open("./水平_沿火焰倾斜方向热流密度.txt", "a") as file:
                             file.writelines("x: " + str(x) + '\n')
                             file.writelines("y: " + str(y) + "\n\n")
@@ -256,7 +250,7 @@ class PlotProcess:
                             self.fig_draw_rad_heat_flux_curve_FH2_y_vertical.canvas.mpl_connect("close_event",
                                                                                self.handle_close_draw_rad_heat_flux_curve_FH2_y_vertical)
                             self.created_draw_rad_heat_flux_curve_FH2_y_vertical = True
-                        x, y = tfm.draw_rad_heat_flux_curve_FH2_y_vertical(fireHeight, fireWidget, angle,epsilon, T, R_distance, self.fig_draw_rad_heat_flux_curve_FH2_y_vertical)
+                        x, y = tfm.draw_rad_heat_flux_curve_FH2_y_vertical(fireHeight, fireWidget, angle,epsilon, R_distance, T, self.fig_draw_rad_heat_flux_curve_FH2_y_vertical)
                         with open("./水平_沿火焰倾斜方向热流密度.txt", "a") as file:
                             file.writelines("x: " + str(x) + '\n')
                             file.writelines("y: " + str(y) + "\n\n")
@@ -270,13 +264,7 @@ class PlotProcess:
                             self.fig_flame_hazardous_radius_xa.canvas.mpl_connect("close_event",
                                                                             self.handle_close_flame_hazardous_radius_xa)
                             self.created_flame_hazardous_radius_xa = True
-                        X_a_array = ufm.flame_hazardous_radius_xa(x, y, rad_heat, self.fig_flame_hazardous_radius_xa)
-                        print(X_a_array)
-                        with open("./垂直圆柱体火焰伤害半径.txt", "a") as file:
-                            file.writelines(str(X_a_array) + '\n')
-
-
-
+                        ufm.flame_hazardous_radius_xa(x, y, rad_heat, self.fig_flame_hazardous_radius_xa)
                     except Exception as e:
                         print(e)
 
@@ -327,12 +315,7 @@ class PlotProcess:
                             self.fig_plot_abc.canvas.mpl_connect("close_event",
                                                                             self.handle_close_plot_abc)
                             self.created_plot_abc = True
-                        xa, xb, yc = tfm.plot_abc(fireHeight, fireWidget ,angle, epsilon, T, R_distance, fireHeatFluxparam ,self.fig_plot_abc)
-                        with open("./以火焰为中心的伤害半径.txt", "a") as file:
-                            file.writelines("Xa: "+str(xa)+'\n')
-                            file.writelines("Xb: "+str(xb)+'\n')
-                            file.writelines("Yc: "+str(yc)+'\n\n\n')
-
+                        tfm.plot_abc(fireHeight, fireWidget ,angle, epsilon, T, R_distance, fireHeatFluxparam ,self.fig_plot_abc)
                     except Exception as e:
                         print(e)
 
