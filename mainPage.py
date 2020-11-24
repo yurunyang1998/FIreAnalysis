@@ -499,24 +499,24 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
             if(self.lineEdit_10.text().__sizeof__() >0):
                 self.k = self.lineEdit_10.text()
             if(self.lineEdit_9.text().__sizeof__()>0):
-                self.epsilon = self.lineEdit_9.text()
+                self.epsilon = float(self.lineEdit_9.text())
         except Exception as e:
             print(e)
 
     def addT(self):
         if(self.lineEdit_12.text().__sizeof__()>0):
-            self.T = self.lineEdit_12.text()
+            self.T = int(self.lineEdit_12.text())
 
     def addk2(self):
         if(self.lineEdit_19.text().__sizeof__()>0):
             self.k = self.lineEdit_19.text()
         if(self.lineEdit_18.text().__sizeof__()>0):
-            self.epsilon = self.lineEdit_18.text()
+            self.epsilon = float(self.lineEdit_18.text())
 
 
     def addT2(self):
         if(self.lineEdit_24.text().__sizeof__()>0):
-            self.T = self.lineEdit_24.text()
+            self.T = int(self.lineEdit_24.text())
 
     def addLayer_thickness(self):
         layer_thickness  = round(float(self.lineEdit_30.text())*self.rateInY,2)
