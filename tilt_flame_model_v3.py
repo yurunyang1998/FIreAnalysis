@@ -9,10 +9,6 @@ import math
 # from scipy.interpolate import make_interp_spline
 import   matplotlib.backends.backend_tkagg
 
-
-
-
-
 pi=np.pi
 # #R=15
 #
@@ -106,39 +102,44 @@ def FV2_func(fireHeight, fireWidth, theta, R_distance):
 #Radiative heat flux curve
 #水平热流密度，沿火焰倾斜方向
 def draw_rad_heat_flux_curve_FH1_x_pos(H, W, theta, epsilon, T, R_distance, fig):
-        try:
-            plt.clf()
-            plt.ion()
-            x = np.arange(W/2, R_distance, 0.4)  # Radius
-            y = []
-            E = epsilon * sigma * (T ** 4)
-            for x_dis in x:
-                y_1 = FH1_func(H, W, theta, x_dis) * E
-                y.append(abs(y_1))
-            if str(y[0])=='nan':
-                del y[0]
-                x=np.delete(x, 0)
-            plt.plot(x, y, label="Horizontal radiative heat flux (along the tilt flame)")
-            plt.xlabel("Distance to flame (m)")
-            plt.ylabel("Radiative heat flux (W/m^2)")
-            plt.legend()
-            plt.pause(2)
-            plt.show()
-            # return  x, y
-        except Exception as e:
-            print(e)
-
-def draw_rad_heat_flux_curve_FH1_x_pos_withoutDraw(H, W, theta, epsilon, T, R_distance):
     try:
+        plt.clf()
+        plt.ion()
+        theta=90-theta#图像处理的theta是与水平的夹角，模型中是和竖直方向的夹角
         x = np.arange(W/2, R_distance, 0.4)  # Radius
         y = []
         E = epsilon * sigma * (T ** 4)
         for x_dis in x:
             y_1 = FH1_func(H, W, theta, x_dis) * E
             y.append(abs(y_1))
-        if str(y[0])=='nan':
-            del y[0]
-            x=np.delete(x, 0)
+        del y[0]
+        x=np.delete(x, 0)
+        del y[-1]
+        x=np.delete(x, len(x)-1)
+
+        plt.plot(x, y, label="Horizontal radiative heat flux (along the tilt flame)")
+        plt.xlabel("Distance to flame (m)")
+        plt.ylabel("Radiative heat flux (W/m^2)")
+        plt.legend()
+        plt.pause(2)
+        plt.show()
+        # return  x, y
+    except Exception as e:
+        print(e)
+
+def draw_rad_heat_flux_curve_FH1_x_pos_withoutDraw(H, W, theta, epsilon, T, R_distance):
+    try:
+        theta=90-theta#图像处理的theta是与水平的夹角，模型中是和竖直方向的夹角
+        x = np.arange(W/2, R_distance, 0.4)  # Radius
+        y = []
+        E = epsilon * sigma * (T ** 4)
+        for x_dis in x:
+            y_1 = FH1_func(H, W, theta, x_dis) * E
+            y.append(abs(y_1))
+        del y[0]
+        x=np.delete(x, 0)
+        del y[-1]
+        x=np.delete(x, len(x)-1)
         return x, y
 
     except Exception as e:
@@ -150,15 +151,19 @@ def draw_rad_heat_flux_curve_FH1_x_neg(H, W,theta,epsilon, T, R_distance, fig):
     try:
         plt.ion()
         plt.clf()
+        theta=90-theta
+        theta=theta*(-1)
         x = np.arange(R_distance*(-1), W/2*(-1), 0.4) #Radius
         y = []
         E=epsilon*sigma*(T**4)
         for x_dis in x:
             y_1 = FH1_func(H, W, theta, x_dis)*E
             y.append(abs(y_1))
-        if str(y[0])=='nan':
-            del y[0]
-            x=np.delete(x, 0)
+        del y[0]
+        x=np.delete(x, 0)
+        del y[-1]
+        x=np.delete(x, len(x)-1)
+
         plt.plot(x, y, label="Horizontal radiative heat flux (back to the tilt flame)")
         plt.xlabel("Distance to flame (m)")
         plt.ylabel("Radiative heat flux (W/m^2)")
@@ -171,17 +176,20 @@ def draw_rad_heat_flux_curve_FH1_x_neg(H, W,theta,epsilon, T, R_distance, fig):
 
 def draw_rad_heat_flux_curve_FH1_x_neg_withoutDraw(H, W, theta, epsilon, T, R_distance):
     try:
+        theta=90-theta
+        theta=theta*(-1)
         x = np.arange(R_distance * (-1), W/2*(-1), 0.4)  # Radius
         y = []
         E = epsilon * sigma * (T ** 4)
         for x_dis in x:
             y_1 = FH1_func(H, W, theta, x_dis) * E
             y.append(abs(y_1))
-        if str(y[0])=='nan':
-            del y[0]
-            x=np.delete(x, 0)
-        return x, y
+        del y[0]
+        x=np.delete(x, 0)
+        del y[-1]
+        x=np.delete(x, len(x)-1)
 
+        return x, y
     except Exception as e:
         print(e)
 
@@ -190,6 +198,7 @@ def draw_rad_heat_flux_curve_FH1_x_neg_withoutDraw(H, W, theta, epsilon, T, R_di
 #水平热流密度，垂直火焰倾斜方向
 def draw_rad_heat_flux_curve_FH2_y_vertical(H, W,theta,epsilon, T, R_distance, fig):
     try:
+        theta=90-theta#图像处理的theta是与水平的夹角，模型中是和竖直方向的夹角
         plt.clf()
         plt.ion()
         x = np.arange(W/2, R_distance, 0.4) #Radius
@@ -198,9 +207,11 @@ def draw_rad_heat_flux_curve_FH2_y_vertical(H, W,theta,epsilon, T, R_distance, f
         for x_dis in x:
             y_1 = FH2_func(H, W, theta, x_dis)*E
             y.append(abs(y_1))
-        if str(y[0])=='nan':
-            del y[0]
-            x=np.delete(x, 0)
+        del y[0]
+        x=np.delete(x, 0)
+        del y[-1]
+        x=np.delete(x, len(x)-1)
+
         plt.plot(x, y, label="Horizontal radiative heat flux (perpendicular to the tilt flame)")
         plt.xlabel("Distance to flame (m)")
         plt.ylabel("Radiative heat flux (W/m^2)")
@@ -213,15 +224,17 @@ def draw_rad_heat_flux_curve_FH2_y_vertical(H, W,theta,epsilon, T, R_distance, f
 
 def draw_rad_heat_flux_curve_FH2_y_vertical_withoutDraw(H, W, theta, epsilon, T, R_distance):
     try:
+        theta=90-theta#图像处理的theta是与水平的夹角，模型中是和竖直方向的夹角
         x = np.arange(W/2, R_distance,0.4)  # Radius
         y = []
         E = epsilon * sigma * (T ** 4)
         for x_dis in x:
             y_1 = FH2_func(H, W, theta, x_dis) * E
             y.append(abs(y_1))
-        if str(y[0])=='nan':
-            del y[0]
-            x=np.delete(x, 0)
+        del y[0]
+        x=np.delete(x, 0)
+        del y[-1]
+        x=np.delete(x, len(x)-1)
         return x, y
     except Exception as e:
         print(e)
@@ -236,15 +249,17 @@ def draw_rad_heat_flux_curve_FH2_y_vertical_withoutDraw(H, W, theta, epsilon, T,
 def draw_rad_heat_flux_curve_FV1_x_pos(H, W,theta,epsilon, T, R_distance, fig):
     plt.ion()
     plt.clf()
+    theta=90-theta#图像处理的theta是与水平的夹角，模型中是和竖直方向的夹角
     x = np.arange(W/2, R_distance, 0.4) #Radius
     y = []
     E = epsilon * sigma * (T ** 4)
     for x_dis in x:
         y_1 = FV1_func(H, W, theta, x_dis)*E
         y.append(abs(y_1))
-    if str(y[0])=='nan':
-        del y[0]
-        x=np.delete(x, 0)
+    del y[0]
+    x=np.delete(x, 0)
+    del y[-1]
+    x=np.delete(x, len(x)-1)
     plt.plot(x, y, label="Vertical radiative heat flux (along the tilt flame)")
     plt.xlabel("Distance to flame (m)")
     plt.ylabel("Radiative heat flux (W/m^2)")
@@ -254,17 +269,22 @@ def draw_rad_heat_flux_curve_FV1_x_pos(H, W,theta,epsilon, T, R_distance, fig):
     return x,y
 #垂直热流密度，背向火焰倾斜方向
 def draw_rad_heat_flux_curve_FV1_x_neg(H, W,theta,epsilon, T, R_distance, fig):
+
     plt.ion()
     plt.clf()
+    theta=90-theta#图像处理的theta是与水平的夹角，模型中是和竖直方向的夹角
+    theta=theta*(-1)
     x = np.arange(R_distance*(-1), W/2*(-1), 0.4) #Radius
     y = []
     E = epsilon * sigma * (T ** 4)
     for x_dis in x:
         y_1 = FV1_func(H, W, theta, x_dis)*E
         y.append(abs(y_1))
-    if str(y[0])=='nan':
-        del y[0]
-        x=np.delete(x, 0)
+    del y[0]
+    x=np.delete(x, 0)
+    del y[-1]
+    x=np.delete(x, len(x)-1)
+
     plt.plot(x, y, label="Vertical radiative heat flux (back to the tilt flame)")
     plt.xlabel("Distance to flame (m)")
     plt.ylabel("Radiative heat flux (W/m^2)")
@@ -277,15 +297,19 @@ def draw_rad_heat_flux_curve_FV1_x_neg(H, W,theta,epsilon, T, R_distance, fig):
 def draw_rad_heat_flux_curve_FV2_y_vertical(H, W, theta, epsilon, T, R_distance, fig):
     plt.ion()
     plt.clf()
+    theta=90-theta#图像处理的theta是与水平的夹角，模型中是和竖直方向的夹角
     x = np.arange(W/2, R_distance, 0.4) #Radius
     y = []
     E = epsilon * sigma * (T ** 4)
     for x_dis in x:
         y_1 = FV2_func(H, W, theta, x_dis)*E
         y.append(abs(y_1))
-    if str(y[0])=='nan':
-        del y[0]
-        x=np.delete(x, 0)
+
+    del y[0]
+    x=np.delete(x, 0)
+    del y[-1]
+    x=np.delete(x, len(x)-1)
+
     plt.plot(x, y, label="Vertical radiative heat flux (perpendicular to the tilt flame)")
     plt.xlabel("Distance to flame (m)")
     plt.ylabel("Radiative heat flux (W/m^2)")
@@ -304,7 +328,7 @@ def tilt_flame_rad_heat_pa(H, W, theta, epsilon, T, R_distance, rad_heat):
         x_xa=np.array(y)
         x_xa=x_xa.astype(np.float64)
         y_xa=x
-        exponential_number=5
+        exponential_number=1
         f2 = np.polyfit(x_xa, y_xa, exponential_number)
         X_a=np.polyval(f2, rad_heat)
         #print(X_a_array)
@@ -317,13 +341,14 @@ def tilt_flame_rad_heat_pa(H, W, theta, epsilon, T, R_distance, rad_heat):
 
 # 给定辐射热流rad_heat时，b点位置的计算函数（x轴负半轴位置）
 def tilt_flame_rad_heat_pb(H, W, theta, epsilon, T, R_distance , rad_heat):
-    #return tilt_flame_rad_heat_pa(H, W, 180-theta, epsilon, T, R_distance, rad_heat)
+    #return tilt_flame_rad_heat_pa(H, W, theta*(-1), epsilon, T, R_distance, rad_heat)
     try:
         x,y = draw_rad_heat_flux_curve_FH1_x_neg_withoutDraw(H, W, theta, epsilon, T, R_distance)
+
         x_xa=np.array(y)
         x_xa=x_xa.astype(np.float64)
         y_xa=x
-        exponential_number=5
+        exponential_number=1
         f2 = np.polyfit(x_xa, y_xa, exponential_number)
         X_a=np.polyval(f2, rad_heat)
         #print(X_a_array)
@@ -337,10 +362,15 @@ def tilt_flame_rad_heat_pb(H, W, theta, epsilon, T, R_distance , rad_heat):
 def tilt_flame_rad_heat_pc(H, W, theta, epsilon, T, R_distance, rad_heat):
     try:
         x,y = draw_rad_heat_flux_curve_FH2_y_vertical_withoutDraw(H, W, theta, epsilon, T, R_distance)
+        del y[0]
+        x=np.delete(x, 0)
+        del y[-1]
+        x=np.delete(x, len(x)-1)
+
         x_xa=np.array(y)
         x_xa=x_xa.astype(np.float64)
         y_xa=x
-        exponential_number=5
+        exponential_number=1
         f2 = np.polyfit(x_xa, y_xa, exponential_number)
         X_a=np.polyval(f2, rad_heat)
         #print(X_a_array)
@@ -422,7 +452,7 @@ def plot_abc(H, W, theta, epsilon, T, R_distance, rad_heat ,fig):
 #当热流密度为4W/m2时，找出对应4 W/m2时a点、b点、c点的位置，以这些位置为半径，分别化同心圆
 #名称：以火焰中心为中心的伤害范围示意图
 #fig = plt.figure()
-#plot_abc(1, 0.8, 75, 0.5, 600, 30, 100, fig)
+#plot_abc(1, 0.8, 20, 0.5, 600, 10, 100, fig)
 
 #plot_abc(H, W, theta, epsilon, T, R_distance, rad_heat ,fig)
 #假设人在a点的伤害半径
