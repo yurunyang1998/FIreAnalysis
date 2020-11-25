@@ -153,6 +153,7 @@ class PlotProcess:
                             self.draw_rad_heat_flux_curve_Fv_fig.canvas.mpl_connect('close_event',
                                                                                     self.handle_close_draw_rad_heat_flux_curve_Fv)
                             self.created_draw_rad_heat_flux_curve_Fv = True
+
                         x_ ,y_ = ufm.draw_rad_heat_flux_curve_Fv(fireLayerDiameter, fireLayerHeight, layer_thickness, R_distance, observePointHeight, sampleNum,  self.draw_rad_heat_flux_curve_Fv_fig)
                         with open("./垂直_垂直圆柱体火焰垂直方向的热流密度分布.txt", "a") as file:
                             file.writelines("x: " + str(x_) + '\n')
