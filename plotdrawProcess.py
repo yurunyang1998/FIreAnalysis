@@ -139,7 +139,7 @@ class PlotProcess:
                                                                                            self.handle_close_draw_rad_heat_flux_curve_Fh)
                             self.created_draw_rad_heat_flux_curve_Fh = True
                         x, y = ufm.draw_rad_heat_flux_curve_Fh(x, y, self.draw_rad_heat_flux_curve_Fh_fig)
-                        with open("./垂直_垂直圆柱体火焰水平方向的热流密度分布.txt", "a") as file:
+                        with open("./垂直_水平圆柱体火焰水平方向的热流密度分布.txt", "a") as file:
                             file.writelines("x: " + str(x) + '\n')
                             file.writelines("y: " + str(y) + "\n\n")
                     except Exception as e:
@@ -243,7 +243,7 @@ class PlotProcess:
                                                                                self.handle_close_draw_rad_heat_flux_curve_FH1_x_neg)
                             self.created_draw_rad_heat_flux_curve_FH1_x_neg = True
                         x,y = tfm.draw_rad_heat_flux_curve_FH1_x_neg(fireHeight, fireWidget, angle, epsilon, T, R_distance, self.fig_draw_rad_heat_flux_curve_FH1_x_neg)
-                        with open("./水平_沿火焰倾斜方向热流密度.txt", "a") as file:
+                        with open("./水平_背离火焰倾斜方向热流密度.txt", "a") as file:
                             file.writelines("x: " + str(x) + '\n')
                             file.writelines("y: " + str(y) + "\n\n")
                     except Exception as e:
@@ -257,7 +257,7 @@ class PlotProcess:
                                                                                self.handle_close_draw_rad_heat_flux_curve_FH2_y_vertical)
                             self.created_draw_rad_heat_flux_curve_FH2_y_vertical = True
                         x, y = tfm.draw_rad_heat_flux_curve_FH2_y_vertical(fireHeight, fireWidget, angle,epsilon, T, R_distance, self.fig_draw_rad_heat_flux_curve_FH2_y_vertical)
-                        with open("./水平_沿火焰倾斜方向热流密度.txt", "a") as file:
+                        with open("./水平_垂直火焰倾斜方向热流密度.txt", "a") as file:
                             file.writelines("x: " + str(x) + '\n')
                             file.writelines("y: " + str(y) + "\n\n")
                     except Exception as e:

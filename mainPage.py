@@ -426,9 +426,6 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
                 time.sleep(1)
                 continue
 
-    def addSampleNum(self):
-        if(self.lineEdit_32.text() !="" ):
-            self.sampleNum = int(self.lineEdit_32.text())
 
 
     def fireInfo(self,height,width,angle):
@@ -450,6 +447,7 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
         self.algorithmMap['T'] = self.T
         self.algorithmMap['fireHeatFluxparam'] = self.fireHeatFluxparam
         self.algorithmMap['observePointHeight'] = self.observePointHeight
+        self.algorithmMap["sampleNum"] = self.sampleNum
 
         try:
             if (self.tableWidgetIndex == 7):
@@ -559,7 +557,10 @@ class MainPage(Ui_QtWidgetsApplication1Class, QMainWindow):
     def addObservePointHeight(self):
         self.observePointHeight = int(self.lineEdit_31.text())
 
-
+    def addSampleNum(self):
+        # if(self.lineEdit_32.text() !="" ):
+        self.sampleNum = int(self.lineEdit_32.text())
+        print(self.sampleNum)
 
 
     ######### 算法函数
